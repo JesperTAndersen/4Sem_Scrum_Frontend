@@ -1,11 +1,11 @@
 :root {
-  /* Colors: Layout */
+  /* Colors: Layout  */
   --color-bg-main: #f5f5f4;
   --color-bg-surface: #ffffff;
   --color-bg-section: #f8f7f4;
   --color-bg-muted: #f1f0ee;
 
-  /* Colors: Brand & Actions */
+  /*  Colors: Brand & Actions */
   --color-primary: #84a05a;
   --color-primary-hover: #728c4b;
 
@@ -36,7 +36,7 @@
   --radius-pill: 9999px;
 
   /* TYPOGRAPHY */
-  --font-primary: "Inter", system-ui, -apple-system, sans-serif;
+  --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
 
   /* Text Sizes */
   --text-2xs: 0.625rem;
@@ -68,7 +68,9 @@
   --shadow-md:
     0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
-  /* LAYOUT */
+  /* HEADER */
   --header-height: 72px;
+
+  /* Container */
   --container-max-width: 1440px;
 }
