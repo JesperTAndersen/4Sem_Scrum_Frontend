@@ -1,6 +1,7 @@
 import styles from "./DashboardPage.module.css";
 import { useEffect, useState } from "react";
 import { useNotification } from "../../../context/NotificationContext";
+import { formatCurrency } from "@/utils/formatters";
 import StatCard from "../components/StatCard/StatCard";
 import ProjectsCard from "../components/ProjectsCard/ProjectsCard";
 import projects from "../mock/projectsMock";
@@ -29,7 +30,7 @@ const DashboardPage = () => {
       <StatCard
         title="Estimeret lønomkostning"
         subtext={"Baseret på 5 kompetencer"}
-        value={801000}
+        value={formatCurrency(800123)}
         cols={4}
         isLoading={false}
       />

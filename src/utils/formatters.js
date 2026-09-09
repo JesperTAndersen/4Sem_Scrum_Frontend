@@ -9,13 +9,9 @@ export const formatUserRole = (userRole) => {
   return roleTranslations[userRole] || userRole;
 };
 
-export const createStationOptions = (stations) => {
-  return [
-    { value: "ALL", label: "Alle stationer" },
-
-    ...stations.map((station) => ({
-      value: station.name.toUpperCase(),
-      label: station.name,
-    })),
-  ];
-};
+export const formatCurrency = (value) =>
+  new Intl.NumberFormat("da-DK", {
+    style: "currency",
+    currency: "DKK",
+    maximumFractionDigits: 0,
+  }).format(value);
