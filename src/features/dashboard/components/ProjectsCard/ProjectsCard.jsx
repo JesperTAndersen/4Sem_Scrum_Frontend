@@ -25,8 +25,7 @@ const ProjectsCard = ({ cols, projects = [], isLoading }) => {
               <div className={styles.itemInfo}>
                 <h4 className={styles.itemName}>{project.title}</h4>
                 <p className={styles.itemSubtext}>
-                  {project.doneTaskCount} af {project.taskCount}{" "}
-                  opgaver færdige
+                  {project.doneTaskCount} af {project.taskCount} opgaver færdige
                 </p>
               </div>
               <Badge status={project.status} />

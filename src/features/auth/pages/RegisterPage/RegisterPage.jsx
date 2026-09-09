@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import { useState } from "react";
-import Logo from "@/shared/components/ui/Logo";
+import Logo from "@/shared/components/ui/Logo/Logo";
 import Notification from "@/shared/components/ui/Notification/Notification";
 import RegisterForm from "../../components/RegisterForm/RegisterForm";
 import authService from "../../services/authService";

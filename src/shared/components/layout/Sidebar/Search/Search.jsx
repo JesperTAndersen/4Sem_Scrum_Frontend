@@ -1,7 +1,7 @@
 import styles from "./Search.module.css";
 import { FiSearch } from "react-icons/fi";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const COMMANDS = [
   { label: "Dashboard", path: "/admin/dashboard" },

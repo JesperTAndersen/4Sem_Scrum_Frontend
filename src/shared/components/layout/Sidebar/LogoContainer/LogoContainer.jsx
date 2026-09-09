@@ -1,6 +1,6 @@
 import styles from "./LogoContainer.module.css";
 import Logo from "../../../ui/Logo/Logo";
-import smallLogo from "../../../../assets/small-logo.svg";
+import smallLogo from "@/assets/small-logo.svg";
 
 const LogoContainer = ({ collapsed }) => {
   return (

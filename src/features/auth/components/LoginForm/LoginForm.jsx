@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FiMail, FiLock } from "react-icons/fi";
-import Button from "../../../../components/ui/Button/Button";
-import Input from "../../../../components/ui/Input/Input";
-import FormLayout from "../../../../components/layout/FormLayout/FormLayout";
+import Button from "@/shared/components/ui/Button/Button";
+import Input from "@/shared/components/ui/Input/Input";
+import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 
 const LoginForm = ({ onSubmit }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });

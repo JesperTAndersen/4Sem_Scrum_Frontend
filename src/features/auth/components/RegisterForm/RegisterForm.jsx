@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { FiUser, FiMail, FiLock } from "react-icons/fi";
-import Input from "../../../../components/ui/Input/Input";
-import Button from "../../../../components/ui/Button/Button";
-import Notification from "../../../../components/ui/Notification/Notification";
-import FormLayout from "../../../../components/layout/FormLayout/FormLayout";
+import Input from "@/shared/components/ui/Input/Input";
+import Button from "@/shared/components/ui/Button/Button";
+import Notification from "@/shared/components/ui/Notification/Notification";
+import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 import { validateRegistration } from "../../utils/authValidators";
 import { authErrorTranslations } from "../../utils/errorTranslations";
 import styles from "./RegisterForm.module.css";

@@ -1,25 +1,21 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import styles from "./RouteSelect.module.css";
 import {
   FiGrid,
-  FiZap,
-  FiCompass,
+  FiFolder,
   FiLayers,
+  FiCheckSquare,
+  FiTool,
+  FiDollarSign,
   FiUsers,
-  FiCalendar,
-  FiClipboard,
-  FiShoppingCart,
-  FiAlertTriangle,
-  FiPackage,
-  FiFileText,
-  FiMapPin,
+  FiUserCheck,
 } from "react-icons/fi";
 
 const RouteSelect = ({ collapsed }) => {
   return (
     <div className={styles.routeContainer}>
       <Route
-        to="/admin/dashboard"
+        to="/dashboard"
         title="Dashboard"
         Icon={FiGrid}
         collapsed={collapsed}
@@ -27,88 +23,56 @@ const RouteSelect = ({ collapsed }) => {
 
       {!collapsed && (
         <div className={styles.routesHeader}>
-          <h4>Menu og Mad</h4>
+          <h4>Planlægning</h4>
         </div>
       )}
       <Route
-        to="/admin/dish-suggestions"
-        title="Forslag"
-        Icon={FiZap}
+        to="/projects"
+        title="Projekter"
+        Icon={FiFolder}
         collapsed={collapsed}
       />
       <Route
-        to="/admin/menu-inspirations"
-        title="Inspiration"
-        Icon={FiCompass}
-        collapsed={collapsed}
-      />
-      <Route
-        to="/admin/dishes"
-        title="Retter"
+        to="/stages"
+        title="Etaper"
         Icon={FiLayers}
         collapsed={collapsed}
       />
       <Route
-        to="/admin/menus"
-        title="Ugemenuer"
-        Icon={FiCalendar}
+        to="/tasks"
+        title="Opgaver"
+        Icon={FiCheckSquare}
         collapsed={collapsed}
       />
+
       {!collapsed && (
         <div className={styles.routesHeader}>
-          <h4>Indkøb</h4>
+          <h4>Estimering</h4>
         </div>
       )}
       <Route
-        to="/admin/ingredient-requests"
-        title="Vareanmodninger"
-        Icon={FiClipboard}
+        to="/competences"
+        title="Kompetencer"
+        Icon={FiTool}
         collapsed={collapsed}
       />
       <Route
-        to="/admin/shopping-lists"
-        title="Indkøbsliste"
-        Icon={FiShoppingCart}
+        to="/costs"
+        title="Omkostninger"
+        Icon={FiDollarSign}
         collapsed={collapsed}
       />
-      {!collapsed && (
-        <div className={styles.routesHeader}>
-          <h4>Takeaway</h4>
-        </div>
-      )}
-      <Route
-        to="/admin/takeaway"
-        title="Takeaway-tilbud"
-        Icon={FiPackage}
-        collapsed={collapsed}
-      />
-      <Route
-        to="/admin/takeaway-orders"
-        title="Takeaway-ordrer"
-        Icon={FiFileText}
-        collapsed={collapsed}
-      />
+
       {!collapsed && (
         <div className={styles.routesHeader}>
           <h4>System</h4>
         </div>
       )}
+      <Route to="/users" title="Brugere" Icon={FiUsers} collapsed={collapsed} />
       <Route
-        to="/admin/users"
-        title="Brugere"
-        Icon={FiUsers}
-        collapsed={collapsed}
-      />
-      <Route
-        to="/admin/stations"
-        title="Stationer"
-        Icon={FiMapPin}
-        collapsed={collapsed}
-      />
-      <Route
-        to="/admin/allergens"
-        title="Allergener"
-        Icon={FiAlertTriangle}
+        to="/employees"
+        title="Medarbejdere"
+        Icon={FiUserCheck}
         collapsed={collapsed}
       />
     </div>
@@ -119,6 +83,7 @@ const Route = ({ to, Icon, title, collapsed }) => {
   return (
     <NavLink
       to={to}
+      title={collapsed ? title : undefined}
       className={({ isActive }) =>
         `${styles.routeItem} ${collapsed ? styles.routeItemCollapsed : ""} ${isActive ? styles.active : ""}`
       }

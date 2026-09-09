@@ -1,6 +1,6 @@
 import styles from "./StatCard.module.css";
-import Card from "../../../../components/ui/Card/Card";
-import LoadingSpinner from "../../../../components/ui/LoadingSpinner/LoadingSpinner";
+import Card from "@/shared/components/ui/Card/Card";
+import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 
 const StatCard = ({ title, value, subtext, cols, isLoading }) => {
   return (

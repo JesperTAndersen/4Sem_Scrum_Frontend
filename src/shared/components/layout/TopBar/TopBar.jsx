@@ -1,31 +1,19 @@
-import styles from "./AdminTopBar.module.css";
+import styles from "./TopBar.module.css";
 import { FiBell } from "react-icons/fi";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { useAuth } from "@/context/AuthContext";
+import LogOut from "../LogOut/LogOut";
 import Avatar from "../../ui/Avatar/Avatar";
 import {
   getGreetingWelcomeMessage,
   getTodaysFormattedDate,
-} from "../../../utils/dateHelpers";
-import { formatUserRole } from "../../../utils/formatters";
-import LogOut from "../LogOut/LogOut";
+} from "@/utils/dateHelpers";
+import { formatUserRole } from "@/utils/formatters";
 
-const routeLabels = [
-  { route: "/admin/dashboard", label: "Dashboard" },
-  { route: "/admin/dish-suggestions", label: "Ret-forslag" },
-  { route: "/admin/ingredient-requests", label: "Vareanmodninger" },
-  { route: "/admin/menu-inspirations", label: "Menu inspiration" },
-  { route: "/admin/menus", label: "Ugemenuer" },
-  { route: "/admin/dishes", label: "Retter" },
-  { route: "/admin/users", label: "Brugere" },
-  { route: "/admin/profile", label: "Profil" },
-  { route: "/admin/stations", label: "Stationer" },
-  { route: "/admin/allergens", label: "Allergener" },
-  { route: "/admin/shopping-lists", label: "Indkøbsliste" },
-];
+const routeLabels = [{ route: "/dashboard", label: "Hjem" }];
 
-const AdminTopBar = ({ snapshot }) => {
+const TopBar = ({ snapshot }) => {
   const navigate = useNavigate();
   const { user, logOut } = useAuth();
   const { pathname } = useLocation();
@@ -33,7 +21,7 @@ const AdminTopBar = ({ snapshot }) => {
   const greeting = getGreetingWelcomeMessage();
   const todaysDate = getTodaysFormattedDate();
   const pageTitle =
-    routeLabels.find((r) => pathname.startsWith(r.route))?.label ?? "MiseOS";
+    routeLabels.find((r) => pathname.startsWith(r.route))?.label ?? "Estimo";
 
   return (
     <div className={styles.topBarContainer}>
@@ -129,4 +117,4 @@ const AdminTopBar = ({ snapshot }) => {
   );
 };
 
-export default AdminTopBar;
+export default TopBar;

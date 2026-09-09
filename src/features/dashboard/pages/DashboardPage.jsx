@@ -5,10 +5,8 @@ import StatCard from "../components/StatCard/StatCard";
 import ProjectsCard from "../components/ProjectsCard/ProjectsCard";
 import projects from "../mock/projectsMock";
 
-
 const DashboardPage = () => {
   const { notify } = useNotification();
-
 
   return (
     <div className={styles.contentArea}>
@@ -30,18 +28,13 @@ const DashboardPage = () => {
 
       <StatCard
         title="Estimeret lønomkostning"
-        subtext={'Baseret på 5 kompetencer'}
+        subtext={"Baseret på 5 kompetencer"}
         value={801000}
         cols={4}
         isLoading={false}
       />
 
-      <ProjectsCard
-      cols={6}
-      projects={projects}
-      isLoading={false}
-      />
-
+      <ProjectsCard cols={6} projects={projects} isLoading={false} />
     </div>
   );
 };

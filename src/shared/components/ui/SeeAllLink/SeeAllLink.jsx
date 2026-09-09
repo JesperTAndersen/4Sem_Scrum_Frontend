@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { FiArrowRight } from "react-icons/fi";
 import styles from "./SeeAllLink.module.css";
 

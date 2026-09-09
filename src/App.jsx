@@ -1,9 +1,15 @@
-
+import AppRoutes from "./AppRoutes";
+import { AuthProvider } from "./context/AuthContext";
+import { NotificationProvider } from "./context/NotificationContext";
 
 function App() {
   return (
     <>
-      <div>Hello scrum</div>
+      <AuthProvider>
+        <NotificationProvider>
+          <AppRoutes />
+        </NotificationProvider>
+      </AuthProvider>
     </>
   );
 }

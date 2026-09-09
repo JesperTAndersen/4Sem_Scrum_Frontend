@@ -1,12 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import styles from "./ForbiddenPage.module.css";
 import { FiAlertTriangle } from "react-icons/fi";
-import { roleRoutes } from "../../utils/constants";
 import { useAuth } from "../../context/AuthContext";
 
 const ForbiddenPage = () => {
   const { user } = useAuth();
-  const home = roleRoutes[user?.userRole] || "/";
 
   return (
     <div className={styles.wrapper}>

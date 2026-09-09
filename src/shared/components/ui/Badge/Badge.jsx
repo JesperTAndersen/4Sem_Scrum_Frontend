@@ -23,7 +23,9 @@ const Badge = ({ status, label }) => {
   const colorClass = STATUS_COLORS[status] ?? styles.neutral;
   const displayLabel = label ?? STATUS_LABELS[status] ?? status;
 
-  return <span className={`${styles.badge} ${colorClass}`}>{displayLabel}</span>;
+  return (
+    <span className={`${styles.badge} ${colorClass}`}>{displayLabel}</span>
+  );
 };
 
 export default Badge;

@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import { useState } from "react";
 import { useAuth } from "../../../../context/AuthContext";
-import Logo from "@/shared/components/ui/Logo";
+import Logo from "@/shared/components/ui/Logo/Logo";
 import Button from "@/shared/components/ui/Button/Button";
 import Notification from "@/shared/components/ui/Notification/Notification";
 import LoginForm from "../../components/LoginForm/LoginForm";
@@ -11,13 +11,6 @@ import styles from "./LoginPage.module.css";
 const errorTranslations = {
   "Invalid email or password": "Email eller adgangskode er forkert.",
   "Missing email or password": "Du skal udfylde både email og adgangskode.",
-};
-
-const roleRoutes = {
-  HEAD_CHEF: "/admin/dashboard",
-  SOUS_CHEF: "/admin/dashboard",
-  LINE_COOK: "/kitchen",
-  CUSTOMER: "/",
 };
 
 const LoginPage = () => {
@@ -30,7 +23,8 @@ const LoginPage = () => {
     try {
       const { user, token } = await authService.login(credentials);
       saveSession(user, token);
-      navigate(roleRoutes[user.userRole] || "/");
+      const from = location.state?.from?.pathname || "/dashboard";
+      navigate(from, { replace: true });
     } catch (error) {
       setErrorMessage(
         errorTranslations[error.message] || "Der opstod en fejl ved login.",
@@ -43,7 +37,7 @@ const LoginPage = () => {
       <Logo size="lg" className={styles.logo} />
       <h1 className={styles.title}>Log ind</h1>
       <p className={styles.subtitle}>
-        Velkommen tilbage til dit digitale projekt styrings værktøj
+        Velkommen tilbage til dit projektstyringsværktøj
       </p>
 
       <Notification message={errorMessage} type="error" inline={true} />

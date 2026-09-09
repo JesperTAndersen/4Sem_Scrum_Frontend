@@ -1,8 +1,9 @@
 import styles from "./DashboardLayout.module.css";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import Sidebar from "@/shared/components/layout/Sidebar/Sidebar";
-import TopBar from "@/shared/components/layout/TopBar";
+import TopBar from "@/shared/components/layout/TopBar/TopBar";
 import Notification from "@/shared/components/ui/Notification/Notification";
+import { useNotification } from "@/context/NotificationContext";
 
 const DashboardLayout = () => {
   const { notification } = useNotification();
@@ -11,7 +12,7 @@ const DashboardLayout = () => {
     <main className={styles.container}>
       <Sidebar />
       <div className={styles.mainArea}>
-        <TopBar snapshot={snapshot} />
+        <TopBar snapshot={3} />
         <div className={styles.pageContent}>
           <Notification
             type={notification?.type}
