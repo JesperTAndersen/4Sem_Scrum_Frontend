@@ -19,6 +19,22 @@
   --color-success-bg: #f0f4ea;
   --color-warning-bg: #fef3c7;
 
+    /* Colors: Status badges */
+  --color-badge-warning-bg: #fef3c7;
+  --color-badge-warning-text: #92400e;
+
+  --color-badge-success-bg: #dcfce7;
+  --color-badge-success-text: #14532d;
+
+  --color-badge-danger-bg: #fee2e2;
+  --color-badge-danger-text: #991b1b;
+
+  --color-badge-info-bg: #dbeafe;
+  --color-badge-info-text: #1e3a8a;
+
+  --color-badge-neutral-bg: #f3f4f6;
+  --color-badge-neutral-text: #4b5563;
+
   /* Colors: Text */
   --color-text-primary: #1c1917;
   --color-text-secondary: #57534e;

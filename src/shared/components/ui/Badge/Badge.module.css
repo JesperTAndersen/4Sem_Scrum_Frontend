@@ -11,21 +11,26 @@
 }
 
 .warning {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: var(--color-badge-warning-bg);
+  color: var(--color-badge-warning-text);
 }
 
 .success {
-  background-color: #dcfce7;
-  color: #14532d;
+  background-color: var(--color-badge-success-bg);
+  color: var(--color-badge-success-text);
 }
 
 .danger {
-  background-color: #fee2e2;
-  color: #991b1b;
+  background-color: var(--color-badge-danger-bg);
+  color: var(--color-badge-danger-text);
+}
+
+.info {
+  background-color: var(--color-badge-info-bg);
+  color: var(--color-badge-info-text);
 }
 
 .neutral {
-  background-color: #f3f4f6;
-  color: #4b5563;
+  background-color: var(--color-badge-neutral-bg);
+  color: var(--color-badge-neutral-text);
 }
