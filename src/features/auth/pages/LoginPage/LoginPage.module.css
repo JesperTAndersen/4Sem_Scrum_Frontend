@@ -1,0 +1,41 @@
+.logo {
+  align-self: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.title {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.5px;
+  margin: 0 0 var(--spacing-xs) 0;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin: 0 0 var(--spacing-xl) 0;
+}
+
+.noAccount {
+  margin-top: var(--spacing-lg);
+  font-size: var(--text-sm);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.link {
+  color: var(--color-primary);
+  font-weight: var(--weight-bold);
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.backWrapper {
+  margin-top: var(--spacing-sm);
+  display: flex;
+  justify-content: center;
+}

@@ -1,10 +1,10 @@
-import styles from './AdminLayout.module.css';
+import styles from './DashboardLayout.module.css';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../../components/layout/Sidebar/Sidebar';
 import TopBar from '@/shared/components/layout/TopBar';
 import Notification from '../../components/ui/Notification/Notification';
 
-const AdminLayout = () => {
+const DashboardLayout = () => {
   const { notification } = useNotification();
 
   return (
@@ -28,4 +28,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default DashboardLayout;
