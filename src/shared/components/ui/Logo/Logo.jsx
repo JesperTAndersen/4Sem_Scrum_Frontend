@@ -1,7 +1,7 @@
-import styles from './Logo.module.css';
-import logoImg from '../../../assets/logo.svg';
+import styles from "./Logo.module.css";
+import logoImg from "../../../assets/logo.svg";
 
-const Logo = ({ size = 'md', className = '' }) => {
+const Logo = ({ size = "md", className = "" }) => {
   return (
     <img
       src={logoImg}

@@ -1,4 +1,4 @@
-import styles from './FormHeader.module.css';
+import styles from "./FormHeader.module.css";
 
 const FormHeader = ({ title, subtitle }) => {
   return (

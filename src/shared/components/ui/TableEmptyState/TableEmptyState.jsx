@@ -1,11 +1,11 @@
-import styles from './TableEmptyState.module.css';
-import Button from '../Button/Button';
-import { FiSearch, FiX } from 'react-icons/fi';
+import styles from "./TableEmptyState.module.css";
+import Button from "../Button/Button";
+import { FiSearch, FiX } from "react-icons/fi";
 
 const TableEmptyState = ({
-  text = 'Ingen resultater.',
+  text = "Ingen resultater.",
   onReset,
-  resetLabel = 'Nulstil',
+  resetLabel = "Nulstil",
 }) => {
   return (
     <div className={styles.emptyState}>

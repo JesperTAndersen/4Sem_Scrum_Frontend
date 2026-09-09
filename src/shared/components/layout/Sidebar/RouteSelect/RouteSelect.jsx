@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom';
-import styles from './RouteSelect.module.css';
+import { NavLink } from "react-router-dom";
+import styles from "./RouteSelect.module.css";
 import {
   FiGrid,
   FiZap,
@@ -13,7 +13,7 @@ import {
   FiPackage,
   FiFileText,
   FiMapPin,
-} from 'react-icons/fi';
+} from "react-icons/fi";
 
 const RouteSelect = ({ collapsed }) => {
   return (
@@ -93,11 +93,11 @@ const RouteSelect = ({ collapsed }) => {
           <h4>System</h4>
         </div>
       )}
-      <Route 
-      to="/admin/users" 
-      title="Brugere" 
-      Icon={FiUsers} 
-      collapsed={collapsed} 
+      <Route
+        to="/admin/users"
+        title="Brugere"
+        Icon={FiUsers}
+        collapsed={collapsed}
       />
       <Route
         to="/admin/stations"
@@ -120,7 +120,7 @@ const Route = ({ to, Icon, title, collapsed }) => {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `${styles.routeItem} ${collapsed ? styles.routeItemCollapsed : ''} ${isActive ? styles.active : ''}`
+        `${styles.routeItem} ${collapsed ? styles.routeItemCollapsed : ""} ${isActive ? styles.active : ""}`
       }
     >
       <Icon />

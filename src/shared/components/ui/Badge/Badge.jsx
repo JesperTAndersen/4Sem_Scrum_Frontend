@@ -1,8 +1,8 @@
-import styles from './Badge.module.css';
+import styles from "./Badge.module.css";
 
 const Badge = ({ status, label }) => {
   const normalizedStatus =
-    typeof status === 'boolean' ? (status ? 'ACTIVE' : 'DISABLED') : status;
+    typeof status === "boolean" ? (status ? "ACTIVE" : "DISABLED") : status;
 
   const statusColorMap = {
     PENDING: styles.warning,
@@ -21,19 +21,19 @@ const Badge = ({ status, label }) => {
   };
 
   const labelTranslations = {
-    PENDING: 'Afventer',
-    RESERVED: 'Reserveret',
-    APPROVED: 'Godkendt',
-    PAID: 'Betalt',
-    ACTIVE: 'Aktiv',
-    REJECTED: 'Afvist',
-    CANCELLED: 'Annulleret',
-    SOLD_OUT: 'Udsolgt',
-    ENABLED: 'Aktiv',
-    DISABLED: 'Deaktiveret',
-    DRAFT: 'Kladde',
-    PUBLISHED: 'Udgivet',
-    FINALIZED: 'Afsluttet',
+    PENDING: "Afventer",
+    RESERVED: "Reserveret",
+    APPROVED: "Godkendt",
+    PAID: "Betalt",
+    ACTIVE: "Aktiv",
+    REJECTED: "Afvist",
+    CANCELLED: "Annulleret",
+    SOLD_OUT: "Udsolgt",
+    ENABLED: "Aktiv",
+    DISABLED: "Deaktiveret",
+    DRAFT: "Kladde",
+    PUBLISHED: "Udgivet",
+    FINALIZED: "Afsluttet",
   };
 
   const colorClass = statusColorMap[normalizedStatus] || styles.neutral;

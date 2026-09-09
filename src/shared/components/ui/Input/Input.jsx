@@ -1,14 +1,14 @@
-import styles from './Input.module.css';
+import styles from "./Input.module.css";
 
 const Input = ({
   label,
-  type = 'text',
+  type = "text",
   value,
   name,
   min,
   max,
   onChange,
-  placeholder = 'none',
+  placeholder = "none",
   required,
   hasError,
   errorMessage,
@@ -30,8 +30,8 @@ const Input = ({
             onChange={onChange}
             required={required}
             placeholder={placeholder}
-            className={`${styles.inputField} ${icon ? styles.withIcon : ''} ${
-              hasError ? styles.errorField : ''
+            className={`${styles.inputField} ${icon ? styles.withIcon : ""} ${
+              hasError ? styles.errorField : ""
             }`}
           />
         </div>

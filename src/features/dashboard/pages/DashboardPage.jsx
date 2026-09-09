@@ -1,16 +1,16 @@
-import styles from './DashboardPage.module.css';
-import { useEffect, useState } from 'react';
-import { useNotification } from '../../../context/NotificationContext';
-import { useRealtimeNotifications } from '../../../context/RealtimeNotificationsContext';
-import StatCard from '../components/StatCard/StatCard';
-import RequestsCard from '../components/RequestsCard/RequestsCard';
-import SuggestionsCard from '../components/SuggestionsCard/SuggestionsCard';
-import TakeawayCard from '../components/TakeAwayCard/TakeAwayCard';
-import MenuStatusCard from '../components/MenuStatusCard/MenuStatusCard';
-import dishSuggestionsService from '../../../features/suggestions/services/dishSuggestionService';
-import menuService from '../../menus/services/menuService';
-import ingredientRequestService from '../../ingredient-requests/services/ingredientRequestService';
-import takeawayOfferService from '../../takeaway-offers/services/takeawayOfferService';
+import styles from "./DashboardPage.module.css";
+import { useEffect, useState } from "react";
+import { useNotification } from "../../../context/NotificationContext";
+import { useRealtimeNotifications } from "../../../context/RealtimeNotificationsContext";
+import StatCard from "../components/StatCard/StatCard";
+import RequestsCard from "../components/RequestsCard/RequestsCard";
+import SuggestionsCard from "../components/SuggestionsCard/SuggestionsCard";
+import TakeawayCard from "../components/TakeAwayCard/TakeAwayCard";
+import MenuStatusCard from "../components/MenuStatusCard/MenuStatusCard";
+import dishSuggestionsService from "../../../features/suggestions/services/dishSuggestionService";
+import menuService from "../../menus/services/menuService";
+import ingredientRequestService from "../../ingredient-requests/services/ingredientRequestService";
+import takeawayOfferService from "../../takeaway-offers/services/takeawayOfferService";
 
 const DashboardPage = () => {
   const { snapshot } = useRealtimeNotifications();
@@ -27,10 +27,13 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchSuggestions = async () => {
       try {
-        const suggestions = await dishSuggestionsService.getAll({ limit: 5, orderBy: 'createdAt' });
+        const suggestions = await dishSuggestionsService.getAll({
+          limit: 5,
+          orderBy: "createdAt",
+        });
         setSuggestions(suggestions);
       } catch (error) {
-        notify('error', error.message || 'Kunne ikke hente forslag');
+        notify("error", error.message || "Kunne ikke hente forslag");
       } finally {
         setSuggestionsLoading(false);
       }
@@ -44,7 +47,7 @@ const DashboardPage = () => {
         const menus = await menuService.getAll({ limit: 5 });
         setMenus(menus);
       } catch (error) {
-        notify('error', error.message || 'Kunne ikke hente menuer');
+        notify("error", error.message || "Kunne ikke hente menuer");
       } finally {
         setMenusLoading(false);
       }
@@ -58,7 +61,7 @@ const DashboardPage = () => {
         const requests = await ingredientRequestService.getAll({ limit: 5 });
         setRequests(requests);
       } catch (error) {
-        notify('error', error.message || 'Kunne ikke hente anmodninger');
+        notify("error", error.message || "Kunne ikke hente anmodninger");
       } finally {
         setRequestsLoading(false);
       }
@@ -72,7 +75,7 @@ const DashboardPage = () => {
         const offers = await takeawayOfferService.getAll();
         setOffers(offers);
       } catch (error) {
-        notify('error', error.message || 'Kunne ikke hente tilbud');
+        notify("error", error.message || "Kunne ikke hente tilbud");
       } finally {
         setOffersLoading(false);
       }
@@ -109,16 +112,9 @@ const DashboardPage = () => {
         isLoading={offersLoading}
       />
 
-      <RequestsCard 
-      cols={8} 
-      requests={requests}
-      isLoading={requestsLoading} 
-      />
+      <RequestsCard cols={8} requests={requests} isLoading={requestsLoading} />
 
-      <TakeawayCard 
-      cols={4} offers={offers} 
-      isLoading={offersLoading} 
-      />
+      <TakeawayCard cols={4} offers={offers} isLoading={offersLoading} />
 
       <SuggestionsCard
         cols={6}
@@ -126,10 +122,7 @@ const DashboardPage = () => {
         isLoading={suggestionsLoading}
       />
 
-      <MenuStatusCard 
-      cols={6} menus={menus} 
-      isLoading={menusLoading} 
-      />
+      <MenuStatusCard cols={6} menus={menus} isLoading={menusLoading} />
     </div>
   );
 };

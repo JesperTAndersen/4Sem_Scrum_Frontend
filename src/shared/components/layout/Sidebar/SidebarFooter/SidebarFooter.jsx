@@ -1,5 +1,5 @@
-import styles from './SidebarFooter.module.css';
-import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
+import styles from "./SidebarFooter.module.css";
+import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 
 const SidebarFooter = ({ collapsed, onToggle }) => {
   return (

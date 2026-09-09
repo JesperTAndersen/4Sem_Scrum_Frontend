@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api/v1';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "/api/v1";
 
 const createError = (message, statusCode, data = null) => {
   const error = new Error(message);
@@ -19,16 +19,22 @@ const readBody = async (response) => {
 
 const apiClient = async (
   endpoint,
-  { method = 'GET', body = null, params = null, token: overrideToken = null, signal } = {},
+  {
+    method = "GET",
+    body = null,
+    params = null,
+    token: overrideToken = null,
+    signal,
+  } = {},
 ) => {
-  const token = overrideToken ?? localStorage.getItem('token');
-  const query = params ? `?${new URLSearchParams(params)}` : '';
+  const token = overrideToken ?? localStorage.getItem("token");
+  const query = params ? `?${new URLSearchParams(params)}` : "";
 
   const config = {
     method,
     signal,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
     },
     ...(body && { body: JSON.stringify(body) }),
@@ -38,21 +44,25 @@ const apiClient = async (
   try {
     response = await fetch(`${BASE_URL}${endpoint}${query}`, config);
   } catch (err) {
-    if (err.name === 'AbortError') throw err;
-    throw createError('Kunne ikke få forbindelse til serveren.', 0);
+    if (err.name === "AbortError") throw err;
+    throw createError("Kunne ikke få forbindelse til serveren.", 0);
   }
 
-  const isAuthEndpoint = endpoint.startsWith('/auth/');
+  const isAuthEndpoint = endpoint.startsWith("/auth/");
 
   if (response.status === 401 && !isAuthEndpoint) {
-    const message = 'Din session er udløbet. Log ind igen.';
-    window.dispatchEvent(new CustomEvent('auth:unauthorized', { detail: { message } }));
+    const message = "Din session er udløbet. Log ind igen.";
+    window.dispatchEvent(
+      new CustomEvent("auth:unauthorized", { detail: { message } }),
+    );
     throw createError(message, 401);
   }
 
   if (response.status === 403 && !isAuthEndpoint) {
-    const message = 'Du har ikke adgang til denne handling.';
-    window.dispatchEvent(new CustomEvent('auth:forbidden', { detail: { message } }));
+    const message = "Du har ikke adgang til denne handling.";
+    window.dispatchEvent(
+      new CustomEvent("auth:forbidden", { detail: { message } }),
+    );
     throw createError(message, 403);
   }
 
@@ -61,7 +71,11 @@ const apiClient = async (
   const data = await readBody(response);
 
   if (!response.ok) {
-    throw createError(data?.message ?? `Der skete en fejl (${response.status})`, response.status, data);
+    throw createError(
+      data?.message ?? `Der skete en fejl (${response.status})`,
+      response.status,
+      data,
+    );
   }
 
   return data;

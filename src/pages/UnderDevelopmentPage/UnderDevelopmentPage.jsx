@@ -1,5 +1,5 @@
-import styles from './UnderDevelopmentPage.module.css';
-import { FiTool } from 'react-icons/fi';
+import styles from "./UnderDevelopmentPage.module.css";
+import { FiTool } from "react-icons/fi";
 
 const UnderDevelopmentPage = () => {
   return (

@@ -1,4 +1,4 @@
-import styles from './FormLayout.module.css';
+import styles from "./FormLayout.module.css";
 
 const FormLayout = ({ children, onSubmit }) => {
   return (

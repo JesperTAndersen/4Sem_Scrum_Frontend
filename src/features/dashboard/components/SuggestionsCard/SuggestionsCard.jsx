@@ -1,9 +1,9 @@
-import styles from '../shared/DashboardCards.module.css';
-import Card from '../../../../components/ui/Card/Card';
-import Badge from '../../../../components/ui/Badge/Badge';
-import SeeAllLink from '../../../../components/ui/SeeAllLink/SeeAllLink';
-import LoadingSpinner from '../../../../components/ui/LoadingSpinner/LoadingSpinner';
-import { useNavigate } from 'react-router';
+import styles from "../shared/DashboardCards.module.css";
+import Card from "../../../../components/ui/Card/Card";
+import Badge from "../../../../components/ui/Badge/Badge";
+import SeeAllLink from "../../../../components/ui/SeeAllLink/SeeAllLink";
+import LoadingSpinner from "../../../../components/ui/LoadingSpinner/LoadingSpinner";
+import { useNavigate } from "react-router";
 
 const SuggestionsCard = ({ cols, suggestions = [], isLoading }) => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const SuggestionsCard = ({ cols, suggestions = [], isLoading }) => {
               <div className={styles.itemInfo}>
                 <h4 className={styles.itemName}>{suggestion.nameDA}</h4>
                 <p className={styles.itemSubtext}>
-                  {suggestion?.station.name} · Foreslået af{' '}
+                  {suggestion?.station.name} · Foreslået af{" "}
                   {suggestion.createdBy.firstName}
                 </p>
               </div>
@@ -39,7 +39,7 @@ const SuggestionsCard = ({ cols, suggestions = [], isLoading }) => {
         </div>
       )}
       <div className={styles.footer}>
-        <SeeAllLink to={'/admin/dish-suggestions'} text="Gå til ret-forslag" />
+        <SeeAllLink to={"/admin/dish-suggestions"} text="Gå til ret-forslag" />
       </div>
     </Card>
   );

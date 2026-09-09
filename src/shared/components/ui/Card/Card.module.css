@@ -1,10 +1,10 @@
 .card {
-    padding: var(--spacing-sm);
-    background-color: var(--color-bg-surface);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--color-border);
-    transition: all 0.2s ease;
+  padding: var(--spacing-sm);
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  transition: all 0.2s ease;
 }
 
 .table {

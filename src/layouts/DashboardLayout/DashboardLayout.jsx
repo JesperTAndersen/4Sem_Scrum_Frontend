@@ -1,8 +1,8 @@
-import styles from './DashboardLayout.module.css';
-import { Outlet } from 'react-router-dom';
-import Sidebar from '../../components/layout/Sidebar/Sidebar';
-import TopBar from '@/shared/components/layout/TopBar';
-import Notification from '../../components/ui/Notification/Notification';
+import styles from "./DashboardLayout.module.css";
+import { Outlet } from "react-router-dom";
+import Sidebar from "../../components/layout/Sidebar/Sidebar";
+import TopBar from "@/shared/components/layout/TopBar";
+import Notification from "../../components/ui/Notification/Notification";
 
 const DashboardLayout = () => {
   const { notification } = useNotification();
@@ -17,11 +17,7 @@ const DashboardLayout = () => {
             type={notification?.type}
             message={notification?.message}
           />
-          <Outlet
-            context={{
-
-            }}
-          />
+          <Outlet context={{}} />
         </div>
       </div>
     </main>

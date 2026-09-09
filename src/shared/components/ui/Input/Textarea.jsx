@@ -1,11 +1,11 @@
-import styles from './Input.module.css';
+import styles from "./Input.module.css";
 
 const Textarea = ({
   label,
   value,
   name,
   onChange,
-  placeholder = '',
+  placeholder = "",
   required,
   hasError,
   errorMessage,
@@ -24,7 +24,7 @@ const Textarea = ({
           placeholder={placeholder}
           maxLength={maxLength}
           className={`${styles.inputField} ${
-            hasError ? styles.errorField : ''
+            hasError ? styles.errorField : ""
           }`}
         />
 

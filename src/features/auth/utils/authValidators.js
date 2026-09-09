@@ -5,15 +5,15 @@ import {
   validatePasswordMatch,
   validateMaxLength,
   validateMinLength,
-} from '../../../utils/validation/validators';
+} from "../../../utils/validation/validators";
 
 export const validateRegistration = (formData) => {
   const errors = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
 
   errors.firstName =
@@ -47,9 +47,9 @@ export const validateRegistration = (formData) => {
 
 export const validateChangePassword = (formData) => {
   const errors = {
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   };
 
   errors.currentPassword = validateRequired(formData.currentPassword);

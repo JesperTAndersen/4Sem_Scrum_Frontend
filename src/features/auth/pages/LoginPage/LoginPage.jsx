@@ -1,23 +1,23 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { useAuth } from '../../../../context/AuthContext';
-import Logo from '@/shared/components/ui/Logo';
-import Button from '@/shared/components/ui/Button/Button';
-import Notification from '@/shared/components/ui/Notification/Notification';
-import LoginForm from '../../components/LoginForm/LoginForm';
-import authService from '../../services/authService';
-import styles from './LoginPage.module.css';
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../../../../context/AuthContext";
+import Logo from "@/shared/components/ui/Logo";
+import Button from "@/shared/components/ui/Button/Button";
+import Notification from "@/shared/components/ui/Notification/Notification";
+import LoginForm from "../../components/LoginForm/LoginForm";
+import authService from "../../services/authService";
+import styles from "./LoginPage.module.css";
 
 const errorTranslations = {
-  'Invalid email or password': 'Email eller adgangskode er forkert.',
-  'Missing email or password': 'Du skal udfylde både email og adgangskode.',
+  "Invalid email or password": "Email eller adgangskode er forkert.",
+  "Missing email or password": "Du skal udfylde både email og adgangskode.",
 };
 
 const roleRoutes = {
-  HEAD_CHEF: '/admin/dashboard',
-  SOUS_CHEF: '/admin/dashboard',
-  LINE_COOK: '/kitchen',
-  CUSTOMER: '/',
+  HEAD_CHEF: "/admin/dashboard",
+  SOUS_CHEF: "/admin/dashboard",
+  LINE_COOK: "/kitchen",
+  CUSTOMER: "/",
 };
 
 const LoginPage = () => {
@@ -30,9 +30,11 @@ const LoginPage = () => {
     try {
       const { user, token } = await authService.login(credentials);
       saveSession(user, token);
-      navigate(roleRoutes[user.userRole] || '/');
+      navigate(roleRoutes[user.userRole] || "/");
     } catch (error) {
-      setErrorMessage( errorTranslations[error.message] || 'Der opstod en fejl ved login.');
+      setErrorMessage(
+        errorTranslations[error.message] || "Der opstod en fejl ved login.",
+      );
     }
   };
 
@@ -48,7 +50,7 @@ const LoginPage = () => {
       <LoginForm onSubmit={handleLogin} />
 
       <p className={styles.noAccount}>
-        Ingen bruger?{' '}
+        Ingen bruger?{" "}
         <Link to="/register" className={styles.link}>
           Opret bruger
         </Link>
@@ -58,7 +60,7 @@ const LoginPage = () => {
         <Button
           name="Gå til forsiden"
           variant="secondary"
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
         />
       </div>
     </>

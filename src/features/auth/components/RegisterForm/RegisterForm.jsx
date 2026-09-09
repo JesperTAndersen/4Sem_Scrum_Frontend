@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { FiUser, FiMail, FiLock } from 'react-icons/fi';
-import Input from '../../../../components/ui/Input/Input';
-import Button from '../../../../components/ui/Button/Button';
-import Notification from '../../../../components/ui/Notification/Notification';
-import FormLayout from '../../../../components/layout/FormLayout/FormLayout';
-import { validateRegistration } from '../../utils/authValidators';
-import { authErrorTranslations } from '../../utils/errorTranslations';
-import styles from './RegisterForm.module.css';
+import { useState } from "react";
+import { FiUser, FiMail, FiLock } from "react-icons/fi";
+import Input from "../../../../components/ui/Input/Input";
+import Button from "../../../../components/ui/Button/Button";
+import Notification from "../../../../components/ui/Notification/Notification";
+import FormLayout from "../../../../components/layout/FormLayout/FormLayout";
+import { validateRegistration } from "../../utils/authValidators";
+import { authErrorTranslations } from "../../utils/errorTranslations";
+import styles from "./RegisterForm.module.css";
 
 const emptyForm = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const RegisterForm = ({ onSubmit, onCancel }) => {
@@ -27,7 +27,7 @@ const RegisterForm = ({ onSubmit, onCancel }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
 
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
@@ -35,7 +35,8 @@ const RegisterForm = ({ onSubmit, onCancel }) => {
     e.preventDefault();
     setFormError(null);
 
-    const { errors: validationErrors, hasErrors } = validateRegistration(formData);
+    const { errors: validationErrors, hasErrors } =
+      validateRegistration(formData);
     if (hasErrors) {
       setErrors(validationErrors);
       return;
@@ -48,8 +49,10 @@ const RegisterForm = ({ onSubmit, onCancel }) => {
     try {
       await onSubmit(newUser);
     } catch (error) {
-      const translated = authErrorTranslations[error.message] ||'Der opstod en fejl. Tjek dine indtastninger.';
-      if (error.message?.toLowerCase().includes('email')) {
+      const translated =
+        authErrorTranslations[error.message] ||
+        "Der opstod en fejl. Tjek dine indtastninger.";
+      if (error.message?.toLowerCase().includes("email")) {
         setErrors((prev) => ({ ...prev, email: translated }));
       } else {
         setFormError(translated);
@@ -130,7 +133,7 @@ const RegisterForm = ({ onSubmit, onCancel }) => {
           <Button
             type="submit"
             variant="primary"
-            name={isSubmitting ? 'Opretter...' : 'Opret bruger'}
+            name={isSubmitting ? "Opretter..." : "Opret bruger"}
             disabled={isSubmitting}
           />
           <Button

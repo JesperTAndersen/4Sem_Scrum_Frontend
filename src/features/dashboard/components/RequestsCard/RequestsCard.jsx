@@ -1,12 +1,12 @@
-import styles from './RequestsCard.module.css';
-import cardStyles from '../shared/DashboardCards.module.css';
-import Card from '../../../../components/ui/Card/Card';
-import Badge from '../../../../components/ui/Badge/Badge';
-import SeeAllLink from '../../../../components/ui/SeeAllLink/SeeAllLink';
-import LoadingSpinner from '../../../../components/ui/LoadingSpinner/LoadingSpinner';
-import { useNavigate } from 'react-router';
-import { formatUnit } from '../../../ingredient-requests/utils/formatters';
-import { formatRequestType } from '../../../ingredient-requests/utils/requestTypes';
+import styles from "./RequestsCard.module.css";
+import cardStyles from "../shared/DashboardCards.module.css";
+import Card from "../../../../components/ui/Card/Card";
+import Badge from "../../../../components/ui/Badge/Badge";
+import SeeAllLink from "../../../../components/ui/SeeAllLink/SeeAllLink";
+import LoadingSpinner from "../../../../components/ui/LoadingSpinner/LoadingSpinner";
+import { useNavigate } from "react-router";
+import { formatUnit } from "../../../ingredient-requests/utils/formatters";
+import { formatRequestType } from "../../../ingredient-requests/utils/requestTypes";
 
 const RequestsCard = ({ cols, requests = [], isLoading }) => {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const RequestsCard = ({ cols, requests = [], isLoading }) => {
                       {r.quantity} {formatUnit(r.unit)}
                     </td>
                     <td className={styles.noteCell}>
-                      <span className={styles.note}>{r.note ?? '—'}</span>
+                      <span className={styles.note}>{r.note ?? "—"}</span>
                     </td>
                     <td>{formatRequestType(r.requestType)}</td>
                     <td>

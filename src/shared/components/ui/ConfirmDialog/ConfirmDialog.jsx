@@ -1,7 +1,12 @@
-import styles from './ConfirmDialog.module.css';
-import Button from '../Button/Button';
+import styles from "./ConfirmDialog.module.css";
+import Button from "../Button/Button";
 
-const ConfirmDialog = ({ title = 'Bekræft handling', message, onConfirm, onCancel }) => {
+const ConfirmDialog = ({
+  title = "Bekræft handling",
+  message,
+  onConfirm,
+  onCancel,
+}) => {
   return (
     <div className={styles.overlay}>
       <div className={styles.dialog}>

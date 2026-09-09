@@ -1,5 +1,5 @@
-import styles from './Section.module.css';
-import Card from '../../ui/Card/Card';
+import styles from "./Section.module.css";
+import Card from "../../ui/Card/Card";
 
 const Section = ({ title, children }) => {
   return (

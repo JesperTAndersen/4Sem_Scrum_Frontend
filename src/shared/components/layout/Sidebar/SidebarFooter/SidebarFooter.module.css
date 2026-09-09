@@ -15,7 +15,9 @@
   color: var(--color-text-secondary);
   padding: var(--spacing-xxs);
   border-radius: var(--radius-md);
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
   margin-top: var(--spacing-md);
 }
 

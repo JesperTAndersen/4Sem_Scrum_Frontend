@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { FiMenu, FiX } from 'react-icons/fi';
-import styles from './PublicHeader.module.css';
-import LogIn from '../Login/Login';
-import LogOut from '../LogOut/Logout';
-import Logo from '../../ui/Logo/Logo';
-import { useAuth } from '../../../context/AuthContext';
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { FiMenu, FiX } from "react-icons/fi";
+import styles from "./PublicHeader.module.css";
+import LogIn from "../Login/Login";
+import LogOut from "../LogOut/Logout";
+import Logo from "../../ui/Logo/Logo";
+import { useAuth } from "../../../context/AuthContext";
 
 const PublicHeader = () => {
   const { user, logOut } = useAuth();
@@ -29,7 +29,7 @@ const PublicHeader = () => {
         </button>
 
         <div
-          className={`${styles.menuContainer} ${isMenuOpen ? styles.menuOpen : ''}`}
+          className={`${styles.menuContainer} ${isMenuOpen ? styles.menuOpen : ""}`}
         >
           <nav className={styles.nav}>
             <NavLink

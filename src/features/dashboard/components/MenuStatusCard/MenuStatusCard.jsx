@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router';
-import styles from '../shared/DashboardCards.module.css';
-import Card from '../../../../components/ui/Card/Card';
-import Badge from '../../../../components/ui/Badge/Badge';
-import SeeAllLink from '../../../../components/ui/SeeAllLink/SeeAllLink';
-import LoadingSpinner from '../../../../components/ui/LoadingSpinner/LoadingSpinner';
+import { useNavigate } from "react-router";
+import styles from "../shared/DashboardCards.module.css";
+import Card from "../../../../components/ui/Card/Card";
+import Badge from "../../../../components/ui/Badge/Badge";
+import SeeAllLink from "../../../../components/ui/SeeAllLink/SeeAllLink";
+import LoadingSpinner from "../../../../components/ui/LoadingSpinner/LoadingSpinner";
 
 const MenuStatusCard = ({ cols, menus = [], isLoading }) => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const MenuStatusCard = ({ cols, menus = [], isLoading }) => {
                     Uge {menu.weekNumber}, {menu.year}
                   </h4>
                   <p className={styles.itemSubtext}>
-                    {menu.slotCount} {menu.slotCount === 1 ? 'ret' : 'retter'}{' '}
+                    {menu.slotCount} {menu.slotCount === 1 ? "ret" : "retter"}{" "}
                     tilføjet
                   </p>
                 </div>

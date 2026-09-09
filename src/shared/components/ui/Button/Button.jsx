@@ -1,13 +1,13 @@
-import classes from './Button.module.css';
+import classes from "./Button.module.css";
 
 const Button = ({
   name,
   title,
   icon,
   onClick,
-  type = 'button',
-  variant = 'primary',
-  iconOnly = 'false',
+  type = "button",
+  variant = "primary",
+  iconOnly = "false",
   disabled = false,
 }) => {
   const buttonClass = `${classes.btn} ${classes[variant]}`;

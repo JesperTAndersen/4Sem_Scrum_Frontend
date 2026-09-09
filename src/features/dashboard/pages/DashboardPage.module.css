@@ -1,7 +1,7 @@
 .contentArea {
-    display: grid;
-    gap: var(--spacing-xs);
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    background-color: var(--color-bg-main);
-    margin-top: var(--spacing-md);
+  display: grid;
+  gap: var(--spacing-xs);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  background-color: var(--color-bg-main);
+  margin-top: var(--spacing-md);
 }

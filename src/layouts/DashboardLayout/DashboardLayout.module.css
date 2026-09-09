@@ -26,7 +26,6 @@
   overflow-y: auto;
 }
 
-
 @media print {
   .container {
     display: block !important;

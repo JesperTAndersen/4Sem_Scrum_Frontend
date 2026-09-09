@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { FiMail, FiLock } from 'react-icons/fi';
-import Button from '../../../../components/ui/Button/Button';
-import Input from '../../../../components/ui/Input/Input';
-import FormLayout from '../../../../components/layout/FormLayout/FormLayout';
+import { useState } from "react";
+import { FiMail, FiLock } from "react-icons/fi";
+import Button from "../../../../components/ui/Button/Button";
+import Input from "../../../../components/ui/Input/Input";
+import FormLayout from "../../../../components/layout/FormLayout/FormLayout";
 
 const LoginForm = ({ onSubmit }) => {
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
@@ -48,7 +48,7 @@ const LoginForm = ({ onSubmit }) => {
       <Button
         type="submit"
         variant="primary"
-        name={isSubmitting ? 'Logger ind...' : 'Log ind'}
+        name={isSubmitting ? "Logger ind..." : "Log ind"}
         disabled={isSubmitting}
       />
     </FormLayout>

@@ -1,12 +1,12 @@
-import apiClient from '@/api/apiclient';
+import apiClient from "@/api/apiclient";
 
 const login = async (credentials) => {
-  const loginData = await apiClient('/auth/login', {
-    method: 'POST',
+  const loginData = await apiClient("/auth/login", {
+    method: "POST",
     body: credentials,
   });
 
-  const fullProfile = await apiClient('/users/me', {
+  const fullProfile = await apiClient("/users/me", {
     token: loginData.token,
   });
 
@@ -17,8 +17,8 @@ const login = async (credentials) => {
 };
 
 const register = async (user) => {
-  return await apiClient('/auth/register', {
-    method: 'POST',
+  return await apiClient("/auth/register", {
+    method: "POST",
     body: user,
   });
 };

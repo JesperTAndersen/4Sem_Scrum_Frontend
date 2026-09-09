@@ -1,4 +1,3 @@
-
 .splitContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -16,7 +15,7 @@
 }
 
 .imageSide {
-  background-image: url('../../assets/login-register-bg.jpg'); 
+  background-image: url("../../assets/login-register-bg.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -36,7 +35,7 @@
     display: none;
   }
   .formSide {
-    background-image: url('../../assets/login-register-bg.jpg'); 
+    background-image: url("../../assets/login-register-bg.jpg");
     background-size: cover;
     background-position: center;
     padding: var(--spacing-md);

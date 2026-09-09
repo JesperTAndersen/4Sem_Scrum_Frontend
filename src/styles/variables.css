@@ -36,7 +36,7 @@
   --radius-pill: 9999px;
 
   /* TYPOGRAPHY */
-  --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-primary: "Inter", system-ui, -apple-system, sans-serif;
 
   /* Text Sizes */
   --text-2xs: 0.625rem;
