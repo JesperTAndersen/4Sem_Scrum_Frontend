@@ -1,0 +1,50 @@
+
+.splitContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.formSide {
+  background-color: var(--color-bg-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xl);
+}
+
+.imageSide {
+  background-image: url('../../assets/login-register-bg.jpg'); 
+  background-size: cover;
+  background-position: center;
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .splitContainer {
+    grid-template-columns: 1fr;
+  }
+  .imageSide {
+    display: none;
+  }
+  .formSide {
+    background-image: url('../../assets/login-register-bg.jpg'); 
+    background-size: cover;
+    background-position: center;
+    padding: var(--spacing-md);
+  }
+  .formWrapper {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+}
