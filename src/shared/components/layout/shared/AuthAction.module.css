@@ -1,0 +1,35 @@
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.3px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+  opacity: 0.85;
+}
+
+.actionButton svg {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.actionButton:hover {
+  background-color: var(--color-bg-muted);
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+.actionButton:active {
+  transform: translateY(1px);
+}

@@ -1,0 +1,24 @@
+.sidebarContainer {
+  background-color: var(--color-bg-surface);
+  overflow-y: auto;
+  position: sticky;
+  top: var(--spacing-sm);
+  height: calc(100vh - 32px);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.sidebar {
+  width: 230px;
+  transition: width 0.3s ease;
+}
+
+.collapsed {
+  width: 45px;
+}
+
+@media print {
+  .sidebar {
+    display: none !important;
+  }
+}
