@@ -1,0 +1,43 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to droplet
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          DROPLET_IP: ${{ secrets.DROPLET_IP }}
+          DROPLET_USER: ${{ secrets.DROPLET_USER }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/scrum_project_frontend
+          chmod 600 ~/.ssh/scrum_project_frontend
+          ssh-keyscan -H "$DROPLET_IP" >> ~/.ssh/known_hosts
+          rsync -az --delete -e "ssh -i ~/.ssh/scrum_project_frontend" dist/ "$DROPLET_USER@$DROPLET_IP:/home/jetty/deployment/caddy/site/scrum-project-frontend/"
+		  
