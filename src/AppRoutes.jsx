@@ -7,6 +7,8 @@ import UnderDevelopmentPage from "./pages/UnderDevelopmentPage/UnderDevelopmentP
 import LoginPage from "./features/auth/pages/LoginPage/LoginPage";
 import RegisterPage from "./features/auth/pages/RegisterPage/RegisterPage";
 import DashboardPage from "./features/dashboard/pages/DashboardPage";
+import UserManagementPage from "./features/users/pages/UserManagementPage/UserManagementPage";
+import UserProfilePage from "./features/users/pages/UserProfilePage/UserProfilePage";
 
 const AppRoutes = () => (
   <Routes>
@@ -24,7 +26,8 @@ const AppRoutes = () => (
       <Route path="/tasks" element={<UnderDevelopmentPage />} />
       <Route path="/competences" element={<UnderDevelopmentPage />} />
       <Route path="/costs" element={<UnderDevelopmentPage />} />
-      <Route path="/users" element={<UnderDevelopmentPage />} />
+      <Route path="/users" element={<UserManagementPage />} />
+      <Route path="/profile" element={<UserProfilePage />} />
     </Route>
     {/*</Route>*/}
 
