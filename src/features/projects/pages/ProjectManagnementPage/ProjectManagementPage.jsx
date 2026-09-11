@@ -83,8 +83,8 @@ const ProjectManagementPage = () => {
       if (!searchTerm) return true;
       const title = p.title.toLowerCase();
       const description = (p.description || "").toLowerCase();
-      const firstName = p.createdBy.firstName.toLowerCase();
-      const lastName = p.createdBy.lastName.toLowerCase();
+      const firstName = p.createdBy?.firstName.toLowerCase();
+      const lastName = p.createdBy?.lastName.toLowerCase();
 
       return (
         title.includes(searchTerm) ||
