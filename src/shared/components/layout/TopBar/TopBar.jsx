@@ -95,7 +95,7 @@ const TopBar = ({ snapshot }) => {
         </div>
 
         <div
-          onClick={() => navigate("/admin/profile")}
+          onClick={() => navigate("/profile")}
           className={styles.profileContainer}
         >
           <Avatar
