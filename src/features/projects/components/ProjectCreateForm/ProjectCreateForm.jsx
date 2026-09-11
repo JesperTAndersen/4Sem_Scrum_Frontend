@@ -1,4 +1,4 @@
-import styles from "./DishCreateForm.module.css";
+import styles from "./ProjectCreateForm.module.css";
 import Input from "@/shared/components/ui/Input/Input";
 import Textarea from "@/shared/components/ui/Input/Textarea";
 import Button from "@/shared/components/ui/Button/Button";

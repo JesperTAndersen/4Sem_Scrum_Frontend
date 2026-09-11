@@ -1,5 +1,5 @@
-import styles from "./ProjetcsTable.module.css";
-import Badge from "@shared/components/ui/Badge/Badge";
+import styles from "./ProjectsTable.module.css";
+import Badge from "@/shared/components/ui/Badge/Badge";
 import { FiChevronRight } from "react-icons/fi";
 
 const ProjectsTable = ({ projects, onView }) => {

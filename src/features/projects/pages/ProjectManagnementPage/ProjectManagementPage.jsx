@@ -1,7 +1,7 @@
 import styles from "./ProjectManagementPage.module.css";
 import { useState, useEffect } from "react";
-import { useNotification } from "../../../../context/NotificationContext";
-import { useLocation, useNavigate, useOutletContext } from "react-router";
+import { useNotification } from "@/context/NotificationContext";
+import { useLocation, useNavigate } from "react-router";
 import Button from "@/shared/components/ui/Button/Button";
 import { FiPlusCircle } from "react-icons/fi";
 import ProjectsTable from "../../components/ProjectsTable/ProjectsTable";
@@ -11,7 +11,7 @@ import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
 import Card from "@/shared/components/ui/Card/Card";
 import TableEmptyState from "@/shared/components/ui/TableEmptyState/TableEmptyState";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
-import DishCreateForm from "../../components/DishCreateForm/DishCreateForm";
+import ProjectCreateForm from "../../components/ProjectCreateForm/ProjectCreateForm";
 import projectService from "../../services/projectService";
 import { ACTIVE_OPTIONS } from "../../utils/activeOptions";
 
@@ -22,7 +22,7 @@ const DEFAULT_FILTER = {
   week: "ALL",
 };
 
-const DishManagementPage = () => {
+const ProjectManagementPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { notify } = useNotification();
@@ -106,11 +106,8 @@ const DishManagementPage = () => {
       />
 
       {showForm ? (
-        <DishCreateForm
-          onCancel={() => {
-            setShowForm(false);
-            setPrefill(null);
-          }}
+        <ProjectCreateForm
+          onCancel={() => { setShowForm(false);}}
           onSubmit={handleSubmit}
         />
       ) : (
@@ -128,12 +125,7 @@ const DishManagementPage = () => {
               />
 
               <div className={styles.filterGroup}>
-                <StationFilter
-                  stationOptions={stationOptions}
-                  value={filter.station}
-                  onChange={(value) => handleFilterChange("station", value)}
-                />
-
+               
                 <WeekFilter
                   value={filter.week}
                   onChange={(value) => handleFilterChange("week", value)}
@@ -155,7 +147,9 @@ const DishManagementPage = () => {
               <LoadingSpinner text="Henter projekter..." inline />
             ) : (
               <>
-                <DishesTable dishes={filteredProjects} onView={handleOnView} />
+                <ProjectsTable
+                 projects={filteredProjects}
+                 onView={handleOnView} />
                 {filteredProjects.length === 0 && (
                   <TableEmptyState
                     text="Ingen projekter matcher din søgning."
@@ -171,4 +165,4 @@ const DishManagementPage = () => {
   );
 };
 
-export default DishManagementPage;
+export default ProjectManagementPage;

@@ -9,6 +9,7 @@ import RegisterPage from "./features/auth/pages/RegisterPage/RegisterPage";
 import DashboardPage from "./features/dashboard/pages/DashboardPage";
 import UserManagementPage from "./features/users/pages/UserManagementPage/UserManagementPage";
 import UserProfilePage from "./features/users/pages/UserProfilePage/UserProfilePage";
+import ProjectManagementPage from "./features/projects/pages/ProjectManagnementPage/ProjectManagementPage";
 
 const AppRoutes = () => (
   <Routes>
@@ -21,7 +22,7 @@ const AppRoutes = () => (
     <Route element={<DashboardLayout />}>
       <Route index element={<Navigate to="/dashboard" replace />} />
       <Route path="/dashboard" element={<DashboardPage />} />
-      <Route path="/projects" element={<UnderDevelopmentPage />} />
+      <Route path="/projects" element={<ProjectManagementPage />} />
       <Route path="/stages" element={<UnderDevelopmentPage />} />
       <Route path="/tasks" element={<UnderDevelopmentPage />} />
       <Route path="/competences" element={<UnderDevelopmentPage />} />

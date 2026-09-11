@@ -1,5 +1,5 @@
 import styles from "../shared/selectStyles.module.css";
-import { getUpcomingWeeks } from "../../../utils/dateHelpers";
+import { getUpcomingWeeks } from "@/utils/dateHelpers";
 
 const WeekFilter = ({ value, onChange }) => {
   const upcomingWeeks = getUpcomingWeeks(8);
