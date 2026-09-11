@@ -19,7 +19,7 @@ const update = async (id, body) => {
 
 const create = async (body) => {
   return await apiClient(RESOURCE, {
-    method: 'POST',
+    method: "POST",
     body: body,
   });
 };

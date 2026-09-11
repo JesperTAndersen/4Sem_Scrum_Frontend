@@ -1,6 +1,6 @@
-import styles from './ProjetcsTable.module.css';
-import Badge from '@shared/components/ui/Badge/Badge';
-import { FiChevronRight } from 'react-icons/fi';
+import styles from "./ProjetcsTable.module.css";
+import Badge from "@shared/components/ui/Badge/Badge";
+import { FiChevronRight } from "react-icons/fi";
 
 const ProjectsTable = ({ projects, onView }) => {
   return (
@@ -29,7 +29,9 @@ const ProjectsTable = ({ projects, onView }) => {
               <td>
                 {p.createdBy.firstName} {p.createdBy.lastName}
               </td>
-              <td>Start: {p.startDate} Slut: {p.endDate}</td>
+              <td>
+                Start: {p.startDate} Slut: {p.endDate}
+              </td>
               <td>{p?.totalTask ?? 0}</td>
               <td>
                 <Badge status={p.status} />

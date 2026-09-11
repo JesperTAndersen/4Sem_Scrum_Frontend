@@ -1,25 +1,25 @@
-import styles from './ProjectManagementPage.module.css';
-import { useState, useEffect } from 'react';
-import { useNotification } from '../../../../context/NotificationContext';
-import { useLocation, useNavigate, useOutletContext } from 'react-router';
-import Button from '@/shared/components/ui/Button/Button';
-import { FiPlusCircle } from 'react-icons/fi';
-import ProjectsTable from '../../components/ProjectsTable/ProjectsTable';
-import SearchFilterBar from '@/shared/components/filter/SearchFilterBar/SearchFilterBar';
-import WeekFilter from '@/shared/components/filter/WeekFilter/WeekFilter';
-import PageHeader from '@/shared/components/layout/PageHeader/PageHeader';
-import Card from '@/shared/components/ui/Card/Card';
-import TableEmptyState from '@/shared/components/ui/TableEmptyState/TableEmptyState';
-import LoadingSpinner from '@/shared/components/ui/LoadingSpinner/LoadingSpinner';
-import DishCreateForm from '../../components/DishCreateForm/DishCreateForm';
-import projectService from '../../services/projectService';
-import { ACTIVE_OPTIONS } from '../../utils/activeOptions';
+import styles from "./ProjectManagementPage.module.css";
+import { useState, useEffect } from "react";
+import { useNotification } from "../../../../context/NotificationContext";
+import { useLocation, useNavigate, useOutletContext } from "react-router";
+import Button from "@/shared/components/ui/Button/Button";
+import { FiPlusCircle } from "react-icons/fi";
+import ProjectsTable from "../../components/ProjectsTable/ProjectsTable";
+import SearchFilterBar from "@/shared/components/filter/SearchFilterBar/SearchFilterBar";
+import WeekFilter from "@/shared/components/filter/WeekFilter/WeekFilter";
+import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
+import Card from "@/shared/components/ui/Card/Card";
+import TableEmptyState from "@/shared/components/ui/TableEmptyState/TableEmptyState";
+import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
+import DishCreateForm from "../../components/DishCreateForm/DishCreateForm";
+import projectService from "../../services/projectService";
+import { ACTIVE_OPTIONS } from "../../utils/activeOptions";
 
 const DEFAULT_FILTER = {
-  active: 'TRUE',
-  search: '',
-  station: 'ALL',
-  week: 'ALL',
+  active: "TRUE",
+  search: "",
+  station: "ALL",
+  week: "ALL",
 };
 
 const DishManagementPage = () => {
@@ -33,9 +33,9 @@ const DishManagementPage = () => {
 
   useEffect(() => {
     if (location.state?.successMessage) {
-      notify('success', location.state.successMessage);
+      notify("success", location.state.successMessage);
     }
-    window.history.replaceState({}, '');
+    window.history.replaceState({}, "");
   }, []);
 
   useEffect(() => {
@@ -44,7 +44,10 @@ const DishManagementPage = () => {
         const data = await projectService.getAll();
         setProjects(data);
       } catch (error) {
-        notify('error', error.message || 'Noget gik galt ved hentning af projekter.');
+        notify(
+          "error",
+          error.message || "Noget gik galt ved hentning af projekter.",
+        );
       } finally {
         setIsLoading(false);
       }
@@ -62,8 +65,8 @@ const DishManagementPage = () => {
   };
 
   const handleSubmit = async (formData) => {
-      const project = await projectService.create(formData);
-      setProjects((prev) => [...prev, project]);
+    const project = await projectService.create(formData);
+    setProjects((prev) => [...prev, project]);
   };
 
   const resetFilter = () => setFilter(DEFAULT_FILTER);
@@ -72,14 +75,14 @@ const DishManagementPage = () => {
 
   const filteredProjects = projects
     .filter((p) => {
-      if (filter.active === 'ALL') return true;
-      const wantActive = filter.active === 'TRUE';
+      if (filter.active === "ALL") return true;
+      const wantActive = filter.active === "TRUE";
       return p.active === wantActive;
     })
     .filter((d) => {
       if (!searchTerm) return true;
       const title = d.title.toLowerCase();
-      const description = (d.description || '').toLowerCase();
+      const description = (d.description || "").toLowerCase();
       const firstName = d.createdBy.firstName.toLowerCase();
       const lastName = d.createdBy.lastName.toLowerCase();
 
@@ -91,7 +94,7 @@ const DishManagementPage = () => {
       );
     })
     .filter((d) => {
-      if (filter.week === 'ALL') return true;
+      if (filter.week === "ALL") return true;
       return d.originWeek === Number(filter.week);
     });
 
@@ -128,18 +131,18 @@ const DishManagementPage = () => {
                 <StationFilter
                   stationOptions={stationOptions}
                   value={filter.station}
-                  onChange={(value) => handleFilterChange('station', value)}
+                  onChange={(value) => handleFilterChange("station", value)}
                 />
 
                 <WeekFilter
                   value={filter.week}
-                  onChange={(value) => handleFilterChange('week', value)}
+                  onChange={(value) => handleFilterChange("week", value)}
                 />
 
                 <Button
                   icon={<FiPlusCircle />}
                   name="Opret projekt"
-                  variant={showForm ? 'secondary' : 'primary'}
+                  variant={showForm ? "secondary" : "primary"}
                   onClick={() => setShowForm((p) => !p)}
                 />
               </div>

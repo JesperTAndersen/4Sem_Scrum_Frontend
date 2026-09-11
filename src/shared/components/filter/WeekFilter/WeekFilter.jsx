@@ -1,5 +1,5 @@
-import styles from '../shared/selectStyles.module.css';
-import { getUpcomingWeeks } from '../../../utils/dateHelpers';
+import styles from "../shared/selectStyles.module.css";
+import { getUpcomingWeeks } from "../../../utils/dateHelpers";
 
 const WeekFilter = ({ value, onChange }) => {
   const upcomingWeeks = getUpcomingWeeks(8);
@@ -13,7 +13,7 @@ const WeekFilter = ({ value, onChange }) => {
       <option value="ALL">Alle uger</option>
       {upcomingWeeks.map((weekObj) => (
         <option key={`${weekObj.year}-${weekObj.week}`} value={weekObj.week}>
-          {weekObj.label} 
+          {weekObj.label}
         </option>
       ))}
     </select>

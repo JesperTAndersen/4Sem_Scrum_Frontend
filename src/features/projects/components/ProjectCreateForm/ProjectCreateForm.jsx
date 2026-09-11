@@ -1,20 +1,20 @@
-import styles from './DishCreateForm.module.css';
-import Input from '@/shared/components/ui/Input/Input';
-import Textarea from '@/shared/components/ui/Input/Textarea';
-import Button from '@/shared/components/ui/Button/Button';
-import FormLayout from '@/shared/components/layout/FormLayout/FormLayout';
-import Card from '@/shared/components/ui/Card/Card';
-import DateRangeP
-import { useState } from 'react';
-import { validateField } from '@/utils/validation/fieldValidators';
-import { useNotification } from '@/context/NotificationContext';
+import styles from "./DishCreateForm.module.css";
+import Input from "@/shared/components/ui/Input/Input";
+import Textarea from "@/shared/components/ui/Input/Textarea";
+import Button from "@/shared/components/ui/Button/Button";
+import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
+import Card from "@/shared/components/ui/Card/Card";
+import DayRangePicker from "@/shared/components/filter/DateRangePicker/DateRangePicker";
+import { useState } from "react";
+import { validateField } from "@/utils/validation/fieldValidators";
+import { useNotification } from "@/context/NotificationContext";
 
 const emptyProject = {
-    title: '',
-    description: '',
-    startDate: '',
-    deadline: '',
-}
+  title: "",
+  description: "",
+  startDate: "",
+  deadline: "",
+};
 
 const ProjectCreateForm = ({ onSubmit, onCancel }) => {
   const { notify } = useNotification();
@@ -27,14 +27,17 @@ const ProjectCreateForm = ({ onSubmit, onCancel }) => {
     setProject((prev) => ({ ...prev, [name]: value }));
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = {
-      nameDA: validateField('suggestion', 'nameDA', project.nameDA),
-      descriptionDA: validateField('suggestion', 'descriptionDA', project.descriptionDA),
-      stationId: !project.stationId ? 'Vælg en station' : '',
+      nameDA: validateField("suggestion", "nameDA", project.nameDA),
+      descriptionDA: validateField(
+        "suggestion",
+        "descriptionDA",
+        project.descriptionDA,
+      ),
+      stationId: !project.stationId ? "Vælg en station" : "",
     };
 
     setErrors(newErrors);
@@ -43,10 +46,10 @@ const ProjectCreateForm = ({ onSubmit, onCancel }) => {
     try {
       setIsSubmitting(true);
       await onSubmit(project);
-      notify('success', `${project.title} oprettet!`);
+      notify("success", `${project.title} oprettet!`);
       onCancel();
     } catch (error) {
-      notify('error', error.message  || 'Kunne ikke oprette projekt');
+      notify("error", error.message || "Kunne ikke oprette projekt");
     } finally {
       setIsSubmitting(false);
     }
@@ -82,14 +85,25 @@ const ProjectCreateForm = ({ onSubmit, onCancel }) => {
             maxLength={200}
           />
 
-          
+          <DayRangePicker
+            startDate={project.startDate}
+            endDate={project.deadline}
+            onChange={({ startDate, endDate }) => {
+              setProject((prev) => ({
+                ...prev,
+                startDate,
+                deadline: endDate,
+              }));
+            }}
+          />
+
           <div className={styles.actions}>
             <Button onClick={onCancel} variant="secondary" name="Fortryd" />
 
             <Button
               type="submit"
               variant="primary"
-              name={isSubmitting ? 'Gemmer projekt....' : 'Opret'}
+              name={isSubmitting ? "Gemmer projekt...." : "Opret"}
             />
           </div>
         </FormLayout>
