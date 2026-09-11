@@ -79,12 +79,12 @@ const ProjectManagementPage = () => {
       const wantActive = filter.active === "TRUE";
       return p.active === wantActive;
     })
-    .filter((d) => {
+    .filter((p) => {
       if (!searchTerm) return true;
-      const title = d.title.toLowerCase();
-      const description = (d.description || "").toLowerCase();
-      const firstName = d.createdBy.firstName.toLowerCase();
-      const lastName = d.createdBy.lastName.toLowerCase();
+      const title = p.title.toLowerCase();
+      const description = (p.description || "").toLowerCase();
+      const firstName = p.createdBy.firstName.toLowerCase();
+      const lastName = p.createdBy.lastName.toLowerCase();
 
       return (
         title.includes(searchTerm) ||
@@ -93,9 +93,9 @@ const ProjectManagementPage = () => {
         lastName.includes(searchTerm)
       );
     })
-    .filter((d) => {
+    .filter((p) => {
       if (filter.week === "ALL") return true;
-      return d.originWeek === Number(filter.week);
+      return p.originWeek === Number(filter.week);
     });
 
   return (
