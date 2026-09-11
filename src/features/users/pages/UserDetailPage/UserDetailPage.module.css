@@ -1,0 +1,42 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  gap: var(--spacing-lg);
+  max-width: 760px;
+  width: 100%;
+}
+
+.actionCardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.actionTitle {
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.actionsGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.positiveActions {
+  display: flex;
+  gap: var(--spacing-md);
+}
