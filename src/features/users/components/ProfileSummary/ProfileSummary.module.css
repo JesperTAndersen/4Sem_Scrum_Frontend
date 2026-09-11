@@ -1,0 +1,34 @@
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profileInfo h2 {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+}
+
+.roleText {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--weight-medium);
+}
+
+.stationText {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.emailText {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}

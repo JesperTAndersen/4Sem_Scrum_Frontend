@@ -1,0 +1,72 @@
+.inputGroup {
+  width: 100%;
+}
+
+.labelWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  cursor: pointer;
+}
+
+.labelText {
+  font-size: var(--text-sm);
+  letter-spacing: 1px;
+  color: var(--color-text-secondary);
+}
+
+.inputField {
+  padding: 12px;
+  background-color: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  width: 100%;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+textarea.inputField {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(132, 160, 90, 0.15);
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.withIcon {
+  padding-left: 38px;
+}
+
+.errorField {
+  border-color: var(--color-danger) !important;
+  background-color: #fff5f5;
+}
+
+.errorField:focus {
+  box-shadow: 0 0 0 3px rgba(247, 129, 102, 0.15) !important;
+}
+
+.errorText {
+  font-size: var(--text-xs);
+  color: var(--color-danger);
+  margin-top: 4px;
+}

@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.inline {
+  padding: var(--spacing-md);
+}
+
+.text {
+  font-weight: var(--weight-medium);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.sm {
+  width: 16px;
+  height: 16px;
+}
+.md {
+  width: 18px;
+  height: 18px;
+}
+.lg {
+  width: 22px;
+  height: 22px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}

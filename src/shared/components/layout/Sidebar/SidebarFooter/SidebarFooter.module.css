@@ -1,0 +1,32 @@
+.footer {
+  margin-top: auto;
+  padding: var(--spacing-xs);
+  border-top: 1px solid var(--color-border);
+}
+
+.toggleButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  padding: var(--spacing-xxs);
+  border-radius: var(--radius-md);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+  margin-top: var(--spacing-md);
+}
+
+.toggleButton:hover {
+  color: var(--color-primary);
+  background-color: var(--color-bg-section);
+}
+
+.toggleButton svg {
+  font-size: var(--text-xl);
+  flex-shrink: 0;
+}
