@@ -39,4 +39,4 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/scrum_project_frontend
           chmod 600 ~/.ssh/scrum_project_frontend
           ssh-keyscan -H "$DROPLET_IP" >> ~/.ssh/known_hosts
-          rsync -az --delete -e "ssh -i ~/.ssh/scrum_project_frontend" dist/ "$DROPLET_USER@$DROPLET_IP:/home/jetty/deployment/caddy/site/scrum-project-frontend/"
+          rsync -az --delete -e "ssh -i ~/.ssh/scrum_project_frontend" dist/ "$DROPLET_USER@$DROPLET_IP:"
