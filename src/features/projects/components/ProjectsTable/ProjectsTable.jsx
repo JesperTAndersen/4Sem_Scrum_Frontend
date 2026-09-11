@@ -22,7 +22,7 @@ const ProjectsTable = ({ projects, onView }) => {
             <tr key={p.id} className={styles.row} onClick={() => onView(p.id)}>
               <td>
                 <div className={styles.nameCell}>
-                  <span className={styles.title}>{p.name}</span>
+                  <span className={styles.title}>{p.title}</span>
                   <span className={styles.description}>{p.description}</span>
                 </div>
               </td>
