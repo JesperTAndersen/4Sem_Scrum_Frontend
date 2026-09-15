@@ -1,6 +1,7 @@
 import styles from "./ProjectsTable.module.css";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import { FiChevronRight } from "react-icons/fi";
+import { formatDate } from "@/utils/dateHelpers";
 
 const ProjectsTable = ({ projects, onView }) => {
   return (
@@ -9,7 +10,6 @@ const ProjectsTable = ({ projects, onView }) => {
         <thead>
           <tr>
             <th>Navn</th>
-            <th>Beskrivelse</th>
             <th>Oprettet af</th>
             <th>Tidslinje</th>
             <th>Antal opgaver</th>
@@ -30,9 +30,9 @@ const ProjectsTable = ({ projects, onView }) => {
                 {p.createdBy.firstName} {p.createdBy.lastName}
               </td>
               <td>
-                Start: {p.startDate} Slut: {p.endDate}
+                Start: {formatDate(p.startDate)} Slut: {formatDate(p.deadline)}
               </td>
-              <td>{p?.totalTask ?? 0}</td>
+              <td>{p?.completedTasks ?? 0} ud af {p?.totalTasks ?? 0} færdige</td>
               <td>
                 <Badge status={p.status} />
               </td>
