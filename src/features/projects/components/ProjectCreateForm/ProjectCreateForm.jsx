@@ -27,33 +27,33 @@ const ProjectCreateForm = ({ onSubmit, onCancel }) => {
     setProject((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const newErrors = {
-      nameDA: validateField("suggestion", "nameDA", project.nameDA),
-      descriptionDA: validateField(
-        "suggestion",
-        "descriptionDA",
-        project.descriptionDA,
-      ),
-      stationId: !project.stationId ? "Vælg en station" : "",
-    };
-
-    setErrors(newErrors);
-    if (Object.values(newErrors).some(Boolean)) return;
-
-    try {
-      setIsSubmitting(true);
-      await onSubmit(project);
-      notify("success", `${project.title} oprettet!`);
-      onCancel();
-    } catch (error) {
-      notify("error", error.message || "Kunne ikke oprette projekt");
-    } finally {
-      setIsSubmitting(false);
-    }
+  const newErrors = {
+    title: validateField("project", "title", project.title),
+    description: validateField(
+      "project",
+      "description",
+      project.description,
+    ),
   };
+
+  setErrors(newErrors);
+
+  if (Object.values(newErrors).some(Boolean)) return;
+
+  try {
+    setIsSubmitting(true);
+    await onSubmit(project);
+    notify("success", `${project.title} oprettet!`);
+    onCancel();
+  } catch (error) {
+    notify("error", error.message || "Kunne ikke oprette projekt");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className={styles.contentWrapper}>
@@ -67,7 +67,7 @@ const ProjectCreateForm = ({ onSubmit, onCancel }) => {
             label="Rettens titel"
             type="text"
             name="title"
-            value={project.nameDA}
+            value={project.title}
             onChange={handleChange}
             placeholder="Fx. Villa nord"
             hasError={!!errors.title}
@@ -79,7 +79,7 @@ const ProjectCreateForm = ({ onSubmit, onCancel }) => {
             name="description"
             value={project.description}
             onChange={handleChange}
-            placeholder="Fx: Indedørs renovering af 90er villa"
+            placeholder="Fx: Indendørs renovering af 90er villa"
             hasError={!!errors.description}
             errorMessage={errors.description}
             maxLength={200}
