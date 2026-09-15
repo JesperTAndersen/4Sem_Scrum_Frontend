@@ -2,6 +2,7 @@ import { useNotification } from "@/context/NotificationContext";
 import { useState } from "react";
 import { useParams } from "react-router";
 import projectService from "../../services/projectService";
+import ProjectEditForm from "../../components/ProjectEditForm/ProjectEditForm";
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -72,17 +73,10 @@ const ProjectDetailPage = () => {
           ) : (
             <>
               {!isEditing ? (
-                <DishDetail
-                  dish={dish}
-                  onUpdate={() => setIsEditing(true)}
-                  onDeactivate={handleDeActivate}
-                  onActivate={handleActivate}
-                  onDelete={() => setShowConfirm(true)}
-                />
+                <div>Hej her kommer projektet</div>
               ) : (
-                <DishEditForm
-                  dish={dish}
-                  allergens={allergens}
+                <ProjectEditForm
+                  project={project}
                   onSubmit={handleUpdate}
                   onCancel={() => setIsEditing(false)}
                 />
@@ -93,7 +87,7 @@ const ProjectDetailPage = () => {
 
         {showConfirm && (
           <ConfirmDialog
-            message={`Slet "${dish.nameDA}"?`}
+            message={`Slet "${project.title}"?`}
             onConfirm={() => {
               handleRemove();
               setShowConfirm(false);
