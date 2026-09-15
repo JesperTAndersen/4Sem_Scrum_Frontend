@@ -10,6 +10,7 @@ import DashboardPage from "./features/dashboard/pages/DashboardPage";
 import UserManagementPage from "./features/users/pages/UserManagementPage/UserManagementPage";
 import UserProfilePage from "./features/users/pages/UserProfilePage/UserProfilePage";
 import ProjectManagementPage from "./features/projects/pages/ProjectManagnementPage/ProjectManagementPage";
+import ProtectedRoute from "./shared/components/ProtectedRoute/ProtectedRoute";
 
 const AppRoutes = () => (
   <Routes>
@@ -18,7 +19,7 @@ const AppRoutes = () => (
       <Route path="/register" element={<RegisterPage />} />
     </Route>
 
-    {/*<Route element={<ProtectedRoute />}>*/}
+    <Route element={<ProtectedRoute />}>
     <Route element={<DashboardLayout />}>
       <Route index element={<Navigate to="/dashboard" replace />} />
       <Route path="/dashboard" element={<DashboardPage />} />
@@ -30,7 +31,7 @@ const AppRoutes = () => (
       <Route path="/users" element={<UserManagementPage />} />
       <Route path="/profile" element={<UserProfilePage />} />
     </Route>
-    {/*</Route>*/}
+    </Route>
 
     <Route path="/forbidden" element={<ForbiddenPage />} />
     <Route path="*" element={<NotFoundPage />} />
