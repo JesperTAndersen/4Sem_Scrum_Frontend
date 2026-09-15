@@ -1,8 +1,12 @@
+import styles from "./ProjectDetailPage.module.css";
 import { useNotification } from "@/context/NotificationContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import projectService from "../../services/projectService";
 import ProjectEditForm from "../../components/ProjectEditForm/ProjectEditForm";
+import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
+import Card from "@/shared/components/ui/Card/Card";
+import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -18,7 +22,8 @@ const ProjectDetailPage = () => {
       setIsLoading(true);
       try {
         const data = await projectService.getById(id);
-        setDish(data);
+        console.log(data)
+        setProject(data);
       } catch (error) {
         notify("error", error.message || "Kunne ikke hente projekt.");
       } finally {
@@ -31,7 +36,7 @@ const ProjectDetailPage = () => {
 
   const handleUpdate = async (formData) => {
     try {
-      const updated = await projectService.update(dish.id, formData);
+      const updated = await projectService.update(project.id, formData);
       setProject(updated);
       notify("success", `${updated.title} opdateret!`);
       setIsEditing(false);
@@ -64,11 +69,11 @@ const ProjectDetailPage = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <PageHeader title={project.title} subtitle={project?.description} />
+      <PageHeader title={project?.title} subtitle={project?.description} />
 
       <div className={styles.contentWrapper}>
         <Card variant="flat">
-          {isLoading || !dish ? (
+          {isLoading || !project ? (
             <LoadingSpinner text="Henter projekt..." inline />
           ) : (
             <>

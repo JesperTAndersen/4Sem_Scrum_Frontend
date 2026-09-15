@@ -1,4 +1,4 @@
-import styles from "./DishEditForm.module.css";
+import styles from "./ProjectEditForm.module.css";
 import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 import Input from "@/shared/components/ui/Input/Input";
 import Textarea from "@/shared/components/ui/Input/Textarea";
