@@ -108,7 +108,9 @@ const ProjectManagementPage = () => {
 
       {showForm ? (
         <ProjectCreateForm
-          onCancel={() => { setShowForm(false);}}
+          onCancel={() => {
+            setShowForm(false);
+          }}
           onSubmit={handleSubmit}
         />
       ) : (
@@ -126,7 +128,6 @@ const ProjectManagementPage = () => {
               />
 
               <div className={styles.filterGroup}>
-               
                 <WeekFilter
                   value={filter.week}
                   onChange={(value) => handleFilterChange("week", value)}
@@ -149,8 +150,9 @@ const ProjectManagementPage = () => {
             ) : (
               <>
                 <ProjectsTable
-                 projects={filteredProjects}
-                 onView={handleOnView} />
+                  projects={filteredProjects}
+                  onView={handleOnView}
+                />
                 {filteredProjects.length === 0 && (
                   <TableEmptyState
                     text="Ingen projekter matcher din søgning."

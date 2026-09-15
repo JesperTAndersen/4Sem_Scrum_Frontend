@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import styles from "./DateRangePicker.module.css";
@@ -8,8 +8,28 @@ const DateRangePicker = ({
   endDate,
   onChange,
   label = "Projektperiode",
+  hasError = false,
+  errorMessage = "",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const selectedRange = {
     from: startDate ? new Date(startDate) : undefined,
@@ -18,26 +38,56 @@ const DateRangePicker = ({
 
   const handleSelect = (range) => {
     onChange({
-      startDate: range?.from ? range.from.toISOString().split("T")[0] : "",
-      endDate: range?.to ? range.to.toISOString().split("T")[0] : "",
+      startDate: range?.from
+        ? range.from.toISOString().split("T")[0]
+        : "",
+      endDate: range?.to
+        ? range.to.toISOString().split("T")[0]
+        : "",
     });
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div ref={wrapperRef} className={styles.wrapper}>
       <label className={styles.label}>{label}</label>
 
       <button
         type="button"
-        className={styles.input}
+        className={`${styles.input} ${hasError ? styles.error : ""}`}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <span>{startDate || "Startdato"}</span>
+        <div className={styles.dateField}>
+          <span className={styles.dateLabel}>Startdato</span>
 
-        <span>→</span>
+          <span
+            className={
+              startDate ? styles.dateValue : styles.placeholder
+            }
+          >
+            {startDate || "Vælg dato"}
+          </span>
+        </div>
 
-        <span>{endDate || "Deadline"}</span>
+        <span className={styles.arrow}>→</span>
+
+        <div className={styles.dateField}>
+          <span className={styles.dateLabel}>Deadline</span>
+
+          <span
+            className={
+              endDate ? styles.dateValue : styles.placeholder
+            }
+          >
+            {endDate || "Vælg dato"}
+          </span>
+        </div>
       </button>
+
+      {hasError && errorMessage && (
+        <span className={styles.errorMessage}>
+          {errorMessage}
+        </span>
+      )}
 
       {isOpen && (
         <div className={styles.calendar}>
@@ -46,6 +96,8 @@ const DateRangePicker = ({
             selected={selectedRange}
             onSelect={handleSelect}
             numberOfMonths={2}
+            pagedNavigation
+            showOutsideDays
           />
         </div>
       )}

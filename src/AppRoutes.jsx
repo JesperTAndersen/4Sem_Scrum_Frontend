@@ -20,17 +20,17 @@ const AppRoutes = () => (
     </Route>
 
     <Route element={<ProtectedRoute />}>
-    <Route element={<DashboardLayout />}>
-      <Route index element={<Navigate to="/dashboard" replace />} />
-      <Route path="/dashboard" element={<DashboardPage />} />
-      <Route path="/projects" element={<ProjectManagementPage />} />
-      <Route path="/stages" element={<UnderDevelopmentPage />} />
-      <Route path="/tasks" element={<UnderDevelopmentPage />} />
-      <Route path="/competences" element={<UnderDevelopmentPage />} />
-      <Route path="/costs" element={<UnderDevelopmentPage />} />
-      <Route path="/users" element={<UserManagementPage />} />
-      <Route path="/profile" element={<UserProfilePage />} />
-    </Route>
+      <Route element={<DashboardLayout />}>
+        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/projects" element={<ProjectManagementPage />} />
+        <Route path="/stages" element={<UnderDevelopmentPage />} />
+        <Route path="/tasks" element={<UnderDevelopmentPage />} />
+        <Route path="/competences" element={<UnderDevelopmentPage />} />
+        <Route path="/costs" element={<UnderDevelopmentPage />} />
+        <Route path="/users" element={<UserManagementPage />} />
+        <Route path="/profile" element={<UserProfilePage />} />
+      </Route>
     </Route>
 
     <Route path="/forbidden" element={<ForbiddenPage />} />

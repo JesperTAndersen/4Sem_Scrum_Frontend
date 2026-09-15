@@ -27,33 +27,29 @@ const ProjectCreateForm = ({ onSubmit, onCancel }) => {
     setProject((prev) => ({ ...prev, [name]: value }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const newErrors = {
-    title: validateField("project", "title", project.title),
-    description: validateField(
-      "project",
-      "description",
-      project.description,
-    ),
+    const newErrors = {
+      title: validateField("project", "title", project.title),
+      description: validateField("project", "description", project.description),
+    };
+
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some(Boolean)) return;
+
+    try {
+      setIsSubmitting(true);
+      await onSubmit(project);
+      notify("success", `${project.title} oprettet!`);
+      onCancel();
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke oprette projekt");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-
-  setErrors(newErrors);
-
-  if (Object.values(newErrors).some(Boolean)) return;
-
-  try {
-    setIsSubmitting(true);
-    await onSubmit(project);
-    notify("success", `${project.title} oprettet!`);
-    onCancel();
-  } catch (error) {
-    notify("error", error.message || "Kunne ikke oprette projekt");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
 
   return (
     <div className={styles.contentWrapper}>
