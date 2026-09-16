@@ -26,7 +26,6 @@ const ProjectDetailPage = () => {
       setIsLoading(true);
       try {
         const data = await projectService.getById(id);
-        console.log(data);
         setProject(data);
         setUsers([data.createdBy]);
       } catch (error) {
@@ -75,28 +74,25 @@ const ProjectDetailPage = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
-        <Card variant="table">
+        <Card variant="card">
           {isLoading || !project ? (
             <LoadingSpinner text="Henter projekt..." inline />
           ) : (
             <>
               {!isEditing ? (
-<ProjectDetailBar
-  project={project}
-  users={users}
->
-  <Button
-    variant="danger"
-    name="Slet projekt"
-    onClick={() => setShowConfirm(true)}
-  />
+                <ProjectDetailBar project={project} users={users}>
+                  <Button
+                    variant="danger"
+                    name="Slet projekt"
+                    onClick={() => setShowConfirm(true)}
+                  />
 
-  <Button
-    variant="secondary"
-    name="Rediger projekt"
-    onClick={() => setIsEditing(true)}
-  />
-</ProjectDetailBar>
+                  <Button
+                    variant="secondary"
+                    name="Rediger projekt"
+                    onClick={() => setIsEditing(true)}
+                  />
+                </ProjectDetailBar>
               ) : (
                 <ProjectEditForm
                   project={project}

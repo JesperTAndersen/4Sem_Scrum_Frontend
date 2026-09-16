@@ -26,11 +26,7 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
             )}
           </div>
 
-          {children && (
-            <div className={styles.headerActions}>
-              {children}
-            </div>
-          )}
+          {children && <div className={styles.headerActions}>{children}</div>}
         </div>
       </div>
 
@@ -45,9 +41,7 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
 
           <div className={styles.field}>
             <span className={styles.label}>Deadline</span>
-            <span className={styles.value}>
-              {formatDate(project.deadline)}
-            </span>
+            <span className={styles.value}>{formatDate(project.deadline)}</span>
           </div>
 
           <div className={styles.field}>
@@ -60,15 +54,15 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
           <div className={styles.field}>
             <span className={styles.label}>Total estimeret timer</span>
             <span className={styles.value}>
-              {project?.totalEstimatedHours ?? 0}
+              {project?.totalEstimatedHours ?? 0} timer
             </span>
           </div>
 
           <div className={styles.field}>
             <span className={styles.label}>Opgaver</span>
             <span className={styles.value}>
-              {project?.completedTasks ?? 0} ud af{" "}
-              {project?.totalTasks ?? 0} færdige
+              {project?.completedTasks ?? 0} ud af {project?.totalTasks ?? 0}{" "}
+              færdige
             </span>
           </div>
         </div>

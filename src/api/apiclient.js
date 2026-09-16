@@ -43,7 +43,6 @@ const apiClient = async (
   let response;
   try {
     response = await fetch(`${BASE_URL}${endpoint}${query}`, config);
-    console.log(response);
   } catch (err) {
     if (err.name === "AbortError") throw err;
     console.log(err);

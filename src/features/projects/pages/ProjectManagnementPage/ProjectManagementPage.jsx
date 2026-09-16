@@ -42,7 +42,6 @@ const ProjectManagementPage = () => {
     const fetchProjects = async () => {
       try {
         const data = await projectService.getAll();
-        console.log(data);
         setProjects(data);
       } catch (error) {
         notify(
