@@ -1,17 +1,22 @@
 import styles from "./ProjectDetailPage.module.css";
 import { useNotification } from "@/context/NotificationContext";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import projectService from "../../services/projectService";
 import ProjectEditForm from "../../components/ProjectEditForm/ProjectEditForm";
 import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
 import Card from "@/shared/components/ui/Card/Card";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
+import Button from "@/shared/components/ui/Button/Button";
+import ProjectDetailBar from "../../components/ProjectDetailBar/ProjectDetailBar";
+import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { notify } = useNotification();
   const [project, setProject] = useState();
+  const [users, setUsers] = useState();
   const [expandedStages, setExpandedStages] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -22,8 +27,9 @@ const ProjectDetailPage = () => {
       setIsLoading(true);
       try {
         const data = await projectService.getById(id);
-        console.log(data)
+        console.log(data);
         setProject(data);
+        setUsers([data.createdBy]);
       } catch (error) {
         notify("error", error.message || "Kunne ikke hente projekt.");
       } finally {
@@ -69,8 +75,6 @@ const ProjectDetailPage = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <PageHeader title={project?.title} subtitle={project?.description} />
-
       <div className={styles.contentWrapper}>
         <Card variant="table">
           {isLoading || !project ? (
@@ -78,7 +82,21 @@ const ProjectDetailPage = () => {
           ) : (
             <>
               {!isEditing ? (
-                <div>Hej her kommer projektet</div>
+                <ProjectDetailBar
+                  project={project}
+                  users={users}
+                  >
+                  <Button
+                    variant="danger"
+                    name="Slet projekt"
+                    onClick={() => setShowConfirm(true)}
+                  />
+                  <Button
+                    variant="secondary"
+                    name="Rediger projekt"
+                    onClick={() => setIsEditing(true)}
+                  />
+                </ProjectDetailBar>
               ) : (
                 <ProjectEditForm
                   project={project}

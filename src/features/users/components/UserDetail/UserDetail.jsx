@@ -35,7 +35,7 @@ const UserDetail = ({ user, children }) => {
           <div className={styles.field}>
             <span className={styles.label}>Rolle</span>
             <span className={styles.value}>
-              {formatUserRole(user.userRole)}
+              {formatUserRole(user.role)}
             </span>
           </div>
 

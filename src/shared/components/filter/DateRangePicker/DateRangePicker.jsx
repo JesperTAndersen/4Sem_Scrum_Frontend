@@ -16,10 +16,7 @@ const DateRangePicker = ({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target)
-      ) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
@@ -38,12 +35,8 @@ const DateRangePicker = ({
 
   const handleSelect = (range) => {
     onChange({
-      startDate: range?.from
-        ? range.from.toISOString().split("T")[0]
-        : "",
-      endDate: range?.to
-        ? range.to.toISOString().split("T")[0]
-        : "",
+      startDate: range?.from ? range.from.toISOString().split("T")[0] : "",
+      endDate: range?.to ? range.to.toISOString().split("T")[0] : "",
     });
   };
 
@@ -59,11 +52,7 @@ const DateRangePicker = ({
         <div className={styles.dateField}>
           <span className={styles.dateLabel}>Startdato</span>
 
-          <span
-            className={
-              startDate ? styles.dateValue : styles.placeholder
-            }
-          >
+          <span className={startDate ? styles.dateValue : styles.placeholder}>
             {startDate || "Vælg dato"}
           </span>
         </div>
@@ -73,20 +62,14 @@ const DateRangePicker = ({
         <div className={styles.dateField}>
           <span className={styles.dateLabel}>Deadline</span>
 
-          <span
-            className={
-              endDate ? styles.dateValue : styles.placeholder
-            }
-          >
+          <span className={endDate ? styles.dateValue : styles.placeholder}>
             {endDate || "Vælg dato"}
           </span>
         </div>
       </button>
 
       {hasError && errorMessage && (
-        <span className={styles.errorMessage}>
-          {errorMessage}
-        </span>
+        <span className={styles.errorMessage}>{errorMessage}</span>
       )}
 
       {isOpen && (

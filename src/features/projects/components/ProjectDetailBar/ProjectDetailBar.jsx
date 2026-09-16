@@ -1,18 +1,21 @@
 import { useNavigate } from "react-router";
 import styles from "./ProjectDetailBar.module.css";
 import BackButton from "@/shared/components/ui/BackButton/BackButton";
+import Badge from "@/shared/components/ui/Badge/Badge";
+import { formatDate } from "@/utils/dateHelpers";
+import { formatUserRole } from "@/utils/formatters";
+import Avatar from "@/shared/components/ui/Avatar/Avatar";
 
-const ProjectDetailBar = ( {project, users = [], children} ) => {
+const ProjectDetailBar = ({ project, users = [], children }) => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-
-    return (
-            <div className={styles.container}>
+  return (
+    <div className={styles.container}>
       <BackButton />
 
-            <div className={styles.header}>
+      <div className={styles.header}>
         <div className={styles.titleRow}>
-          <h1 className={styles.title}>{project.title}</h1>
+          <h1 className={styles.title}>{project?.title}</h1>
           <Badge status={project.status} />
         </div>
 
@@ -30,34 +33,31 @@ const ProjectDetailBar = ( {project, users = [], children} ) => {
             </span>
           </div>
 
-                    <div className={styles.field}>
+          <div className={styles.field}>
             <span className={styles.label}>Deadline</span>
-            <span className={styles.value}>
-              {formatDate(project.deadline)}
-            </span>
+            <span className={styles.value}>{formatDate(project.deadline)}</span>
           </div>
 
           <div className={styles.field}>
             <span className={styles.label}>Senest opdateret</span>
             <span className={styles.value}>
-              {project.updatedAt ? formatDate(project.updatedAt) : 'Aldrig'}
+              {project.updatedAt ? formatDate(project.updatedAt) : "Aldrig"}
             </span>
           </div>
 
-                    <div className={styles.field}>
+          <div className={styles.field}>
             <span className={styles.label}>Total estimeret timer</span>
             <span className={styles.value}>
               {project?.totalEstimatedHours ?? 0}
             </span>
           </div>
 
-                    <div className={styles.field}>
+          <div className={styles.field}>
             <span className={styles.label}>Opgaver</span>
             <span className={styles.value}>
-              {p?.completedTasks ?? 0} ud af {p?.totalTasks ?? 0} færdige
+              {project?.completedTasks ?? 0} ud af {project?.totalTasks ?? 0} færdige
             </span>
           </div>
-
         </div>
       </div>
 
@@ -99,11 +99,7 @@ const ProjectDetailBar = ( {project, users = [], children} ) => {
 
       {children && <div className={styles.actionsGroup}>{children}</div>}
     </div>
-        
-    )
-
-
-
-}
+  );
+};
 
 export default ProjectDetailBar;

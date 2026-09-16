@@ -20,8 +20,7 @@ const TopBar = ({ snapshot }) => {
   const [showBell, setShowBell] = useState(false);
   const greeting = getGreetingWelcomeMessage();
   const todaysDate = getTodaysFormattedDate();
-  const pageTitle =
-    routeLabels.find((r) => pathname.startsWith(r.route))?.label ?? "Estimo";
+  const pageTitle = routeLabels.find((r) => pathname.startsWith(r.route))?.label ?? "Estimo";
 
   return (
     <div className={styles.topBarContainer}>
@@ -107,7 +106,9 @@ const TopBar = ({ snapshot }) => {
             <span className={styles.name}>
               {user.firstName} {user.lastName}
             </span>
-            <span className={styles.role}>{formatUserRole(user.userRole)}</span>
+            <span className={styles.role}>
+  {formatUserRole(user.userRole)}
+</span>
           </div>
         </div>
 

@@ -17,7 +17,7 @@ const ProfileSummary = ({ profileData }) => {
             {profileData.firstName} {profileData.lastName}
           </h2>
           <span className={styles.roleText}>
-            {formatUserRole(profileData.userRole)}
+            {formatUserRole(profileData.role)}
           </span>
           <span className={styles.emailText}>{profileData.email}</span>
           {profileData.station && (

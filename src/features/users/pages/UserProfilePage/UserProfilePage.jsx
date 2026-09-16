@@ -13,6 +13,9 @@ const UserProfilePage = () => {
   const [profileData, setProfileData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log("PAGE RENDER", { profileData });
+
+
   useEffect(() => {
     const fetchProfile = async () => {
       setIsLoading(true);
