@@ -72,7 +72,7 @@ const ProjectDetailPage = () => {
       <PageHeader title={project?.title} subtitle={project?.description} />
 
       <div className={styles.contentWrapper}>
-        <Card variant="flat">
+        <Card variant="table">
           {isLoading || !project ? (
             <LoadingSpinner text="Henter projekt..." inline />
           ) : (
