@@ -43,10 +43,9 @@ const apiClient = async (
   let response;
   try {
     response = await fetch(`${BASE_URL}${endpoint}${query}`, config);
-    console.log(response)
   } catch (err) {
     if (err.name === "AbortError") throw err;
-    console.log(err)
+    console.log(err);
     throw createError("Kunne ikke få forbindelse til serveren.", 0);
   }
 

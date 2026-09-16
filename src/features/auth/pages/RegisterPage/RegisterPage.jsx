@@ -12,7 +12,6 @@ const RegisterPage = () => {
 
   const handleRegister = async (formData) => {
     const createdUser = await authService.register(formData);
-    console.log(createdUser)
     setFormSuccess(
       `Velkommen ${createdUser.firstName} ${createdUser.lastName}. Du viderestilles til login...`,
     );
