@@ -14,14 +14,24 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
       <BackButton />
 
       <div className={styles.header}>
-        <div className={styles.titleRow}>
-          <h1 className={styles.title}>{project?.title}</h1>
-          <Badge status={project.status} />
-        </div>
+        <div className={styles.headerMain}>
+          <div className={styles.headerContent}>
+            <div className={styles.titleRow}>
+              <h1 className={styles.title}>{project?.title}</h1>
+              <Badge status={project.status} />
+            </div>
 
-        {project.description && (
-          <p className={styles.description}>{project.description}</p>
-        )}
+            {project.description && (
+              <p className={styles.description}>{project.description}</p>
+            )}
+          </div>
+
+          {children && (
+            <div className={styles.headerActions}>
+              {children}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className={styles.group}>
@@ -35,7 +45,9 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
 
           <div className={styles.field}>
             <span className={styles.label}>Deadline</span>
-            <span className={styles.value}>{formatDate(project.deadline)}</span>
+            <span className={styles.value}>
+              {formatDate(project.deadline)}
+            </span>
           </div>
 
           <div className={styles.field}>
@@ -55,7 +67,8 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
           <div className={styles.field}>
             <span className={styles.label}>Opgaver</span>
             <span className={styles.value}>
-              {project?.completedTasks ?? 0} ud af {project?.totalTasks ?? 0} færdige
+              {project?.completedTasks ?? 0} ud af{" "}
+              {project?.totalTasks ?? 0} færdige
             </span>
           </div>
         </div>
@@ -83,12 +96,14 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
                   lastName={user.lastName}
                   size="md"
                 />
+
                 <div className={styles.userInfo}>
                   <span className={styles.userName}>
                     {user.firstName} {user.lastName}
                   </span>
+
                   <span className={styles.userRole}>
-                    {formatUserRole(user.userRole)}
+                    {formatUserRole(user.role)}
                   </span>
                 </div>
               </div>
@@ -96,8 +111,6 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
           </div>
         )}
       </div>
-
-      {children && <div className={styles.actionsGroup}>{children}</div>}
     </div>
   );
 };

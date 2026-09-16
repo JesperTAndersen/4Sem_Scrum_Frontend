@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import projectService from "../../services/projectService";
 import ProjectEditForm from "../../components/ProjectEditForm/ProjectEditForm";
-import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
 import Card from "@/shared/components/ui/Card/Card";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 import Button from "@/shared/components/ui/Button/Button";
@@ -82,21 +81,22 @@ const ProjectDetailPage = () => {
           ) : (
             <>
               {!isEditing ? (
-                <ProjectDetailBar
-                  project={project}
-                  users={users}
-                  >
-                  <Button
-                    variant="danger"
-                    name="Slet projekt"
-                    onClick={() => setShowConfirm(true)}
-                  />
-                  <Button
-                    variant="secondary"
-                    name="Rediger projekt"
-                    onClick={() => setIsEditing(true)}
-                  />
-                </ProjectDetailBar>
+<ProjectDetailBar
+  project={project}
+  users={users}
+>
+  <Button
+    variant="danger"
+    name="Slet projekt"
+    onClick={() => setShowConfirm(true)}
+  />
+
+  <Button
+    variant="secondary"
+    name="Rediger projekt"
+    onClick={() => setIsEditing(true)}
+  />
+</ProjectDetailBar>
               ) : (
                 <ProjectEditForm
                   project={project}
