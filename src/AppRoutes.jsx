@@ -12,6 +12,7 @@ import UserProfilePage from "./features/users/pages/UserProfilePage/UserProfileP
 import ProjectManagementPage from "./features/projects/pages/ProjectManagnementPage/ProjectManagementPage";
 import ProjectDetailPage from "./features/projects/pages/ProjectDetailPage/ProjectDetailPage";
 import ProtectedRoute from "./shared/components/ProtectedRoute/ProtectedRoute";
+import CompetenceManagementPage from "./features/competences/pages/CompetenceManagementPage/CompetenceManagementPage";
 
 const AppRoutes = () => (
   <Routes>

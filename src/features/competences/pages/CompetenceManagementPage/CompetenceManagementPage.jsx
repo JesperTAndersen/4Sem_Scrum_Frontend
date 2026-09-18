@@ -8,7 +8,7 @@ import Card from '@/shared/components/ui/Card/Card';
 import Button from '@/shared/components/ui/Button/Button';
 import { FiPlusCircle } from 'react-icons/fi';
 import CompetenceTable from '../../components/CompetenceTable/CompetenceTable';
-import StationCreateForm from '../../components/StationCreateForm/StationCreateForm';
+import StationCreateForm from '../../components/CompentenceCreateForm/CompetenceCreateForm';
 import TableSearch from '@/shared/components/forms/TableSearch/TableSearch';
 import TableEmptyState from '@/shared/components/ui/TableEmptyState/TableEmptyState';
 import LoadingSpinner from '@/shared/components/ui/LoadingSpinner/LoadingSpinner';
