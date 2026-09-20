@@ -29,7 +29,7 @@ const AppRoutes = () => (
         <Route path="/projects/:id" element={<ProjectDetailPage />} />
         <Route path="/stages" element={<UnderDevelopmentPage />} />
         <Route path="/tasks" element={<UnderDevelopmentPage />} />
-        <Route path="/competences" element={<UnderDevelopmentPage />} />
+        <Route path="/competences" element={<CompetenceManagementPage />} />
         <Route path="/costs" element={<UnderDevelopmentPage />} />
         <Route path="/users" element={<UserManagementPage />} />
         <Route path="/profile" element={<UserProfilePage />} />
