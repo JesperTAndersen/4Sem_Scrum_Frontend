@@ -1,6 +1,6 @@
-import styles from './CompetenceTable.module.css';
-import { FiChevronRight } from 'react-icons/fi';
-import Badge from '@/shared/components/ui/Badge/Badge';
+import styles from "./CompetenceTable.module.css";
+import { FiChevronRight } from "react-icons/fi";
+import Badge from "@/shared/components/ui/Badge/Badge";
 
 const CompetenceTable = ({ competences, onView }) => {
   return (
@@ -19,7 +19,9 @@ const CompetenceTable = ({ competences, onView }) => {
             <tr key={c.id} className={styles.row} onClick={() => onView(c.id)}>
               <td>{c.name}</td>
               <td>{c.rate}</td>
-              <td><Badge status={c?.status} /></td>
+              <td>
+                <Badge status={c?.status} />
+              </td>
               <td>
                 <FiChevronRight className={styles.chevron} />
               </td>

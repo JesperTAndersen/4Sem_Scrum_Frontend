@@ -1,11 +1,10 @@
 import apiClient from "@/api/apiclient";
 
-const RESOURCE_URL = '/competences';
+const RESOURCE_URL = "/competences";
 
 const getAll = async () => {
   return await apiClient(RESOURCE_URL);
 };
-
 
 const getById = async (id) => {
   return await apiClient(`${RESOURCE_URL}/${id}`);
@@ -13,21 +12,21 @@ const getById = async (id) => {
 
 const create = async (body) => {
   return await apiClient(RESOURCE_URL, {
-    method: 'POST',
+    method: "POST",
     body: body,
   });
 };
 
 const update = async (id, body) => {
   return await apiClient(`${RESOURCE_URL}/${id}`, {
-    method: 'PUT',
+    method: "PUT",
     body: body,
   });
 };
 
 const remove = async (id) => {
   return await apiClient(`${RESOURCE_URL}/${id}`, {
-    method: 'DELETE',
+    method: "DELETE",
   });
 };
 

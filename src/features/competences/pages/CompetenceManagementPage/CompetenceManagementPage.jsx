@@ -1,17 +1,17 @@
-import styles from './CompetenceManagementPage.module.css';
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-import { useNotification } from '@/context/NotificationContext';
-import competenceService from '../../services/competenceService';
-import PageHeader from '@/shared/components/layout/PageHeader/PageHeader';
-import Card from '@/shared/components/ui/Card/Card';
-import Button from '@/shared/components/ui/Button/Button';
-import { FiPlusCircle } from 'react-icons/fi';
-import CompetenceTable from '../../components/CompetenceTable/CompetenceTable';
-import StationCreateForm from '../../components/CompentenceCreateForm/CompetenceCreateForm';
-import TableSearch from '@/shared/components/forms/TableSearch/TableSearch';
-import TableEmptyState from '@/shared/components/ui/TableEmptyState/TableEmptyState';
-import LoadingSpinner from '@/shared/components/ui/LoadingSpinner/LoadingSpinner';
+import styles from "./CompetenceManagementPage.module.css";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { useNotification } from "@/context/NotificationContext";
+import competenceService from "../../services/competenceService";
+import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
+import Card from "@/shared/components/ui/Card/Card";
+import Button from "@/shared/components/ui/Button/Button";
+import { FiPlusCircle } from "react-icons/fi";
+import CompetenceTable from "../../components/CompetenceTable/CompetenceTable";
+import CompetenceCreateForm from "../../components/CompentenceCreateForm/CompetenceCreateForm";
+import TableSearch from "@/shared/components/filter/TableSearch/TableSearch";
+import TableEmptyState from "@/shared/components/ui/TableEmptyState/TableEmptyState";
+import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 
 const CompetenceManagementPage = () => {
   const navigate = useNavigate();
@@ -19,13 +19,13 @@ const CompetenceManagementPage = () => {
   const [competences, setCompetences] = useState([]);
   const { notify } = useNotification();
   const [isLoading, setIsLoading] = useState(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     if (location.state?.successMessage) {
-      notify('success', location.state.successMessage);
-      window.history.replaceState({}, '');
+      notify("success", location.state.successMessage);
+      window.history.replaceState({}, "");
     }
   }, []);
 
@@ -37,8 +37,8 @@ const CompetenceManagementPage = () => {
         setCompetences(data);
       } catch (error) {
         notify(
-          'error',
-          error.message || 'Noget gik galt ved hentning af kompetencer',
+          "error",
+          error.message || "Noget gik galt ved hentning af kompetencer",
         );
       } finally {
         setIsLoading(false);
@@ -58,10 +58,10 @@ const CompetenceManagementPage = () => {
     : [];
 
   const handleSubmit = async (formData) => {
-      const data = await projectService.create(formData);
-      setCompetences((prev) => [...prev, data]);
-      setShowForm(false);
-      notify('success', `${data.name} blev oprettet.`);
+    const data = await projectService.create(formData);
+    setCompetences((prev) => [...prev, data]);
+    setShowForm(false);
+    notify("success", `${data.name} blev oprettet.`);
   };
 
   return (
@@ -91,14 +91,14 @@ const CompetenceManagementPage = () => {
           <Button
             icon={<FiPlusCircle />}
             name="Opret kompetence"
-            variant={showForm ? 'secondary' : 'primary'}
+            variant={showForm ? "secondary" : "primary"}
             onClick={() => setShowForm((p) => !p)}
           />
         </div>
 
         <div className={styles.tableCount}>
-          Viser {filteredCompetences.length}{' '}
-          {filteredCompetences.length === 1 ? 'kompetence' : 'kompetencer'}
+          Viser {filteredCompetences.length}{" "}
+          {filteredCompetences.length === 1 ? "kompetence" : "kompetencer"}
           {filteredCompetences.length !== competences.length &&
             ` (ud af ${competences.length})`}
         </div>
@@ -107,11 +107,14 @@ const CompetenceManagementPage = () => {
           <LoadingSpinner text="Henter kompetencer..." inline />
         ) : (
           <>
-            <CompetenceTable stations={filteredCompetences} onView={handleOnView} />
+            <CompetenceTable
+              stations={filteredCompetences}
+              onView={handleOnView}
+            />
             {filteredCompetences.length === 0 && (
               <TableEmptyState
                 text="Ingen kompetencer matcher din søgning."
-                onReset={() => setSearch('')}
+                onReset={() => setSearch("")}
               />
             )}
           </>

@@ -1,20 +1,20 @@
-import styles from './StationCreateForm.module.css';
-import { useState } from 'react';
-import FormLayout from '../../../../components/layout/FormLayout/FormLayout';
-import Input from '../../../../components/ui/Input/Input';
-import Button from '../../../../components/ui/Button/Button';
-import FormHeader from '../../../../components/layout/FormHeader/FormHeader';
-import { validateStation } from '../../utils/validateStation';
-import { useNotification } from '../../../../context/NotificationContext';
+import styles from "./CompetenceCreateForm.module.css";
+import { useState } from "react";
+import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
+import Input from "@/shared/components/ui/Input/Input";
+import Button from "@/shared/components/ui/Button/Button";
+import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
+import { validateCompetence } from "../utils/validateCompetence";
+import { useNotification } from "../../../../context/NotificationContext";
 
 const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
   const { notify } = useNotification();
-  const [formData, setFormData] = useState({ name: '', description: '' });
+  const [formData, setFormData] = useState({ name: "", description: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [errors, setErrors] = useState({
-    name: '',
-    description: '',
+    name: "",
+    description: "",
   });
 
   const handleChange = (e) => {
@@ -22,7 +22,7 @@ const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
 
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
@@ -40,18 +40,18 @@ const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
       setIsSubmitting(true);
       await onSubmit(formData);
     } catch (error) {
-      const backendError = error.message?.toLowerCase() || '';
+      const backendError = error.message?.toLowerCase() || "";
 
       if (
-        backendError.includes('already exists') ||
-        backendError.includes('name')
+        backendError.includes("already exists") ||
+        backendError.includes("name")
       ) {
         setErrors((prev) => ({
           ...prev,
-          name: 'Dette stationsnavn findes allerede',
+          name: "Dette stationsnavn findes allerede",
         }));
       } else {
-        notify('error', error.message || 'Noget gik galt ved oprettelsen');
+        notify("error", error.message || "Noget gik galt ved oprettelsen");
       }
     } finally {
       setIsSubmitting(false);
@@ -98,7 +98,7 @@ const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
         <Button
           type="submit"
           variant="primary"
-          name={isSubmitting ? 'Opretter...' : 'Opret Station'}
+          name={isSubmitting ? "Opretter..." : "Opret Station"}
           disabled={isSubmitting}
         />
       </div>
