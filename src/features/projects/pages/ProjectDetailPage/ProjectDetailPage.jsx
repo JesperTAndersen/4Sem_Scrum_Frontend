@@ -8,6 +8,7 @@ import Card from "@/shared/components/ui/Card/Card";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 import Button from "@/shared/components/ui/Button/Button";
 import ProjectDetailBar from "../../components/ProjectDetailBar/ProjectDetailBar";
+import StagesList from "@/features/stages/components/StagesList/StagesList";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 
 const ProjectDetailPage = () => {
@@ -15,8 +16,7 @@ const ProjectDetailPage = () => {
   const navigate = useNavigate();
   const { notify } = useNotification();
   const [project, setProject] = useState();
-  const [users, setUsers] = useState();
-  const [expandedStages, setExpandedStages] = useState(false);
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -74,35 +74,45 @@ const ProjectDetailPage = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
-        <Card variant="card">
-          {isLoading || !project ? (
-            <LoadingSpinner text="Henter projekt..." inline />
-          ) : (
-            <>
-              {!isEditing ? (
-                <ProjectDetailBar project={project} users={[project.createdBy]}>
-                  <Button
-                    variant="danger"
-                    name="Slet projekt"
-                    onClick={() => setShowConfirm(true)}
-                  />
+        {isLoading || !project ? (
+          <LoadingSpinner text="Henter projekt..." inline />
+        ) : (
+          <>
+            {!isEditing ? (
+              <>
+                <Card variant="card">
+                  <ProjectDetailBar project={project} users={users}>
+                    <Button
+                      variant="danger"
+                      name="Slet projekt"
+                      onClick={() => setShowConfirm(true)}
+                    />
+                    <Button
+                      variant="secondary"
+                      name="Rediger projekt"
+                      onClick={() => setIsEditing(true)}
+                    />
+                  </ProjectDetailBar>
+                </Card>
 
-                  <Button
-                    variant="secondary"
-                    name="Rediger projekt"
-                    onClick={() => setIsEditing(true)}
+                <Card variant="card">
+                  <StagesList
+                    projectId={project.id}
+                    stages={project.stages || []}
                   />
-                </ProjectDetailBar>
-              ) : (
+                </Card>
+              </>
+            ) : (
+              <Card variant="card">
                 <ProjectEditForm
                   project={project}
                   onSubmit={handleUpdate}
                   onCancel={() => setIsEditing(false)}
                 />
-              )}
-            </>
-          )}
-        </Card>
+              </Card>
+            )}
+          </>
+        )}
 
         {showConfirm && (
           <ConfirmDialog
