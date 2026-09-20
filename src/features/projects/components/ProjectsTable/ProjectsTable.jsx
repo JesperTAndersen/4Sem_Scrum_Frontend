@@ -33,7 +33,7 @@ const ProjectsTable = ({ projects, onView }) => {
                 Start: {formatDate(p.startDate)} Slut: {formatDate(p.deadline)}
               </td>
               <td>
-                {p?.completedTasks ?? 0} ud af {p?.totalTasks ?? 0} færdige
+                {p?.taskCountDTO.totalTaskCount ?? 0} ud af {p?.taskCountDTO.taskFinished ?? 0} færdige
               </td>
               <td>
                 <Badge status={p.status} />
