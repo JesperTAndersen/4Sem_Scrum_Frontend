@@ -71,6 +71,13 @@ const ProjectDetailPage = () => {
     }
   };
 
+  const handleStageCreate = async (newStage) => {
+    setProject((prevProject) => ({
+      ...prevProject,
+      stages: [...(prevProject.stages || [])],
+    }));
+  };
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
@@ -99,6 +106,7 @@ const ProjectDetailPage = () => {
                   <StagesList
                     projectId={project.id}
                     stages={project.stages || []}
+                    onStageCreated={handleStageCreate}
                   />
                 </Card>
               </>

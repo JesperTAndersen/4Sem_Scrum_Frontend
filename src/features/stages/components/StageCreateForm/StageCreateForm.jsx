@@ -4,12 +4,12 @@ import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 import Input from "@/shared/components/ui/Input/Input";
 import Button from "@/shared/components/ui/Button/Button";
 import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
-import { validateCompetence } from "../../utils/validateCompetence";
+import { validateStage } from "../utils/validateStage";
 import { useNotification } from "@/context/NotificationContext";
 
-const StageCreateForm = ({ onSubmit, onCancel }) => {
+const StageCreateForm = ({ onSubmit, onCancel, projectId }) => {
   const { notify } = useNotification();
-  const [formData, setFormData] = useState({ name: "" });
+  const [formData, setFormData] = useState({ projectId: projectId, name: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({ name: "" });
 
@@ -25,8 +25,7 @@ const StageCreateForm = ({ onSubmit, onCancel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { errors: validationErrors, hasErrors } =
-      validateCompetence(formData);
+    const { errors: validationErrors, hasErrors } = validateStage(formData);
 
     if (hasErrors) {
       setErrors(validationErrors);

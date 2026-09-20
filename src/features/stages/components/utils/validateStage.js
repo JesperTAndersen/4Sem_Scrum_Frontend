@@ -1,6 +1,6 @@
 import { validateField } from "@/utils/validation/fieldValidators";
 
-export const validateCompetence = (formData) => {
+export const validateStage = (formData) => {
   const errors = {
     name: validateField("stage", "name", formData.name),
   };

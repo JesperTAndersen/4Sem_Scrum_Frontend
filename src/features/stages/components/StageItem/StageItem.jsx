@@ -1,6 +1,8 @@
 import styles from "./StageItem.module.css";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import { FiChevronRight } from "react-icons/fi";
+import { FiChevronUp } from "react-icons/fi";
+import { FiChevronDown } from "react-icons/fi";
 import { useState } from "react";
 import Card from "@/shared/components/ui/Card/Card";
 
@@ -12,7 +14,7 @@ const StageItem = ({ stage }) => {
       <Card variant="table">
         <div className={styles.stageHeader} onClick={() => setIsOpen(!isOpen)}>
           <div className={styles.titleInfo}>
-            <h4>{stage.title}</h4>
+            <h4>{stage.name}</h4>
             <span className={styles.hours}>
               ({stage.estimatedHours || 0} timer)
             </span>
