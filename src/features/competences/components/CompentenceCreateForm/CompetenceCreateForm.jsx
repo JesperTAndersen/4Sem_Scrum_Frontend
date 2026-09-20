@@ -4,7 +4,7 @@ import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 import Input from "@/shared/components/ui/Input/Input";
 import Button from "@/shared/components/ui/Button/Button";
 import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
-import { validateCompetence } from "../utils/validateCompetence";
+import { validateCompetence } from "../../utils/validateCompetence";
 import { useNotification } from "@/context/NotificationContext";
 
 const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
