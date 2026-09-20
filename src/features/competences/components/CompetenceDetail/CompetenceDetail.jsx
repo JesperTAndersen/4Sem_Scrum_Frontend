@@ -1,6 +1,6 @@
 import styles from "./CompetenceDetail.module.css";
-import Avatar from "@shared/components/ui/Avatar/Avatar";
-import BackButton from "@shared/components/ui/BackButton/BackButton";
+import Avatar from "@/shared/components/ui/Avatar/Avatar";
+import BackButton from "@/shared/components/ui/BackButton/BackButton";
 import { formatDate } from "@/utils/dateHelpers";
 import { formatUserRole } from "@/utils/formatters";
 import { useNavigate } from "react-router";

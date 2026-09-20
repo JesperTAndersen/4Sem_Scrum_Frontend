@@ -34,10 +34,8 @@ const CompetenceManagementPage = () => {
       try {
         setIsLoading(true);
         const data = await competenceService.getAll();
-        console.log(data);
         setCompetences(data);
       } catch (error) {
-        console.log(error);
         notify(
           "error",
           error.message || "Noget gik galt ved hentning af kompetencer",

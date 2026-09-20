@@ -17,7 +17,7 @@ const fieldConfig = {
   },
   competence: {
     name: { min: 2, max: 100 },
-    rate: { min: 0, max: 100000 }, 
+    rate: { min: 0, max: 100000 },
   },
   user: {
     firstName: { min: 2, max: 50 },

@@ -1,8 +1,8 @@
 import styles from "./CompetenceEditForm.module.css";
-import FormLayout from "@shared/components/layout/FormLayout/FormLayout";
-import Input from "@shared/components/ui/Input/Input";
-import Button from "@shared/components/ui/Button/Button";
-import FormHeader from "@shared/components/layout/FormHeader/FormHeader";
+import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
+import Input from "@/shared/components/ui/Input/Input";
+import Button from "@/shared/components/ui/Button/Button";
+import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
 import { validateCompetence } from "../../utils/validateCompetence";
 import { useState } from "react";
 
@@ -35,7 +35,10 @@ const CompetenceEditForm = ({ competence, onSubmit, onCancel }) => {
 
     try {
       setIsSubmitting(true);
-      await onSubmit(formData);
+      await onSubmit({
+        ...formData,
+        rate: Number(formData.rate),
+      });
     } finally {
       setIsSubmitting(false);
     }

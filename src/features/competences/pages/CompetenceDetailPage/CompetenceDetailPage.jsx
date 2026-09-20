@@ -5,11 +5,11 @@ import { useNavigate, useParams } from "react-router";
 import competenceService from "../../services/competenceService";
 import CompetenceDetail from "../../components/CompetenceDetail/CompetenceDetail";
 import CompetenceEditForm from "../../components/CompetenceEditForm/CompetenceEditForm";
-import PageHeader from "@shared/components/layout/PageHeader/PageHeader";
-import Card from "@shared/components/ui/Card/Card";
-import Button from "@shared/components/ui/Button/Button";
-import ConfirmDialog from "@shared/components/ui/ConfirmDialog/ConfirmDialog";
-import LoadingSpinner from "@shared/components/ui/LoadingSpinner/LoadingSpinner";
+import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
+import Card from "@/shared/components/ui/Card/Card";
+import Button from "@/shared/components/ui/Button/Button";
+import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
+import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 
 const CompetenceDetailPage = () => {
   const { id } = useParams();
@@ -27,11 +27,13 @@ const CompetenceDetailPage = () => {
         setIsLoading(true);
         const competenceData = await competenceService.getById(id);
         {
-          /* TODO: const usersData = await competenceService.getUsersByCompetence(id); */
+          /* TODO: const usersData = await competenceService.getUsersByCompetence(id);
+          setUsers(usersData); */
         }
+        console.log(competenceData);
         setCompetence(competenceData);
-        setUsers(usersData);
       } catch (error) {
+        console.log(error);
         notify("error", error.message || "Kunne ikke hente kompetence");
       } finally {
         setIsLoading(false);
@@ -43,8 +45,8 @@ const CompetenceDetailPage = () => {
 
   const handleDelete = async () => {
     try {
-      await competence.remove(id);
-      navigate("/competence", {
+      await competenceService.remove(id);
+      navigate("/competences", {
         state: {
           successMessage: `${competence.name} blev slettet`,
         },
