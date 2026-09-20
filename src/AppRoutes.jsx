@@ -13,6 +13,7 @@ import ProjectManagementPage from "./features/projects/pages/ProjectManagnementP
 import ProjectDetailPage from "./features/projects/pages/ProjectDetailPage/ProjectDetailPage";
 import ProtectedRoute from "./shared/components/ProtectedRoute/ProtectedRoute";
 import CompetenceManagementPage from "./features/competences/pages/CompetenceManagementPage/CompetenceManagementPage";
+import CompetenceDetailPage from "./features/competences/pages/CompetenceDetailPage/CompetenceDetailPage";
 
 const AppRoutes = () => (
   <Routes>
@@ -30,6 +31,7 @@ const AppRoutes = () => (
         <Route path="/stages" element={<UnderDevelopmentPage />} />
         <Route path="/tasks" element={<UnderDevelopmentPage />} />
         <Route path="/competences" element={<CompetenceManagementPage />} />
+        <Route path="/competences/:id" element={<CompetenceDetailPage />} />
         <Route path="/costs" element={<UnderDevelopmentPage />} />
         <Route path="/users" element={<UserManagementPage />} />
         <Route path="/profile" element={<UserProfilePage />} />
