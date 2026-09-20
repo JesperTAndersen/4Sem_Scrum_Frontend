@@ -1,4 +1,5 @@
 import styles from "./Select.module.css";
+import { ChevronDown } from "react-feather";
 
 const Select = ({
   label,
@@ -17,22 +18,25 @@ const Select = ({
       <label className={styles.labelWrapper}>
         {label && <span className={styles.labelText}>{label}</span>}
 
-        <select
-          name={name}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          required={required}
-          disabled={disabled}
-          className={`${styles.selectField} ${hasError ? styles.errorField : ""}`}
-        >
-          <option value="">{placeholder}</option>
+        <div className={styles.selectWrapper}>
+          <select
+            name={name}
+            value={value}
+            onChange={onChange}
+            required={required}
+            disabled={disabled}
+            className={`${styles.selectField} ${hasError ? styles.errorField : ""}`}
+          >
+            {placeholder && <option value="">{placeholder}</option>}
 
-          {options.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+            {options.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+          <ChevronDown className={styles.chevronIcon} size={18} />
+        </div>
       </label>
 
       {hasError && errorMessage && (
