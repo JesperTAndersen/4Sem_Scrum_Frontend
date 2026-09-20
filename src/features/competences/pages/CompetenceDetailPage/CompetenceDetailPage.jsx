@@ -4,6 +4,7 @@ import { useNotification } from "@/context/NotificationContext";
 import { useNavigate, useParams } from "react-router";
 import competenceService from "../../services/competenceService";
 import CompetenceDetail from "../../components/CompetenceDetail/CompetenceDetail";
+import CompetenceEditForm from "../../components/CompetenceEditForm/CompetenceEditForm";
 import PageHeader from "@shared/components/layout/PageHeader/PageHeader";
 import Card from "@shared/components/ui/Card/Card";
 import Button from "@shared/components/ui/Button/Button";
@@ -79,13 +80,13 @@ const CompetenceDetailPage = () => {
           <div className={styles.contentWrapper}>
             <Card variant="flat">
               {isEditing ? (
-                <StationEditForm
-                  station={competence}
+                <CompetenceEditForm
+                  competence={competence}
                   onSubmit={handleUpdate}
                   onCancel={() => setIsEditing(false)}
                 />
               ) : (
-                <CompetenceDetail station={competence} users={users}>
+                <CompetenceDetail competence={competence} users={users}>
                   <Button
                     variant="danger"
                     name="Slet kompetence"
