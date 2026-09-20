@@ -5,17 +5,13 @@ import Input from "@/shared/components/ui/Input/Input";
 import Button from "@/shared/components/ui/Button/Button";
 import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
 import { validateCompetence } from "../utils/validateCompetence";
-import { useNotification } from "../../../../context/NotificationContext";
+import { useNotification } from "@/context/NotificationContext";
 
 const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
   const { notify } = useNotification();
-  const [formData, setFormData] = useState({ name: "", description: "" });
+  const [formData, setFormData] = useState({ name: "", rate: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [errors, setErrors] = useState({
-    name: "",
-    description: "",
-  });
+  const [errors, setErrors] = useState({ name: "", rate: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +25,8 @@ const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { errors: validationErrors, hasErrors } = validateStation(formData);
+    const { errors: validationErrors, hasErrors } =
+      validateCompetence(formData);
 
     if (hasErrors) {
       setErrors(validationErrors);
@@ -38,7 +35,12 @@ const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
 
     try {
       setIsSubmitting(true);
-      await onSubmit(formData);
+
+      const payload = {
+        ...formData,
+        rate: Number(formData.rate),
+      };
+      await onSubmit(payload);
     } catch (error) {
       const backendError = error.message?.toLowerCase() || "";
 
@@ -48,7 +50,7 @@ const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
       ) {
         setErrors((prev) => ({
           ...prev,
-          name: "Dette stationsnavn findes allerede",
+          name: "Dette kompetencenavn findes allerede",
         }));
       } else {
         notify("error", error.message || "Noget gik galt ved oprettelsen");
@@ -65,26 +67,28 @@ const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
         subtitle="Tilføj en ny køkkenstation til systemet"
       />
       <Input
-        label="Stationsnavn"
+        label="Kompetencenavn"
         type="text"
         name="name"
         value={formData.name}
         onChange={handleChange}
-        placeholder="Fx. Varmt"
+        placeholder="Fx. Backend development"
         hasError={!!errors.name}
         errorMessage={errors.name}
         required
       />
 
       <Input
-        label="Stationsbeskrivelse"
-        type="text"
-        name="description"
-        value={formData.description}
+        label="Timepris (Rate)"
+        type="number"
+        name="rate"
+        value={formData.rate}
         onChange={handleChange}
-        placeholder="Fx. Hovedretter og kød"
-        hasError={!!errors.description}
-        errorMessage={errors.description}
+        placeholder="Fx. 850"
+        hasError={!!errors.rate}
+        errorMessage={errors.rate}
+        min="0"
+        step="0.01"
         required
       />
 
@@ -98,7 +102,7 @@ const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
         <Button
           type="submit"
           variant="primary"
-          name={isSubmitting ? "Opretter..." : "Opret Station"}
+          name={isSubmitting ? "Opretter..." : "Opret kompetence"}
           disabled={isSubmitting}
         />
       </div>
