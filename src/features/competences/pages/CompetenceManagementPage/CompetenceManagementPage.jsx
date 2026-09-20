@@ -34,8 +34,10 @@ const CompetenceManagementPage = () => {
       try {
         setIsLoading(true);
         const data = await competenceService.getAll();
+        console.log(data);
         setCompetences(data);
       } catch (error) {
+        console.log(error);
         notify(
           "error",
           error.message || "Noget gik galt ved hentning af kompetencer",
@@ -58,7 +60,7 @@ const CompetenceManagementPage = () => {
     : [];
 
   const handleSubmit = async (formData) => {
-    const data = await projectService.create(formData);
+    const data = await competenceService.create(formData);
     setCompetences((prev) => [...prev, data]);
     setShowForm(false);
     notify("success", `${data.name} blev oprettet.`);
@@ -73,7 +75,7 @@ const CompetenceManagementPage = () => {
 
       {showForm && (
         <Card cols={6} variant="flat">
-          <StationCreateForm
+          <CompetenceCreateForm
             onSubmit={handleSubmit}
             onCancel={() => setShowForm(false)}
           />
@@ -108,7 +110,7 @@ const CompetenceManagementPage = () => {
         ) : (
           <>
             <CompetenceTable
-              stations={filteredCompetences}
+              competences={filteredCompetences}
               onView={handleOnView}
             />
             {filteredCompetences.length === 0 && (

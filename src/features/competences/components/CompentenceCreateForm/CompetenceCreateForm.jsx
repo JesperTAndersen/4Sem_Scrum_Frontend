@@ -72,7 +72,7 @@ const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
         name="name"
         value={formData.name}
         onChange={handleChange}
-        placeholder="Fx. Backend development"
+        placeholder="Fx. Maler"
         hasError={!!errors.name}
         errorMessage={errors.name}
         required
