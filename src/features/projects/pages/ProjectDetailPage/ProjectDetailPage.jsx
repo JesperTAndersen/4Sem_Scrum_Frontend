@@ -80,7 +80,7 @@ const ProjectDetailPage = () => {
           ) : (
             <>
               {!isEditing ? (
-                <ProjectDetailBar project={project} users={users}>
+                <ProjectDetailBar project={project} users={[project.createdBy]}>
                   <Button
                     variant="danger"
                     name="Slet projekt"

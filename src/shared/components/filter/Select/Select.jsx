@@ -1,5 +1,5 @@
 import styles from "./Select.module.css";
-import { ChevronDown } from "react-feather";
+import { FiChevronsDown } from "react-icons/fi";
 
 const Select = ({
   label,
@@ -35,7 +35,7 @@ const Select = ({
               </option>
             ))}
           </select>
-          <ChevronDown className={styles.chevronIcon} size={18} />
+          <FiChevronsDown className={styles.chevronIcon} size={18} />
         </div>
       </label>
 
