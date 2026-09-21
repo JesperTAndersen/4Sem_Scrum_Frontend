@@ -6,20 +6,17 @@ import Button from "@/shared/components/ui/Button/Button";
 import { FiPlusCircle } from "react-icons/fi";
 import ProjectsTable from "../../components/ProjectsTable/ProjectsTable";
 import SearchFilterBar from "@/shared/components/filter/SearchFilterBar/SearchFilterBar";
-import WeekFilter from "@/shared/components/filter/WeekFilter/WeekFilter";
 import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
 import Card from "@/shared/components/ui/Card/Card";
 import TableEmptyState from "@/shared/components/ui/TableEmptyState/TableEmptyState";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 import ProjectCreateForm from "../../components/ProjectCreateForm/ProjectCreateForm";
 import projectService from "../../services/projectService";
-import { ACTIVE_OPTIONS } from "../../utils/activeOptions";
+import { STATUS_FILTER_OPTIONS } from "../../utils/constants";
 
 const DEFAULT_FILTER = {
-  active: "TRUE",
+  status: "ALL",
   search: "",
-  station: "ALL",
-  week: "ALL",
 };
 
 const ProjectManagementPage = () => {
@@ -66,7 +63,15 @@ const ProjectManagementPage = () => {
 
   const handleSubmit = async (formData) => {
     const project = await projectService.create(formData);
-    setProjects((prev) => [...prev, project]);
+
+    const projectSlim = {
+      ...project,
+      taskCountDTO: {
+        totalTaskCount: 0,
+        taskFinished: 0,
+      },
+    };
+    setProjects((prev) => [...prev, projectSlim]);
   };
 
   const resetFilter = () => setFilter(DEFAULT_FILTER);
@@ -75,27 +80,24 @@ const ProjectManagementPage = () => {
 
   const filteredProjects = projects
     .filter((p) => {
-      if (filter.active === "ALL") return true;
-      const wantActive = filter.active === "TRUE";
-      return p.active === wantActive;
+      if (filter.status === "ALL") return true;
+      return p.status === filter.status;
     })
     .filter((p) => {
       if (!searchTerm) return true;
-      const title = p.title.toLowerCase();
+
+      const title = (p?.title || "").toLowerCase();
       const description = (p?.description || "").toLowerCase();
+
       const firstName = (p?.createdBy?.firstName || "").toLowerCase();
       const lastName = (p?.createdBy?.lastName || "").toLowerCase();
+      const fullName = `${firstName} ${lastName}`;
 
       return (
         title.includes(searchTerm) ||
         description.includes(searchTerm) ||
-        firstName.includes(searchTerm) ||
-        lastName.includes(searchTerm)
+        fullName.includes(searchTerm)
       );
-    })
-    .filter((p) => {
-      if (filter.week === "ALL") return true;
-      return p.originWeek === Number(filter.week);
     });
 
   return (
@@ -119,19 +121,14 @@ const ProjectManagementPage = () => {
               <SearchFilterBar
                 filter={filter}
                 onChange={handleFilterChange}
-                options={ACTIVE_OPTIONS}
-                valueKey="active"
+                options={STATUS_FILTER_OPTIONS}
+                valueKey="status"
                 searchKey="search"
                 placeholder="Søg på projekt-navn eller oprettet af"
                 layout="row"
               />
 
               <div className={styles.filterGroup}>
-                <WeekFilter
-                  value={filter.week}
-                  onChange={(value) => handleFilterChange("week", value)}
-                />
-
                 <Button
                   icon={<FiPlusCircle />}
                   name="Opret projekt"
