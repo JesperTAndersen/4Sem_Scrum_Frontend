@@ -44,7 +44,7 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate }) => {
             title="Slet etape"
             onClick={(e) => {
               e.stopPropagation();
-              onDelete?.(stage.id);
+              onDelete?.(stage);
             }}
           />
 

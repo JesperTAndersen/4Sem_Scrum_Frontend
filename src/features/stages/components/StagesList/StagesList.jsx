@@ -4,22 +4,23 @@ import StageItem from "../StageItem/StageItem";
 import stageService from "../../services/stageService";
 import Modal from "@/shared/components/ui/Modal/Modal";
 import StageCreateForm from "../StageCreateForm/StageCreateForm";
-import StageDetail from "../StageDetail/StageDetail";
 import { FiPlusCircle } from "react-icons/fi";
 import { useState } from "react";
 import { useNotification } from "@/context/NotificationContext";
 import Card from "@/shared/components/ui/Card/Card";
 import StageEditForm from "../StageEditForm/StageEditForm";
+import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 
 const StagesList = ({
   projectId,
   stages = [],
   onStageCreated,
   onStageEdited,
+  onStageDeleted,
 }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingStage, setEditingStage] = useState(null);
-  const [deletingStageId, setDeletingStageId] = useState(null);
+  const [deletingStage, setDeletingStage] = useState(null);
   const { notify } = useNotification();
 
   const handleCreateStage = async (formData) => {
@@ -45,6 +46,19 @@ const StagesList = ({
     }
   };
 
+  const handleDelete = async (stageId) => {
+    try {
+      await stageService.remove(stageId);
+
+      onStageDeleted(stageId);
+
+      notify("success", "Etape slettet.");
+      setDeletingStage(null);
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke slette etapen.");
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -60,32 +74,30 @@ const StagesList = ({
 
       <div className={styles.list}>
         {stages.map((stage) => (
-          <>
-            <StageItem
-              key={stage.id}
-              stage={stage}
-              onEdit={(stage) => setEditingStage(stage)}
-              onDelete={(stageId) => setDeletingStageId(stageId)}
-            />
-
-            {editingStage && (
-              <Modal onClose={() => setEditingStage(null)}>
-                <Card>
-                  <StageEditForm
-                    stage={stage}
-                    onSubmit={handleUpdate}
-                    handleUpdate={handleUpdate}
-                    onCancel={() => setEditingStage(null)}
-                  />
-                </Card>
-              </Modal>
-            )}
-          </>
+          <StageItem
+            key={stage.id}
+            stage={stage}
+            onEdit={(stage) => setEditingStage(stage)}
+            onDelete={setDeletingStage}
+          />
         ))}
         {stages.length === 0 && (
           <p className={styles.empty}>
             Der er endnu ikke oprettet nogen etaper.
           </p>
+        )}
+
+        {editingStage && (
+          <Modal onClose={() => setEditingStage(null)}>
+            <Card>
+              <StageEditForm
+                stage={editingStage}
+                onSubmit={handleUpdate}
+                handleUpdate={handleUpdate}
+                onCancel={() => setEditingStage(null)}
+              />
+            </Card>
+          </Modal>
         )}
       </div>
       {showCreateForm && (
@@ -98,6 +110,14 @@ const StagesList = ({
             />
           </Card>
         </Modal>
+      )}
+
+      {deletingStage && (
+        <ConfirmDialog
+          message={`Slet "${deletingStage.name || deletingStage.title}"?`}
+          onConfirm={() => handleDelete(deletingStage.id)}
+          onCancel={() => setDeletingStage(null)}
+        />
       )}
     </div>
   );

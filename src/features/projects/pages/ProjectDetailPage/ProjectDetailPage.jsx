@@ -81,7 +81,18 @@ const ProjectDetailPage = () => {
   const handleStageEdit = (updatedStage) => {
     setProject((prevProject) => ({
       ...prevProject,
-      stages: [...prevProject.stages, updatedStage],
+      stages: (prevProject.stages || []).map((stage) =>
+        stage.id === updatedStage.id ? updatedStage : stage,
+      ),
+    }));
+  };
+
+  const handleStageDelete = (stageId) => {
+    setProject((prevProject) => ({
+      ...prevProject,
+      stages: (prevProject.stages || []).filter(
+        (stage) => stage.id !== stageId,
+      ),
     }));
   };
 
@@ -115,6 +126,7 @@ const ProjectDetailPage = () => {
                     stages={project.stages || []}
                     onStageCreated={handleStageCreate}
                     onStageEdited={handleStageEdit}
+                    onStageDeleted={handleStageDelete}
                   />
                 </Card>
               </>
