@@ -19,8 +19,7 @@ const StageEditForm = ({ competence, onSubmit, onCancel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { errors: validationErrors, hasErrors } =
-      validateStage(formData);
+    const { errors: validationErrors, hasErrors } = validateStage(formData);
 
     if (hasErrors) {
       setErrors(validationErrors);
@@ -31,7 +30,7 @@ const StageEditForm = ({ competence, onSubmit, onCancel }) => {
 
     try {
       setIsSubmitting(true);
-      await onSubmit( {...formData } );
+      await onSubmit({ ...formData });
     } finally {
       setIsSubmitting(false);
     }
@@ -40,22 +39,19 @@ const StageEditForm = ({ competence, onSubmit, onCancel }) => {
   return (
     <>
       <FormLayout onSubmit={handleSubmit}>
-        <FormHeader
-          title="Rediger etape"
-          subtitle="Opdater navn"
-        />
+        <FormHeader title="Rediger etape" subtitle="Opdater navn" />
 
-      <Input
-        label="Etape navn"
-        type="text"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        placeholder="Fx. Afslibning af sildebensparket"
-        hasError={!!errors.name}
-        errorMessage={errors.name}
-        required
-      />
+        <Input
+          label="Etape navn"
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Fx. Afslibning af sildebensparket"
+          hasError={!!errors.name}
+          errorMessage={errors.name}
+          required
+        />
 
         <div className={styles.actions}>
           <Button onClick={onCancel} variant="secondary" name="Fortryd" />
