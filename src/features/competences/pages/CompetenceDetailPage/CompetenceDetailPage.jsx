@@ -66,6 +66,28 @@ const CompetenceDetailPage = () => {
     }
   };
 
+  const handleDeActivate = async () => {
+    try {
+      const data = await competenceService.deActivate(id);
+      setCompetence(data);
+      notify("success", `${data.name} deaktiveret!`);
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke deaktivere kompetence.");
+      throw error;
+    }
+  };
+
+  const handleActivate = async () => {
+    try {
+      const data = await competenceService.activate(id);
+      setCompetence(data);
+      notify("success", `${data.name} aktiveret!`);
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke aktivere kompetence.");
+      throw error;
+    }
+  };
+
   return (
     <div className={styles.pageContainer}>
       {isLoading || !competence ? (
