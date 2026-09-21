@@ -1,5 +1,6 @@
 import styles from "./StageDetail.module.css";
 import BackButton from "@/shared/components/ui/BackButton/BackButton";
+import { formatDate } from "@/utils/dateHelpers";
 
 const StageDetail = ({ stage, children }) => {
   return (

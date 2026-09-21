@@ -63,8 +63,8 @@ const CompetenceCreateForm = ({ onSubmit, onCancel }) => {
   return (
     <FormLayout onSubmit={handleSubmit}>
       <FormHeader
-        title="Opret station"
-        subtitle="Tilføj en ny køkkenstation til systemet"
+        title="Opret Kompetence"
+        subtitle="Tilføj en ny kompetence til systemet"
       />
       <Input
         label="Kompetencenavn"

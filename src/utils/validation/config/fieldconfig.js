@@ -15,10 +15,6 @@ const fieldConfig = {
     estimate: { min: 0.5, max: 10000 },
     competenceIds: { minItems: 1 },
   },
-  competence: {
-    name: { min: 2, max: 100 },
-    rate: { min: 0, max: 100000 },
-  },
   user: {
     firstName: { min: 2, max: 50 },
     lastName: { min: 2, max: 50 },

@@ -49,7 +49,7 @@ const StageCreateForm = ({ onSubmit, onCancel, projectId }) => {
   return (
     <FormLayout onSubmit={handleSubmit}>
       <FormHeader
-        title="Opret station"
+        title="Opret etape"
         subtitle="Tilføj en ny etape til projektet"
       />
       <Input
