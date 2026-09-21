@@ -66,25 +66,33 @@ const CompetenceDetailPage = () => {
     }
   };
 
-  const handleDeActivate = async () => {
+  const handleDeactivate = async () => {
     try {
-      const data = await competenceService.deActivate(id);
-      setCompetence(data);
-      notify("success", `${data.name} deaktiveret!`);
+      await competenceService.deActivate(id);
+
+      setCompetence((prev) => ({
+        ...prev,
+        active: false,
+      }));
+
+      notify("success", `${competence.name} deaktiveret!`);
     } catch (error) {
-      notify("error", error.message || "Kunne ikke deaktivere kompetence.");
-      throw error;
+      notify("error", error.message || "Kunne ikke deaktivere kompetencen.");
     }
   };
 
   const handleActivate = async () => {
     try {
-      const data = await competenceService.activate(id);
-      setCompetence(data);
-      notify("success", `${data.name} aktiveret!`);
+      await competenceService.activate(id);
+
+      setCompetence((prev) => ({
+        ...prev,
+        active: true,
+      }));
+
+      notify("success", `${competence.name} aktiveret!`);
     } catch (error) {
-      notify("error", error.message || "Kunne ikke aktivere kompetence.");
-      throw error;
+      notify("error", error.message || "Kunne ikke aktivere kompetencen.");
     }
   };
 
@@ -108,20 +116,43 @@ const CompetenceDetailPage = () => {
                   onCancel={() => setIsEditing(false)}
                 />
               ) : (
-                <CompetenceDetail competence={competence} users={users}>
-                  <Button
-                    variant="danger"
-                    name="Slet kompetence"
-                    onClick={() => setShowConfirm(true)}
-                  />
-                  <div className={styles.positiveActions}>
-                    <Button
-                      variant="secondary"
-                      name="Rediger kompetence"
-                      onClick={() => setIsEditing(true)}
-                    />
-                  </div>
-                </CompetenceDetail>
+                <CompetenceDetail
+                  competence={competence}
+                  users={users}
+                  actions={{
+                    left: (
+                      <Button
+                        variant="danger"
+                        name="Slet kompetence"
+                        onClick={() => setShowConfirm(true)}
+                      />
+                    ),
+
+                    right: (
+                      <>
+                        {competence.active ? (
+                          <Button
+                            variant="secondary"
+                            name="Deaktiver kompetence"
+                            onClick={handleDeactivate}
+                          />
+                        ) : (
+                          <Button
+                            variant="primary"
+                            name="Aktiver kompetence"
+                            onClick={handleActivate}
+                          />
+                        )}
+
+                        <Button
+                          variant="secondary"
+                          name="Rediger kompetence"
+                          onClick={() => setIsEditing(true)}
+                        />
+                      </>
+                    ),
+                  }}
+                />
               )}
             </Card>
 

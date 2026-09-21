@@ -25,13 +25,13 @@ const update = async (id, body) => {
 };
 
 const activate = async (id) => {
-  return await apiClient(`${RESOURCE}/${id}/activate`, {
+  return await apiClient(`${RESOURCE_URL}/${id}/activate`, {
     method: "PATCH",
   });
 };
 
 const deActivate = async (id) => {
-  return await apiClient(`${RESOURCE}/${id}/deactivate`, {
+  return await apiClient(`${RESOURCE_URL}/${id}/deactivate`, {
     method: "PATCH",
   });
 };

@@ -6,7 +6,7 @@ import { formatDate } from "@/utils/dateHelpers";
 import { formatUserRole } from "@/utils/formatters";
 import { useNavigate } from "react-router";
 
-const CompetenceDetail = ({ competence, users = [], children }) => {
+const CompetenceDetail = ({ competence, users = [], actions }) => {
   const navigate = useNavigate();
 
   return (
@@ -78,7 +78,13 @@ const CompetenceDetail = ({ competence, users = [], children }) => {
         )}
       </div>
 
-      {children && <div className={styles.actionsGroup}>{children}</div>}
+      {actions && (
+        <div className={styles.actionsGroup}>
+          <div className={styles.actionsLeft}>{actions.left}</div>
+
+          <div className={styles.actionsRight}>{actions.right}</div>
+        </div>
+      )}
     </div>
   );
 };
