@@ -39,6 +39,7 @@ const ProjectManagementPage = () => {
     const fetchProjects = async () => {
       try {
         const data = await projectService.getAll();
+        console.log(data)
         setProjects(data);
       } catch (error) {
         notify(
@@ -63,7 +64,15 @@ const ProjectManagementPage = () => {
 
   const handleSubmit = async (formData) => {
     const project = await projectService.create(formData);
-    setProjects((prev) => [...prev, project]);
+
+    const projectSlim = {
+    ...project,
+    taskCountDTO: {
+      totalTaskCount: 0,
+      taskFinished: 0,
+    },
+  };
+    setProjects((prev) => [...prev, projectSlim]);
   };
 
   const resetFilter = () => setFilter(DEFAULT_FILTER);
