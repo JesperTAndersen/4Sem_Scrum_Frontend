@@ -78,6 +78,13 @@ const ProjectDetailPage = () => {
     }));
   };
 
+  const handleStageEdit = (updatedStage) => {
+    setProject((prevProject) => ({
+      ...prevProject,
+      stages: [...prevProject.stages, updatedStage],
+    }));
+  };
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
@@ -107,6 +114,7 @@ const ProjectDetailPage = () => {
                     projectId={project.id}
                     stages={project.stages || []}
                     onStageCreated={handleStageCreate}
+                    onStageEdited={handleStageEdit}
                   />
                 </Card>
               </>

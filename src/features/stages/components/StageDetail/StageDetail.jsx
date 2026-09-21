@@ -1,4 +1,4 @@
-import styles from "./CompetenceDetail.module.css";
+import styles from "./StageDetail.module.css";
 import BackButton from "@/shared/components/ui/BackButton/BackButton";
 
 const StageDetail = ({ stage, children }) => {

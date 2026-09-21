@@ -6,8 +6,8 @@ import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
 import { validateStage } from "../utils/validateStage";
 import { useState } from "react";
 
-const StageEditForm = ({ competence, onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState({ name: competence.name });
+const StageEditForm = ({ stage, onSubmit, onCancel }) => {
+  const [formData, setFormData] = useState({ name: stage.name });
   const [errors, setErrors] = useState({ name: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
