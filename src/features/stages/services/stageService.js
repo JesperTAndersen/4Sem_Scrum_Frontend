@@ -17,18 +17,6 @@ const create = async (body) => {
   });
 };
 
-const activate = async (id) => {
-  return await apiClient(`${RESOURCE}/${id}/activate`, {
-    method: 'PATCH',
-  });
-};
-
-const deActivate = async (id) => {
-  return await apiClient(`${RESOURCE}/${id}/deactivate`, {
-    method: 'PATCH',
-  });
-};
-
 const update = async (id, body) => {
   return await apiClient(`${RESOURCE_URL}/${id}`, {
     method: "PUT",
@@ -46,8 +34,6 @@ export default {
   getAll,
   getById,
   create,
-  activate,
-  deActivate,
   update,
   remove,
 };
