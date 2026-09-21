@@ -74,7 +74,7 @@ const ProjectDetailPage = () => {
   const handleStageCreate = async (newStage) => {
     setProject((prevProject) => ({
       ...prevProject,
-      stages: [...(prevProject.stages || [])],
+      stages: [...(prevProject.stages || []), newStage]
     }));
   };
 
