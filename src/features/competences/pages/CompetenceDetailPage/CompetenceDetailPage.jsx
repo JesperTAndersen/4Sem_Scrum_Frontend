@@ -30,10 +30,8 @@ const CompetenceDetailPage = () => {
           /* TODO: const usersData = await competenceService.getUsersByCompetence(id);
           setUsers(usersData); */
         }
-        console.log(competenceData);
         setCompetence(competenceData);
       } catch (error) {
-        console.log(error);
         notify("error", error.message || "Kunne ikke hente kompetence");
       } finally {
         setIsLoading(false);

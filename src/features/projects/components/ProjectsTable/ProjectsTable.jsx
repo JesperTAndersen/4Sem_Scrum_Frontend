@@ -4,7 +4,6 @@ import { FiChevronRight } from "react-icons/fi";
 import { formatDate } from "@/utils/dateHelpers";
 
 const ProjectsTable = ({ projects, onView }) => {
-  console.log(projects)
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>

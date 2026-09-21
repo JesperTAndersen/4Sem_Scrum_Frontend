@@ -8,7 +8,6 @@ import Avatar from "@/shared/components/ui/Avatar/Avatar";
 
 const ProjectDetailBar = ({ project, users = [], children }) => {
   const navigate = useNavigate();
-  console.log(users);
 
   return (
     <div className={styles.container}>

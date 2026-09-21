@@ -2,13 +2,13 @@ import styles from "./StageItem.module.css";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import Button from "@/shared/components/ui/Button/Button";
 import Card from "@/shared/components/ui/Card/Card";
-import { 
-  FiChevronRight, 
-  FiChevronDown, 
-  FiChevronUp, 
-  FiPlusCircle, 
-  FiEdit2, 
-  FiTrash2 
+import {
+  FiChevronRight,
+  FiChevronDown,
+  FiChevronUp,
+  FiPlusCircle,
+  FiEdit2,
+  FiTrash2,
 } from "react-icons/fi";
 import { useState } from "react";
 
@@ -26,7 +26,7 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate }) => {
         </div>
 
         <div className={styles.headerActions}>
-          <Button 
+          <Button
             icon={<FiEdit2 size={16} />}
             variant="ghost"
             iconOnly={true}
@@ -37,7 +37,7 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate }) => {
             }}
           />
 
-          <Button 
+          <Button
             icon={<FiTrash2 size={16} />}
             variant="ghostDanger"
             iconOnly={true}
@@ -57,12 +57,12 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate }) => {
       {isOpen && (
         <div className={styles.stageContent}>
           <div className={styles.contentActions}>
-             <Button 
-               icon={<FiPlusCircle />} 
-               name="Ny Opgave" 
-               variant="secondary" 
-               onClick={() => onTaskCreate?.(stage.id)}
-             />
+            <Button
+              icon={<FiPlusCircle />}
+              name="Ny Opgave"
+              variant="secondary"
+              onClick={() => onTaskCreate?.(stage.id)}
+            />
           </div>
 
           <div className={styles.tableWrapper}>
@@ -88,7 +88,7 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate }) => {
                     </td>
                   </tr>
                 ))}
-                
+
                 {(!stage.tasks || stage.tasks.length === 0) && (
                   <tr>
                     <td colSpan="4" className={styles.emptyTask}>
