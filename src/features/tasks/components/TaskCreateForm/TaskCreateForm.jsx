@@ -21,15 +21,15 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
   const [errors, setErrors] = useState({
     name: "",
     estimate: "",
-    competenceIds: [],
+    competenceIds: "",
   });
 
-  console.log(competences)
+  console.log(competences);
 
   const competenceOptions = competences.map((c) => ({
     value: c.id,
-    label: c.name
-  }))
+    label: c.name,
+  }));
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,20 +41,20 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
   };
 
   const handleCompetenceChange = (e) => {
-  const value = e.target.value;
+    const value = e.target.value;
 
-  setFormData((prev) => ({
-    ...prev,
-    competenceIds: value ? [Number(value)] : [],
-  }));
-
-  if (errors.competenceIds) {
-    setErrors((prev) => ({
+    setFormData((prev) => ({
       ...prev,
-      competenceIds: "",
+      competenceIds: value ? [Number(value)] : [],
     }));
-  }
-};
+
+    if (errors.competenceIds) {
+      setErrors((prev) => ({
+        ...prev,
+        competenceIds: "",
+      }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,9 +70,9 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
       setIsSubmitting(true);
 
       const payload = {
-  ...formData,
-  estimate: Number(formData.estimate),
-};
+        ...formData,
+        estimate: Number(formData.estimate),
+      };
       await onSubmit(payload);
     } catch (error) {
       notify("error", error || "Noget gik galt ved oprettelsen");
@@ -99,15 +99,16 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
         required
       />
 
-<Select
-  label="Vælg en kompetence til opgaven"
-  name="competenceIds"
-  options={competenceOptions}
-  onChange={handleCompetenceChange}
-  hasError={!!errors.competenceIds}
-  errorMessage={errors.competenceIds}
-  required
-/>
+      <Select
+        label="Vælg en kompetence til opgaven"
+        name="competenceIds"
+        value={formData.competenceIds[0] || ""}
+        options={competenceOptions}
+        onChange={handleCompetenceChange}
+        hasError={!!errors.competenceIds}
+        errorMessage={errors.competenceIds}
+        required
+      />
 
       <Input
         label="Tids estimering"

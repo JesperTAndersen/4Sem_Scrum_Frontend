@@ -1,6 +1,6 @@
 import apiClient from "@/api/apiclient";
 
-const RESOURCE_URL = "/stages";
+const RESOURCE_URL = "/tasks";
 
 const getAll = async () => {
   return await apiClient(RESOURCE_URL);

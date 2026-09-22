@@ -79,8 +79,12 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate }) => {
               <tbody>
                 {stage.tasks?.map((task) => (
                   <tr key={task.id} className={styles.row}>
-                    <td>{task.name || task.name}</td>
-                    <td>{task.competence[0]}</td>
+                    <td>{task.name}</td>
+                    <td>
+                      {task.competences?.length
+                        ? task.competences.map((c) => c.name).join(", ")
+                        : "-"}
+                    </td>
                     <td>{task.estimate || 0} timer</td>
                     <td>
                       <Badge status={task.status || "NOT_STARTED"} />

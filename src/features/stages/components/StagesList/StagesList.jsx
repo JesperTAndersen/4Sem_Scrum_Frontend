@@ -27,7 +27,7 @@ const StagesList = ({
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingStage, setEditingStage] = useState(null);
   const [deletingStage, setDeletingStage] = useState(null);
-  const [taskCreateStageId, setTaskCreateStageId] = useState(null); 
+  const [taskCreateStageId, setTaskCreateStageId] = useState(null);
 
   const { notify } = useNotification();
 
@@ -61,9 +61,8 @@ const StagesList = ({
       notify("success", "Etape slettet.");
     } catch (error) {
       notify("error", error.message || "Kunne ikke slette etapen.");
-    }
-    finally {
-setDeletingStage(null);
+    } finally {
+      setDeletingStage(null);
     }
   };
 

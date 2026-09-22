@@ -23,6 +23,8 @@ const ProjectDetailPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
+  console.log(project);
+
   useEffect(() => {
     const fetchProject = async () => {
       setIsLoading(true);
@@ -40,15 +42,18 @@ const ProjectDetailPage = () => {
     fetchProject();
   }, [id]);
 
-
-    useEffect(() => {
+  useEffect(() => {
     const fetchCompetences = async () => {
       setIsLoading(true);
       try {
-        const data = await competenceService.getById(id);
+        const data = await competenceService.getAll();
         setCompetences(data);
       } catch (error) {
-        notify("error", error.message || "Kunne ikke hente kompetencer til opgave oprettelse - prøv igen.");
+        notify(
+          "error",
+          error.message ||
+            "Kunne ikke hente kompetencer til opgave oprettelse - prøv igen.",
+        );
       } finally {
         setIsLoading(false);
       }
@@ -116,20 +121,20 @@ const ProjectDetailPage = () => {
   };
 
   const handleTaskCreated = (stageId, newTask) => {
-  setProject((prev) => ({
-    ...prev,
-    stages: prev.stages.map((stage) =>
-      stage.id === stageId
-        ? {
-            ...stage,
-            tasks: [...(stage.tasks || []), newTask],
-          }
-        : stage
-    ),
-  }));
-};
+    setProject((prev) => ({
+      ...prev,
+      stages: prev.stages.map((stage) =>
+        stage.id === stageId
+          ? {
+              ...stage,
+              tasks: [...(stage.tasks || []), newTask],
+            }
+          : stage,
+      ),
+    }));
+  };
 
-console.log(competences)
+  console.log(competences);
 
   return (
     <div className={styles.pageContainer}>
