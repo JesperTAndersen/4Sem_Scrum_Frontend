@@ -66,16 +66,19 @@ const StagesList = ({
     }
   };
 
-  const handleCreateTask = async (formData) => {
-    try {
-      const newTask = await taskService.create(formData);
-      onTaskCreated(newTask);
-    } catch (error) {
-      notify("error", error.message || "Kunne ikke oprette opgaven.");
-    } finally {
-      setTaskCreateStageId(null);
-    }
-  };
+const handleCreateTask = async (formData) => {
+  try {
+    const newTask = await taskService.create(formData);
+
+    onTaskCreated(taskCreateStageId, newTask);
+
+    notify("success", "Opgave oprettet.");
+  } catch (error) {
+    notify("error", error.message || "Kunne ikke oprette opgaven.");
+  } finally {
+    setTaskCreateStageId(null);
+  }
+};
 
   return (
     <div className={styles.container}>

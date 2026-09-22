@@ -23,7 +23,6 @@ const ProjectDetailPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  console.log(project);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -133,8 +132,6 @@ const ProjectDetailPage = () => {
       ),
     }));
   };
-
-  console.log(competences);
 
   return (
     <div className={styles.pageContainer}>

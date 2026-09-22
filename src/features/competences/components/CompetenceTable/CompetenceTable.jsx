@@ -3,7 +3,6 @@ import { FiChevronRight } from "react-icons/fi";
 import Badge from "@/shared/components/ui/Badge/Badge";
 
 const CompetenceTable = ({ competences, onView }) => {
-  console.log(competences);
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>

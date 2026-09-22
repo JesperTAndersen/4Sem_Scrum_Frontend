@@ -24,8 +24,6 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
     competenceIds: "",
   });
 
-  console.log(competences);
-
   const competenceOptions = competences.map((c) => ({
     value: c.id,
     label: c.name,
