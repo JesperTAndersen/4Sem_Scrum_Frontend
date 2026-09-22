@@ -7,6 +7,8 @@ const STATUS_COLORS = {
   COMPLETED: styles.success,
   NOT_STARTED: styles.neutral,
   DONE: styles.success,
+  ACTIVE: styles.success,
+  DISABLED: styles.neutral,
 };
 
 const STATUS_LABELS = {
@@ -14,6 +16,8 @@ const STATUS_LABELS = {
   PLANNED: "Planlagt",
   IN_PROGRESS: "I gang",
   COMPLETED: "Afsluttet",
+  ACTIVE: "Aktiv",
+  DISABLED: "Deaktiveret",
 
   NOT_STARTED: "Ikke startet",
   DONE: "Færdig",

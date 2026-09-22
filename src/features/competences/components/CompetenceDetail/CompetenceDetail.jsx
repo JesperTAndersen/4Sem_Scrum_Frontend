@@ -1,11 +1,12 @@
 import styles from "./CompetenceDetail.module.css";
 import Avatar from "@/shared/components/ui/Avatar/Avatar";
 import BackButton from "@/shared/components/ui/BackButton/BackButton";
+import Badge from "@/shared/components/ui/Badge/Badge";
 import { formatDate } from "@/utils/dateHelpers";
 import { formatUserRole } from "@/utils/formatters";
 import { useNavigate } from "react-router";
 
-const CompetenceDetail = ({ competence, users = [], children }) => {
+const CompetenceDetail = ({ competence, users = [], actions }) => {
   const navigate = useNavigate();
 
   return (
@@ -14,8 +15,11 @@ const CompetenceDetail = ({ competence, users = [], children }) => {
 
       <div className={styles.header}>
         <div className={styles.titleWrapper}>
-          <h1 className={styles.title}>{competence.name}</h1>
-          <p className={styles.description}>{competence.rate}</p>
+          <div className={styles.titleRow}>
+            <h1 className={styles.title}>{competence.name}</h1>
+            <Badge status={competence.active ? "ACTIVE" : "DISABLED"} />
+          </div>
+          <p className={styles.description}>{competence.rate} kr. i timen</p>
         </div>
       </div>
 
@@ -74,7 +78,13 @@ const CompetenceDetail = ({ competence, users = [], children }) => {
         )}
       </div>
 
-      {children && <div className={styles.actionsGroup}>{children}</div>}
+      {actions && (
+        <div className={styles.actionsGroup}>
+          <div className={styles.actionsLeft}>{actions.left}</div>
+
+          <div className={styles.actionsRight}>{actions.right}</div>
+        </div>
+      )}
     </div>
   );
 };
