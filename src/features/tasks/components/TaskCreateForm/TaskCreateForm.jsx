@@ -1,4 +1,4 @@
-import styles from "./StageCreateForm.module.css";
+import styles from "./TaskCreateForm.module.css";
 import { useState } from "react";
 import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 import Input from "@/shared/components/ui/Input/Input";
