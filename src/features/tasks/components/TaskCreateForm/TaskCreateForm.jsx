@@ -24,6 +24,13 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
     competenceIds: [],
   });
 
+  console.log(competences)
+
+  const competenceOptions = competences.map((c) => ({
+    value: c.id,
+    label: c.name
+  }))
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -32,6 +39,22 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
+
+  const handleCompetenceChange = (e) => {
+  const value = e.target.value;
+
+  setFormData((prev) => ({
+    ...prev,
+    competenceIds: value ? [Number(value)] : [],
+  }));
+
+  if (errors.competenceIds) {
+    setErrors((prev) => ({
+      ...prev,
+      competenceIds: "",
+    }));
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,8 +102,8 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
 <Select
   label="Vælg en kompetence til opgaven"
   name="competenceIds"
-  options={competences}
-  onChange={handleChange}
+  options={competenceOptions}
+  onChange={handleCompetenceChange}
   hasError={!!errors.competenceIds}
   errorMessage={errors.competenceIds}
   required

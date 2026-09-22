@@ -5,7 +5,7 @@ import stageService from "../../services/stageService";
 import Modal from "@/shared/components/ui/Modal/Modal";
 import StageCreateForm from "../StageCreateForm/StageCreateForm";
 import { FiPlusCircle } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNotification } from "@/context/NotificationContext";
 import Card from "@/shared/components/ui/Card/Card";
 import StageEditForm from "../StageEditForm/StageEditForm";
@@ -16,6 +16,7 @@ import TaskCreateForm from "@/features/tasks/components/TaskCreateForm/TaskCreat
 const StagesList = ({
   projectId,
   stages = [],
+  competences = [],
   onStageCreated,
   onStageEdited,
   onStageDeleted,
@@ -26,7 +27,7 @@ const StagesList = ({
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingStage, setEditingStage] = useState(null);
   const [deletingStage, setDeletingStage] = useState(null);
-  const [taskCreateStageId, setTaskCreateStageId] = useState(null);
+  const [taskCreateStageId, setTaskCreateStageId] = useState(null); 
 
   const { notify } = useNotification();
 
@@ -138,6 +139,7 @@ setDeletingStage(null);
               stageId={taskCreateStageId}
               onSubmit={handleCreateTask}
               onCancel={() => setTaskCreateStageId(null)}
+              competences={competences}
             />
           </Card>
         </Modal>
