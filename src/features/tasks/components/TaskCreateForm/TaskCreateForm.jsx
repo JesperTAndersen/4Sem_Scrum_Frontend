@@ -15,13 +15,13 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
     stageId: stageId,
     name: "",
     estimate: "",
-    compentenceIds: [],
+    competenceIds: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({
     name: "",
     estimate: "",
-    compentenceIds: [],
+    competenceIds: [],
   });
 
   const handleChange = (e) => {
@@ -47,8 +47,9 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
       setIsSubmitting(true);
 
       const payload = {
-        ...formData,
-      };
+  ...formData,
+  estimate: Number(formData.estimate),
+};
       await onSubmit(payload);
     } catch (error) {
       notify("error", error || "Noget gik galt ved oprettelsen");
@@ -75,20 +76,21 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
         required
       />
 
-      <Select
-        label={"Vælg en kompetence til opgaven"}
-        name={"compentenceIds"}
-        options={competences}
-        onChange={handleChange}
-        hasError={!!errors.compentenceIds}
-        required
-      />
+<Select
+  label="Vælg en kompetence til opgaven"
+  name="competenceIds"
+  options={competences}
+  onChange={handleChange}
+  hasError={!!errors.competenceIds}
+  errorMessage={errors.competenceIds}
+  required
+/>
 
       <Input
         label="Tids estimering"
         type="number"
         name="estimate"
-        value={formData.name}
+        value={formData.estimate}
         onChange={handleChange}
         placeholder="8"
         hasError={!!errors.estimate}

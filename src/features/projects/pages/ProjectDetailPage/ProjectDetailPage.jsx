@@ -96,6 +96,20 @@ const ProjectDetailPage = () => {
     }));
   };
 
+  const handleTaskCreated = (stageId, newTask) => {
+  setProject((prev) => ({
+    ...prev,
+    stages: prev.stages.map((stage) =>
+      stage.id === stageId
+        ? {
+            ...stage,
+            tasks: [...(stage.tasks || []), newTask],
+          }
+        : stage
+    ),
+  }));
+};
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
@@ -127,6 +141,7 @@ const ProjectDetailPage = () => {
                     onStageCreated={handleStageCreate}
                     onStageEdited={handleStageEdit}
                     onStageDeleted={handleStageDelete}
+                    onTaskCreated={handleTaskCreated}
                   />
                 </Card>
               </>
