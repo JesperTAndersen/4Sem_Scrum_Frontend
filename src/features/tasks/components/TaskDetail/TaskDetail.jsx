@@ -13,7 +13,7 @@ import { formatDate } from "@/utils/dateHelpers";
 
 const TaskDetail = ({
   task,
-  competences,
+  competences = [],
   onTaskDelete,
   onTaskEdit,
   onTaskStatusChange,
@@ -21,10 +21,14 @@ const TaskDetail = ({
   const [showConfirm, setShowConfirm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
 
-  const handleUpdate = (updatedTask) => {
-    onTaskEdit(updatedTask);
+  const handleUpdate = async (updatedTask) => {
+    await onTaskEdit(updatedTask);
     setShowEditForm(false);
   };
+
+  const competence = competences.find(
+    (competence) => competence.id === task.competenceId,
+  );
 
   return (
     <>
@@ -49,7 +53,7 @@ const TaskDetail = ({
                   </div>
 
                   <p className={styles.description}>
-                    {task.estimate} estimerede timer på opgaven
+                    {task.estimate} estimerede arbejdstimer
                   </p>
                 </div>
               </div>
@@ -57,18 +61,61 @@ const TaskDetail = ({
               <div className={styles.group}>
                 <div className={styles.metaGrid}>
                   <div className={styles.field}>
-                    <span className={styles.label}>Oprettet</span>
+                    <span className={styles.label}>Kompetence</span>
                     <span className={styles.value}>
-                      {formatDate(task?.createdAt)}
+                      {competence?.name || "Ingen kompetence"}
                     </span>
                   </div>
 
                   <div className={styles.field}>
-                    <span className={styles.label}>Senest opdateret</span>
+                    <span className={styles.label}>Estimeret arbejdstid</span>
                     <span className={styles.value}>
-                      {task?.updatedAt ? formatDate(task.updatedAt) : "Aldrig"}
+                      {task.estimate ?? 0} timer
                     </span>
                   </div>
+
+                  <div className={styles.field}>
+                    <span className={styles.label}>Minimum varighed</span>
+                    <span className={styles.value}>
+                      {task.minimumDurationInDays ?? 0} arbejdsdage
+                    </span>
+                  </div>
+
+                  <div className={styles.field}>
+                    <span className={styles.label}>Arbejdsvarighed</span>
+                    <span className={styles.value}>
+                      {task.laborDurationInDays != null
+                        ? `${task.laborDurationInDays.toFixed(2)} arbejdsdage`
+                        : "-"}
+                    </span>
+                  </div>
+
+                  <div className={styles.field}>
+                    <span className={styles.label}>Planlagt varighed</span>
+                    <span className={styles.value}>
+                      {task.scheduledDurationInDays != null
+                        ? `${task.scheduledDurationInDays.toFixed(2)} arbejdsdage`
+                        : "-"}
+                    </span>
+                  </div>
+
+                  {task.createdAt && (
+                    <div className={styles.field}>
+                      <span className={styles.label}>Oprettet</span>
+                      <span className={styles.value}>
+                        {formatDate(task.createdAt)}
+                      </span>
+                    </div>
+                  )}
+
+                  {task.updatedAt && (
+                    <div className={styles.field}>
+                      <span className={styles.label}>Senest opdateret</span>
+                      <span className={styles.value}>
+                        {formatDate(task.updatedAt)}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -81,6 +128,7 @@ const TaskDetail = ({
 
                 {task.status === "NOT_STARTED" && (
                   <Button
+                    variant="primary"
                     name="Sæt i gang"
                     onClick={() => onTaskStatusChange("IN_PROGRESS")}
                   />
@@ -89,11 +137,13 @@ const TaskDetail = ({
                 {task.status === "IN_PROGRESS" && (
                   <>
                     <Button
+                      variant="secondary"
                       name="Tilbage til ikke startet"
                       onClick={() => onTaskStatusChange("NOT_STARTED")}
                     />
 
                     <Button
+                      variant="primary"
                       name="Markér som færdig"
                       onClick={() => onTaskStatusChange("DONE")}
                     />
@@ -102,8 +152,9 @@ const TaskDetail = ({
 
                 {task.status === "DONE" && (
                   <Button
+                    variant="secondary"
                     name="Genåbn opgave"
-                    onClick={() => handleStatusChange("IN_PROGRESS")}
+                    onClick={() => onTaskStatusChange("IN_PROGRESS")}
                   />
                 )}
 
