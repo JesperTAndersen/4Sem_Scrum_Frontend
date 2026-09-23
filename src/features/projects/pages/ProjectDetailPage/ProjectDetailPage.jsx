@@ -134,6 +134,30 @@ const ProjectDetailPage = () => {
     }));
   };
 
+const handleTaskEdited = (updatedTask) => {
+  setProject((prev) => ({
+    ...prev,
+    stages: (prev.stages || []).map((stage) => ({
+      ...stage,
+      tasks: (stage.tasks || []).map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      ),
+    })),
+  }));
+};
+
+const handleTaskDeleted = (taskId) => {
+  setProject((prev) => ({
+    ...prev,
+    stages: (prev.stages || []).map((stage) => ({
+      ...stage,
+      tasks: (stage.tasks || []).filter(
+        (task) => task.id !== taskId
+      ),
+    })),
+  }));
+};
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
@@ -167,6 +191,8 @@ const ProjectDetailPage = () => {
                     onStageEdited={handleStageEdit}
                     onStageDeleted={handleStageDelete}
                     onTaskCreated={handleTaskCreated}
+                    onTaskEdited={handleTaskEdited}
+                    onTaskDeleted={handleTaskDeleted}
                   />
                 </Card>
               </>

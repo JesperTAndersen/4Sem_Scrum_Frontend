@@ -15,7 +15,6 @@ import { useState } from "react";
 const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(stage);
 
   return (
     <Card variant="flat">
