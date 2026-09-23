@@ -107,7 +107,7 @@ const TopBar = ({ snapshot }) => {
             <span className={styles.name}>
               {user.firstName} {user.lastName}
             </span>
-            <span className={styles.role}>{formatUserRole(user.userRole)}</span>
+            <span className={styles.role}>{formatUserRole(user.role)}</span>
           </div>
         </div>
 

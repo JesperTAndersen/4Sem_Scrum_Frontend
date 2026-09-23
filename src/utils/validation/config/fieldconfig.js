@@ -1,40 +1,28 @@
 const fieldConfig = {
-  suggestion: {
-    nameDA: { min: 2, max: 100 },
-    descriptionDA: { min: 5, max: 200 },
-  },
-  dish: {
-    nameDA: { min: 2, max: 100 },
-    descriptionDA: { min: 5, max: 200 },
-    nameEN: { min: 2, max: 100 },
-    descriptionEN: { min: 5, max: 200 },
-  },
-  station: {
-    name: { min: 2, max: 100 },
+  project: {
+    title: { min: 2, max: 100 },
     description: { min: 5, max: 200 },
   },
-  allergen: {
-    nameDA: { min: 2, max: 100 },
-    nameEN: { min: 2, max: 100 },
-    descriptionDA: { min: 5, max: 200 },
-    descriptionEN: { min: 5, max: 200 },
-    displayNumber: { min: 1, max: 99 },
-  },
-  menu: {
-    week: { min: 1, max: 52 },
-    year: { min: 2026, max: 2040 },
-  },
-  ingredientRequest: {
+  competence: {
     name: { min: 2, max: 100 },
-    quantity: { type: "number", min: 0.1, max: 9999 },
+    rate: { min: 0, max: 10000 },
   },
-  shoppingListItem: {
-    ingredientName: { min: 2, max: 100 },
-    quantity: { type: "number", min: 0.1, max: 9999 },
+  stage: {
+    name: { min: 2, max: 100 },
   },
-  takeawayOffer: {
-    offeredPortions: { type: "number", min: 1, max: 999 },
-    price: { type: "number", min: 0.1, max: 99999 },
+  task: {
+    name: { min: 2, max: 100 },
+    estimate: { min: 0, max: 10000 },
+    minimumDurationInDays: { min: 0, max: 365, integer: true },
+    competenceId: { min: 1 },
+  },
+  user: {
+    firstName: { min: 2, max: 50 },
+    lastName: { min: 2, max: 50 },
+    email: { min: 5, max: 100 },
+    password: { min: 6, max: 100 },
+    currentPassword: { min: 6, max: 100 },
+    newPassword: { min: 6, max: 100 },
   },
 };
 

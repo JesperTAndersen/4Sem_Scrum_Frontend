@@ -31,16 +31,12 @@ const ProjectCreateForm = ({ onSubmit, onCancel }) => {
     e.preventDefault();
 
     const newErrors = {
-      nameDA: validateField("suggestion", "nameDA", project.nameDA),
-      descriptionDA: validateField(
-        "suggestion",
-        "descriptionDA",
-        project.descriptionDA,
-      ),
-      stationId: !project.stationId ? "Vælg en station" : "",
+      title: validateField("project", "title", project.title),
+      description: validateField("project", "description", project.description),
     };
 
     setErrors(newErrors);
+
     if (Object.values(newErrors).some(Boolean)) return;
 
     try {
@@ -67,7 +63,7 @@ const ProjectCreateForm = ({ onSubmit, onCancel }) => {
             label="Rettens titel"
             type="text"
             name="title"
-            value={project.nameDA}
+            value={project.title}
             onChange={handleChange}
             placeholder="Fx. Villa nord"
             hasError={!!errors.title}
@@ -79,7 +75,7 @@ const ProjectCreateForm = ({ onSubmit, onCancel }) => {
             name="description"
             value={project.description}
             onChange={handleChange}
-            placeholder="Fx: Indedørs renovering af 90er villa"
+            placeholder="Fx: Indendørs renovering af 90er villa"
             hasError={!!errors.description}
             errorMessage={errors.description}
             maxLength={200}
