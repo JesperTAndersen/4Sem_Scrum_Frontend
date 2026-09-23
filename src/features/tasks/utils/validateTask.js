@@ -3,12 +3,16 @@ import { validateField } from "@/utils/validation/fieldValidators";
 export const validateTask = (formData) => {
   const errors = {
     name: validateField("task", "name", formData.name),
+
     estimate: validateField("task", "estimate", formData.estimate),
-    competenceIds: validateField(
+
+    minimumDurationInDays: validateField(
       "task",
-      "competenceIds",
-      formData.competenceIds,
+      "minimumDurationInDays",
+      formData.minimumDurationInDays,
     ),
+
+    competenceId: validateField("task", "competenceId", formData.competenceId),
   };
 
   const hasErrors = Object.values(errors).some(Boolean);

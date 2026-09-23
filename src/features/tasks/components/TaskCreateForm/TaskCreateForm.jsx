@@ -12,29 +12,37 @@ import { useNotification } from "@/context/NotificationContext";
 const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
   const { notify } = useNotification();
   const [formData, setFormData] = useState({
-    stageId: stageId,
+    stageId,
     name: "",
     estimate: "",
-    competenceIds: [],
+    minimumDurationInDays: "",
+    competenceId: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({
     name: "",
     estimate: "",
-    competenceIds: "",
+    minimumDurationInDays: "",
+    competenceId: "",
   });
 
   const competenceOptions = competences.map((c) => ({
     value: c.id,
     label: c.name,
   }));
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
     }
   };
 
@@ -69,7 +77,10 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
 
       const payload = {
         ...formData,
+        stageId: Number(formData.stageId),
+        competenceId: Number(formData.competenceId),
         estimate: Number(formData.estimate),
+        minimumDurationInDays: Number(formData.minimumDurationInDays),
       };
       await onSubmit(payload);
     } catch (error) {
@@ -99,12 +110,12 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
 
       <Select
         label="Vælg en kompetence til opgaven"
-        name="competenceIds"
-        value={formData.competenceIds[0] || ""}
+        name="competenceId"
+        value={formData.competenceId}
         options={competenceOptions}
-        onChange={handleCompetenceChange}
-        hasError={!!errors.competenceIds}
-        errorMessage={errors.competenceIds}
+        onChange={handleChange}
+        hasError={!!errors.competenceId}
+        errorMessage={errors.competenceId}
         required
       />
 
@@ -117,6 +128,20 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
         placeholder="8"
         hasError={!!errors.estimate}
         errorMessage={errors.estimate}
+        required
+      />
+
+      <Input
+        label="Minimum varighed i arbejdsdage"
+        type="number"
+        name="minimumDurationInDays"
+        value={formData.minimumDurationInDays}
+        onChange={handleChange}
+        placeholder="2"
+        min="0"
+        step="1"
+        hasError={!!errors.minimumDurationInDays}
+        errorMessage={errors.minimumDurationInDays}
         required
       />
 

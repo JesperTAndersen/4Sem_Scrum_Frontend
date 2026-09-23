@@ -11,7 +11,13 @@ import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import TaskEditForm from "../TaskEditForm/TaskEditForm";
 import { formatDate } from "@/utils/dateHelpers";
 
-const TaskDetail = ({ task, onTaskDelete, onTaskEdit, onTaskStatusChange }) => {
+const TaskDetail = ({
+  task,
+  competences,
+  onTaskDelete,
+  onTaskEdit,
+  onTaskStatusChange,
+}) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
 
@@ -29,6 +35,7 @@ const TaskDetail = ({ task, onTaskDelete, onTaskEdit, onTaskStatusChange }) => {
           {showEditForm ? (
             <TaskEditForm
               task={task}
+              competences={competences}
               onSubmit={handleUpdate}
               onCancel={() => setShowEditForm(false)}
             />

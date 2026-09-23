@@ -199,6 +199,7 @@ const StagesList = ({
               onTaskDelete={handleDeleteTask}
               onTaskStatusChange={handleChangeStatusTask}
               onTaskEdit={handleEditTask}
+              competences={competences}
             />
           </Card>
         </Modal>
