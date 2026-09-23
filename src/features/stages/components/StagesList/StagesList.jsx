@@ -80,6 +80,11 @@ const handleCreateTask = async (formData) => {
   }
 };
 
+const handleOnView = async (task) => {
+  
+
+}
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -101,6 +106,7 @@ const handleCreateTask = async (formData) => {
             onEdit={(stage) => setEditingStage(stage)}
             onDelete={setDeletingStage}
             onTaskCreate={setTaskCreateStageId}
+            onView={handleOnView}
           />
         ))}
         {stages.length === 0 && (
