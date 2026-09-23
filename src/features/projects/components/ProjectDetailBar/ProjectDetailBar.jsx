@@ -30,29 +30,42 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
         </div>
       </div>
 
-      <div className={styles.group}>
+            <div className={styles.group}>
         <div className={styles.metaGrid}>
           <div className={styles.field}>
             <span className={styles.label}>Oprettet</span>
             <span className={styles.value}>
-              {formatDate(project.createdAt)}
+              {formatDate(project?.createdAt)}
+            </span>
+          </div>
+
+          <div className={styles.field}>
+            <span className={styles.label}>Startdato</span>
+            <span className={styles.value}>
+              {formatDate(project?.startDate)}
             </span>
           </div>
 
           <div className={styles.field}>
             <span className={styles.label}>Deadline</span>
-            <span className={styles.value}>{formatDate(project.deadline)}</span>
+            <span className={styles.value}>
+              {formatDate(project?.deadline)}
+            </span>
           </div>
 
           <div className={styles.field}>
             <span className={styles.label}>Senest opdateret</span>
             <span className={styles.value}>
-              {project.updatedAt ? formatDate(project.updatedAt) : "Aldrig"}
+              {project?.updatedAt
+                ? formatDate(project.updatedAt)
+                : "Aldrig"}
             </span>
           </div>
 
           <div className={styles.field}>
-            <span className={styles.label}>Total estimeret timer</span>
+            <span className={styles.label}>
+              Total estimeret tid
+            </span>
             <span className={styles.value}>
               {project?.totalEstimatedHours ?? 0} timer
             </span>
@@ -61,8 +74,26 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
           <div className={styles.field}>
             <span className={styles.label}>Opgaver</span>
             <span className={styles.value}>
-              {project?.completedTasks ?? 0} ud af {project?.totalTasks ?? 0}{" "}
-              færdige
+              {project?.tasks?.taskDone ?? 0} ud af{" "}
+              {project?.tasks?.totalTaskCount ?? 0} færdige
+            </span>
+          </div>
+
+          <div className={styles.field}>
+            <span className={styles.label}>
+              Igangværende opgaver
+            </span>
+            <span className={styles.value}>
+              {project?.tasks?.tasksInProgress ?? 0}
+            </span>
+          </div>
+
+          <div className={styles.field}>
+            <span className={styles.label}>
+              Ikke startede opgaver
+            </span>
+            <span className={styles.value}>
+              {project?.tasks?.tasksNotStarted ?? 0}
             </span>
           </div>
         </div>

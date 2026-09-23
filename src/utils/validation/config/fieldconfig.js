@@ -12,8 +12,9 @@ const fieldConfig = {
   },
   task: {
     name: { min: 2, max: 100 },
-    estimate: { min: 0.5, max: 10000 },
-    competenceIds: { minItems: 1 },
+    estimate: { min: 0, max: 10000 },
+    minimumDurationInDays: { min: 0, max: 365, integer: true },
+    competenceId: { min: 1 },
   },
   user: {
     firstName: { min: 2, max: 50 },

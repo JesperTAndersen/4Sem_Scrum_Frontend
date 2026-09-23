@@ -10,6 +10,7 @@ import Button from "@/shared/components/ui/Button/Button";
 import ProjectDetailBar from "../../components/ProjectDetailBar/ProjectDetailBar";
 import StagesList from "@/features/stages/components/StagesList/StagesList";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
+import competenceService from "@/features/competences/services/competenceService";
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -17,9 +18,12 @@ const ProjectDetailPage = () => {
   const { notify } = useNotification();
   const [project, setProject] = useState();
   const [users, setUsers] = useState([]);
+  const [competences, setCompetences] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  console.log(project);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -36,6 +40,26 @@ const ProjectDetailPage = () => {
     };
 
     fetchProject();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchCompetences = async () => {
+      setIsLoading(true);
+      try {
+        const data = await competenceService.getAll();
+        setCompetences(data);
+      } catch (error) {
+        notify(
+          "error",
+          error.message ||
+            "Kunne ikke hente kompetencer til opgave oprettelse - prøv igen.",
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCompetences();
   }, [id]);
 
   const handleUpdate = async (formData) => {
@@ -96,6 +120,44 @@ const ProjectDetailPage = () => {
     }));
   };
 
+  const handleTaskCreated = (stageId, newTask) => {
+    setProject((prev) => ({
+      ...prev,
+      stages: prev.stages.map((stage) =>
+        stage.id === stageId
+          ? {
+              ...stage,
+              tasks: [...(stage.tasks || []), newTask],
+            }
+          : stage,
+      ),
+    }));
+  };
+
+const handleTaskEdited = (updatedTask) => {
+  setProject((prev) => ({
+    ...prev,
+    stages: (prev.stages || []).map((stage) => ({
+      ...stage,
+      tasks: (stage.tasks || []).map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      ),
+    })),
+  }));
+};
+
+const handleTaskDeleted = (taskId) => {
+  setProject((prev) => ({
+    ...prev,
+    stages: (prev.stages || []).map((stage) => ({
+      ...stage,
+      tasks: (stage.tasks || []).filter(
+        (task) => task.id !== taskId
+      ),
+    })),
+  }));
+};
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
@@ -124,9 +186,13 @@ const ProjectDetailPage = () => {
                   <StagesList
                     projectId={project.id}
                     stages={project.stages || []}
+                    competences={competences}
                     onStageCreated={handleStageCreate}
                     onStageEdited={handleStageEdit}
                     onStageDeleted={handleStageDelete}
+                    onTaskCreated={handleTaskCreated}
+                    onTaskEdited={handleTaskEdited}
+                    onTaskDeleted={handleTaskDeleted}
                   />
                 </Card>
               </>
