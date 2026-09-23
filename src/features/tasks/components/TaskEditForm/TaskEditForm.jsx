@@ -70,6 +70,7 @@ const TaskEditForm = ({ task, onSubmit, onCancel, competences }) => {
           label={"Vælg en kompetence til opgaven"}
           name={"compentenceIds"}
           options={competences}
+          value={task.competences}
           onChange={handleChange}
           hasError={!!errors.compentenceIds}
           required
@@ -79,7 +80,7 @@ const TaskEditForm = ({ task, onSubmit, onCancel, competences }) => {
           label="Tids estimering"
           type="number"
           name="estimate"
-          value={formData.name}
+          value={formData.estimate}
           onChange={handleChange}
           placeholder="8"
           hasError={!!errors.estimate}
