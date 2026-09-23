@@ -23,7 +23,7 @@ const ProjectDetailPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  console.log(competences);
+  console.log(project);
 
   useEffect(() => {
     const fetchProject = async () => {
