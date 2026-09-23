@@ -84,7 +84,10 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
                   <tr
                     key={task.id}
                     className={styles.row}
-                    onClick={onView(task)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onView(task)
+                    }}
                   >
                     <td>{task.name}</td>
                     <td>
