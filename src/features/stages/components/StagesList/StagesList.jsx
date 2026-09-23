@@ -12,6 +12,7 @@ import StageEditForm from "../StageEditForm/StageEditForm";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import taskService from "@/features/tasks/services/taskService";
 import TaskCreateForm from "@/features/tasks/components/TaskCreateForm/TaskCreateForm";
+import TaskDetail from "@/features/tasks/components/TaskDetail/TaskDetail";
 
 const StagesList = ({
   projectId,
@@ -28,6 +29,7 @@ const StagesList = ({
   const [editingStage, setEditingStage] = useState(null);
   const [deletingStage, setDeletingStage] = useState(null);
   const [taskCreateStageId, setTaskCreateStageId] = useState(null);
+  const [task, setTask] = useState(null);
 
   const { notify } = useNotification();
 
@@ -66,24 +68,52 @@ const StagesList = ({
     }
   };
 
-const handleCreateTask = async (formData) => {
-  try {
-    const newTask = await taskService.create(formData);
+  const handleCreateTask = async (formData) => {
+    try {
+      const newTask = await taskService.create(formData);
 
-    onTaskCreated(taskCreateStageId, newTask);
+      onTaskCreated(taskCreateStageId, newTask);
 
-    notify("success", "Opgave oprettet.");
-  } catch (error) {
-    notify("error", error.message || "Kunne ikke oprette opgaven.");
-  } finally {
-    setTaskCreateStageId(null);
-  }
-};
+      notify("success", "Opgave oprettet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke oprette opgaven.");
+    } finally {
+      setTaskCreateStageId(null);
+    }
+  };
 
-const handleOnView = async (task) => {
-  
+  const handleOnTaskView = async (task) => {
+    setTask(task);
+  };
 
-}
+  const handleDeleteTask = async () => {
+    try {
+      await taskService.remove(task.id);
+      onTaskDeleted(task.id);
+      notify("success", "Opgave slettet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke slette opgave.");
+    } finally {
+      setTask(null);
+    }
+  };
+
+  const handleEditTask = async (formData) => {
+    try {
+      const updated = await taskService.update(task.id, formData);
+      onTaskEdited(updated);
+      notify("success", "Opgave opdateret.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke opdatere opgaven.");
+      throw error;
+    } finally {
+      setTask(null);
+    }
+  };
+
+  const handleChangeStatusTask = async () => {
+    console.log("IMPLEMENT");
+  };
 
   return (
     <div className={styles.container}>
@@ -106,7 +136,7 @@ const handleOnView = async (task) => {
             onEdit={(stage) => setEditingStage(stage)}
             onDelete={setDeletingStage}
             onTaskCreate={setTaskCreateStageId}
-            onView={handleOnView}
+            onView={handleOnTaskView}
           />
         ))}
         {stages.length === 0 && (
@@ -159,6 +189,19 @@ const handleOnView = async (task) => {
           onConfirm={() => handleDelete(deletingStage.id)}
           onCancel={() => setDeletingStage(null)}
         />
+      )}
+
+      {task && (
+        <Modal onClose={() => setTask(null)}>
+          <Card>
+            <TaskDetail
+              task={task}
+              onTaskDelete={handleDeleteTask}
+              onTaskStatusChange={handleChangeStatusTask}
+              onTaskEdit={handleEditTask}
+            />
+          </Card>
+        </Modal>
       )}
     </div>
   );

@@ -15,7 +15,7 @@ import { useState } from "react";
 const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(stage)
+  console.log(stage);
 
   return (
     <Card variant="flat">
@@ -23,7 +23,8 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
         <div className={styles.titleInfo}>
           <h4>{stage.title || stage.name}</h4>
           <span className={styles.hours}>
-            (Total estimeret timer i denne etape: {stage.totalEstimatedHours || 0} timer)
+            (Total estimeret timer i denne etape:{" "}
+            {stage.totalEstimatedHours || 0} timer)
           </span>
         </div>
 
@@ -80,7 +81,11 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
               </thead>
               <tbody>
                 {stage.tasks?.map((task) => (
-                  <tr key={task.id} className={styles.row} onClick={onView(task)}>
+                  <tr
+                    key={task.id}
+                    className={styles.row}
+                    onClick={onView(task)}
+                  >
                     <td>{task.name}</td>
                     <td>
                       {task.competences?.length

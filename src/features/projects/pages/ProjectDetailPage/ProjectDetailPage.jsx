@@ -23,7 +23,6 @@ const ProjectDetailPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-
   useEffect(() => {
     const fetchProject = async () => {
       setIsLoading(true);
