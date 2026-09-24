@@ -28,6 +28,8 @@ const ProjectManagementPage = () => {
   const [filter, setFilter] = useState(DEFAULT_FILTER);
   const [showForm, setShowForm] = useState(false);
 
+  console.log(projects);
+
   useEffect(() => {
     if (location.state?.successMessage) {
       notify("success", location.state.successMessage);

@@ -30,7 +30,7 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
         </div>
       </div>
 
-            <div className={styles.group}>
+      <div className={styles.group}>
         <div className={styles.metaGrid}>
           <div className={styles.field}>
             <span className={styles.label}>Oprettet</span>
@@ -56,16 +56,12 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
           <div className={styles.field}>
             <span className={styles.label}>Senest opdateret</span>
             <span className={styles.value}>
-              {project?.updatedAt
-                ? formatDate(project.updatedAt)
-                : "Aldrig"}
+              {project?.updatedAt ? formatDate(project.updatedAt) : "Aldrig"}
             </span>
           </div>
 
           <div className={styles.field}>
-            <span className={styles.label}>
-              Total estimeret tid
-            </span>
+            <span className={styles.label}>Total estimeret tid</span>
             <span className={styles.value}>
               {project?.totalEstimatedHours ?? 0} timer
             </span>
@@ -80,18 +76,14 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
           </div>
 
           <div className={styles.field}>
-            <span className={styles.label}>
-              Igangværende opgaver
-            </span>
+            <span className={styles.label}>Igangværende opgaver</span>
             <span className={styles.value}>
               {project?.tasks?.tasksInProgress ?? 0}
             </span>
           </div>
 
           <div className={styles.field}>
-            <span className={styles.label}>
-              Ikke startede opgaver
-            </span>
+            <span className={styles.label}>Ikke startede opgaver</span>
             <span className={styles.value}>
               {project?.tasks?.tasksNotStarted ?? 0}
             </span>
