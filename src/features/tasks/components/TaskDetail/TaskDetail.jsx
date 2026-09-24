@@ -130,7 +130,7 @@ const TaskDetail = ({
                   <Button
                     variant="primary"
                     name="Sæt i gang"
-                    onClick={() => onTaskStatusChange("IN_PROGRESS")}
+                    onClick={() => onTaskStatusChange(task, "IN_PROGRESS")}
                   />
                 )}
 
@@ -139,13 +139,13 @@ const TaskDetail = ({
                     <Button
                       variant="secondary"
                       name="Tilbage til ikke startet"
-                      onClick={() => onTaskStatusChange("NOT_STARTED")}
+                      onClick={() => onTaskStatusChange(task, "NOT_STARTED")}
                     />
 
                     <Button
                       variant="primary"
                       name="Markér som færdig"
-                      onClick={() => onTaskStatusChange("DONE")}
+                      onClick={() => onTaskStatusChange(task, "DONE")}
                     />
                   </>
                 )}
@@ -154,7 +154,7 @@ const TaskDetail = ({
                   <Button
                     variant="secondary"
                     name="Genåbn opgave"
-                    onClick={() => onTaskStatusChange("IN_PROGRESS")}
+                    onClick={() => onTaskStatusChange(task, "IN_PROGRESS")}
                   />
                 )}
 
