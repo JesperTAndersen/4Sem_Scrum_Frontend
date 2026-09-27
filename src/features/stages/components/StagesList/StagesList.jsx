@@ -111,27 +111,24 @@ const StagesList = ({
     }
   };
 
-  const handleChangeStatusTask = async (currentTask, status) => {
-    try {
-      const payload = {
-        name: currentTask.name,
-        minimumDurationInDays: currentTask.minimumDurationInDays,
-        competenceId: currentTask.competenceId,
-        estimate: currentTask.estimate,
-        status,
-      };
+const handleChangeStatusTask = async (currentTask, status) => {
+  try {
+    const updated = await taskService.update(currentTask.id, {
+      status,
+    });
 
-      const updated = await taskService.update(currentTask.id, payload);
+    onTaskEdited(updated);
+    setTask(updated);
 
-      onTaskEdited(updated);
-      setTask(updated);
-
-      notify("success", "Opgavens status blev opdateret.");
-    } catch (error) {
-      notify("error", error.message || "Kunne ikke opdatere opgaven.");
-      throw error;
-    }
-  };
+    notify("success", "Opgavens status blev opdateret.");
+  } catch (error) {
+    notify(
+      "error",
+      error.message || "Kunne ikke opdatere opgavens status.",
+    );
+    throw error;
+  }
+};
 
   return (
     <div className={styles.container}>
