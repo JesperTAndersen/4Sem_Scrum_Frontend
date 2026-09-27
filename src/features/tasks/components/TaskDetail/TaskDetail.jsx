@@ -9,7 +9,6 @@ import Badge from "@/shared/components/ui/Badge/Badge";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 
 import TaskEditForm from "../TaskEditForm/TaskEditForm";
-import { formatDate } from "@/utils/dateHelpers";
 
 const TaskDetail = ({
   task,
@@ -25,10 +24,6 @@ const TaskDetail = ({
     await onTaskEdit(updatedTask);
     setShowEditForm(false);
   };
-
-  const competence = competences.find(
-    (competence) => competence.id === task.competenceId,
-  );
 
   return (
     <>
@@ -53,7 +48,7 @@ const TaskDetail = ({
                   </div>
 
                   <p className={styles.description}>
-                    {task.estimate} estimerede arbejdstimer
+                    {task.estimate ?? 0} estimerede arbejdstimer
                   </p>
                 </div>
               </div>
@@ -63,26 +58,32 @@ const TaskDetail = ({
                   <div className={styles.field}>
                     <span className={styles.label}>Kompetence</span>
                     <span className={styles.value}>
-                      {competence?.name || "Ingen kompetence"}
+                      {task.competence?.name || "Ingen kompetence"}
                     </span>
                   </div>
 
                   <div className={styles.field}>
-                    <span className={styles.label}>Estimeret arbejdstid</span>
+                    <span className={styles.label}>
+                      Estimeret arbejdstid
+                    </span>
                     <span className={styles.value}>
                       {task.estimate ?? 0} timer
                     </span>
                   </div>
 
                   <div className={styles.field}>
-                    <span className={styles.label}>Minimum varighed</span>
+                    <span className={styles.label}>
+                      Minimum varighed
+                    </span>
                     <span className={styles.value}>
                       {task.minimumDurationInDays ?? 0} arbejdsdage
                     </span>
                   </div>
 
                   <div className={styles.field}>
-                    <span className={styles.label}>Arbejdsvarighed</span>
+                    <span className={styles.label}>
+                      Arbejdsvarighed
+                    </span>
                     <span className={styles.value}>
                       {task.laborDurationInDays != null
                         ? `${task.laborDurationInDays.toFixed(2)} arbejdsdage`
@@ -91,7 +92,9 @@ const TaskDetail = ({
                   </div>
 
                   <div className={styles.field}>
-                    <span className={styles.label}>Planlagt varighed</span>
+                    <span className={styles.label}>
+                      Planlagt varighed
+                    </span>
                     <span className={styles.value}>
                       {task.scheduledDurationInDays != null
                         ? `${task.scheduledDurationInDays.toFixed(2)} arbejdsdage`
@@ -99,23 +102,34 @@ const TaskDetail = ({
                     </span>
                   </div>
 
-                  {task.createdAt && (
-                    <div className={styles.field}>
-                      <span className={styles.label}>Oprettet</span>
-                      <span className={styles.value}>
-                        {formatDate(task.createdAt)}
-                      </span>
-                    </div>
-                  )}
+                  <div className={styles.field}>
+                    <span className={styles.label}>
+                      Afhængighedsstart
+                    </span>
+                    <span className={styles.value}>
+                      {task.dependencyStartOffsetInDays ?? 0} dage
+                    </span>
+                  </div>
 
-                  {task.updatedAt && (
-                    <div className={styles.field}>
-                      <span className={styles.label}>Senest opdateret</span>
-                      <span className={styles.value}>
-                        {formatDate(task.updatedAt)}
-                      </span>
-                    </div>
-                  )}
+                  <div className={styles.field}>
+                    <span className={styles.label}>
+                      Afhængighedsslut
+                    </span>
+                    <span className={styles.value}>
+                      {task.dependencyFinishOffsetInDays != null
+                        ? `${task.dependencyFinishOffsetInDays.toFixed(2)} dage`
+                        : "-"}
+                    </span>
+                  </div>
+
+                  <div className={styles.field}>
+                    <span className={styles.label}>
+                      Antal forgængere
+                    </span>
+                    <span className={styles.value}>
+                      {task.predecessorIds?.length ?? 0}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -130,7 +144,9 @@ const TaskDetail = ({
                   <Button
                     variant="primary"
                     name="Sæt i gang"
-                    onClick={() => onTaskStatusChange(task, "IN_PROGRESS")}
+                    onClick={() =>
+                      onTaskStatusChange(task, "IN_PROGRESS")
+                    }
                   />
                 )}
 
@@ -139,13 +155,17 @@ const TaskDetail = ({
                     <Button
                       variant="secondary"
                       name="Tilbage til ikke startet"
-                      onClick={() => onTaskStatusChange(task, "NOT_STARTED")}
+                      onClick={() =>
+                        onTaskStatusChange(task, "NOT_STARTED")
+                      }
                     />
 
                     <Button
                       variant="primary"
                       name="Markér som færdig"
-                      onClick={() => onTaskStatusChange(task, "DONE")}
+                      onClick={() =>
+                        onTaskStatusChange(task, "DONE")
+                      }
                     />
                   </>
                 )}
@@ -154,7 +174,9 @@ const TaskDetail = ({
                   <Button
                     variant="secondary"
                     name="Genåbn opgave"
-                    onClick={() => onTaskStatusChange(task, "IN_PROGRESS")}
+                    onClick={() =>
+                      onTaskStatusChange(task, "IN_PROGRESS")
+                    }
                   />
                 )}
 
