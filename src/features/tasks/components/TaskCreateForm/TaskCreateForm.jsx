@@ -10,12 +10,7 @@ import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
 import { validateTask } from "../../utils/validateTask";
 import { useNotification } from "@/context/NotificationContext";
 
-const TaskCreateForm = ({
-  onSubmit,
-  onCancel,
-  stageId,
-  competences = [],
-}) => {
+const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
   const { notify } = useNotification();
 
   const [formData, setFormData] = useState({
@@ -59,8 +54,7 @@ const TaskCreateForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { errors: validationErrors, hasErrors } =
-      validateTask(formData);
+    const { errors: validationErrors, hasErrors } = validateTask(formData);
 
     if (hasErrors) {
       setErrors(validationErrors);
@@ -75,17 +69,12 @@ const TaskCreateForm = ({
         name: formData.name.trim(),
         competenceId: Number(formData.competenceId),
         estimate: Number(formData.estimate),
-        minimumDurationInDays: Number(
-          formData.minimumDurationInDays,
-        ),
+        minimumDurationInDays: Number(formData.minimumDurationInDays),
       };
 
       await onSubmit(payload);
     } catch (error) {
-      notify(
-        "error",
-        error?.message || "Noget gik galt ved oprettelsen",
-      );
+      notify("error", error?.message || "Noget gik galt ved oprettelsen");
     } finally {
       setIsSubmitting(false);
     }

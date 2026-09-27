@@ -33,6 +33,8 @@ const StagesList = ({
 
   const { notify } = useNotification();
 
+  const allTasks = stages.flatMap((stage) => stage.tasks ?? []);
+
   const handleCreateStage = async (formData) => {
     try {
       const newStage = await stageService.create(formData);
@@ -111,24 +113,53 @@ const StagesList = ({
     }
   };
 
-const handleChangeStatusTask = async (currentTask, status) => {
-  try {
-    const updated = await taskService.update(currentTask.id, {
-      status,
-    });
+  const handleChangeStatusTask = async (currentTask, status) => {
+    try {
+      const updated = await taskService.update(currentTask.id, {
+        status,
+      });
 
-    onTaskEdited(updated);
-    setTask(updated);
+      onTaskEdited(updated);
+      setTask(updated);
 
-    notify("success", "Opgavens status blev opdateret.");
-  } catch (error) {
-    notify(
-      "error",
-      error.message || "Kunne ikke opdatere opgavens status.",
-    );
-    throw error;
-  }
-};
+      notify("success", "Opgavens status blev opdateret.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke opdatere opgavens status.");
+      throw error;
+    }
+  };
+
+  const handleTaskDependencyAdd = async (taskId, predecessorId) => {
+    try {
+      await taskService.addPredecessor(taskId, predecessorId);
+
+      const updatedTask = await taskService.getById(taskId);
+
+      onTaskEdited(updatedTask);
+      setTask(updatedTask);
+
+      notify("success", "Afhængighed tilføjet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke tilføje afhængigheden.");
+      throw error;
+    }
+  };
+
+  const handleTaskDependencyRemove = async (taskId, predecessorId) => {
+    try {
+      await taskService.removePredecessor(taskId, predecessorId);
+
+      const updatedTask = await taskService.getById(taskId);
+
+      onTaskEdited(updatedTask);
+      setTask(updatedTask);
+
+      notify("success", "Afhængighed fjernet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke fjerne afhængigheden.");
+      throw error;
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -211,10 +242,13 @@ const handleChangeStatusTask = async (currentTask, status) => {
           <Card>
             <TaskDetail
               task={task}
+              tasks={allTasks}
               onTaskDelete={handleDeleteTask}
               onTaskStatusChange={handleChangeStatusTask}
               onTaskEdit={handleEditTask}
               competences={competences}
+              onTaskDependencyAdd={handleTaskDependencyAdd}
+              onTaskDependencyRemove={handleTaskDependencyRemove}
             />
           </Card>
         </Modal>

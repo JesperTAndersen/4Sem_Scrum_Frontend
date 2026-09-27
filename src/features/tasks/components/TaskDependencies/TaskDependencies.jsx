@@ -7,12 +7,7 @@ import Select from "@/shared/components/filter/Select/Select";
 
 import { FiTrash2 } from "react-icons/fi";
 
-const TaskDependencies = ({
-  task,
-  tasks = [],
-  onAdd,
-  onRemove,
-}) => {
+const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
   const [selectedPredecessorId, setSelectedPredecessorId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -41,10 +36,7 @@ const TaskDependencies = ({
     try {
       setIsSubmitting(true);
 
-      await onAdd?.(
-        task.id,
-        Number(selectedPredecessorId),
-      );
+      await onAdd?.(task.id, Number(selectedPredecessorId));
 
       setSelectedPredecessorId("");
     } finally {
@@ -56,10 +48,7 @@ const TaskDependencies = ({
     try {
       setIsSubmitting(true);
 
-      await onRemove?.(
-        task.id,
-        predecessorId,
-      );
+      await onRemove?.(task.id, predecessorId);
     } finally {
       setIsSubmitting(false);
     }
@@ -99,14 +88,9 @@ const TaskDependencies = ({
       <div className={styles.list}>
         {predecessorTasks.length > 0 ? (
           predecessorTasks.map((predecessor) => (
-            <div
-              key={predecessor.id}
-              className={styles.item}
-            >
+            <div key={predecessor.id} className={styles.item}>
               <div className={styles.itemContent}>
-                <span className={styles.itemName}>
-                  {predecessor.name}
-                </span>
+                <span className={styles.itemName}>{predecessor.name}</span>
 
                 <span className={styles.itemMeta}>
                   {predecessor.estimate ?? 0} timer
@@ -125,9 +109,7 @@ const TaskDependencies = ({
             </div>
           ))
         ) : (
-          <p className={styles.empty}>
-            Denne opgave har ingen afhængigheder.
-          </p>
+          <p className={styles.empty}>Denne opgave har ingen afhængigheder.</p>
         )}
       </div>
     </div>

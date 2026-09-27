@@ -9,21 +9,14 @@ import Avatar from "@/shared/components/ui/Avatar/Avatar";
 import { formatDate } from "@/utils/dateHelpers";
 import { formatUserRole } from "@/utils/formatters";
 
-const ProjectDetailBar = ({
-  project,
-  users = [],
-  children,
-}) => {
+const ProjectDetailBar = ({ project, users = [], children }) => {
   const navigate = useNavigate();
 
-  const allTasks =
-    project?.stages?.flatMap((stage) => stage.tasks ?? []) ?? [];
+  const allTasks = project?.stages?.flatMap((stage) => stage.tasks ?? []) ?? [];
 
   const totalTasks = allTasks.length;
 
-  const tasksDone = allTasks.filter(
-    (task) => task.status === "DONE",
-  ).length;
+  const tasksDone = allTasks.filter((task) => task.status === "DONE").length;
 
   const tasksInProgress = allTasks.filter(
     (task) => task.status === "IN_PROGRESS",
@@ -41,25 +34,17 @@ const ProjectDetailBar = ({
         <div className={styles.headerMain}>
           <div className={styles.headerContent}>
             <div className={styles.titleRow}>
-              <h1 className={styles.title}>
-                {project?.title}
-              </h1>
+              <h1 className={styles.title}>{project?.title}</h1>
 
               <Badge status={project?.status} />
             </div>
 
             {project?.description && (
-              <p className={styles.description}>
-                {project.description}
-              </p>
+              <p className={styles.description}>{project.description}</p>
             )}
           </div>
 
-          {children && (
-            <div className={styles.headerActions}>
-              {children}
-            </div>
-          )}
+          {children && <div className={styles.headerActions}>{children}</div>}
         </div>
       </div>
 
@@ -68,54 +53,40 @@ const ProjectDetailBar = ({
           <div className={styles.field}>
             <span className={styles.label}>Oprettet</span>
             <span className={styles.value}>
-              {project?.createdAt
-                ? formatDate(project.createdAt)
-                : "-"}
+              {project?.createdAt ? formatDate(project.createdAt) : "-"}
             </span>
           </div>
 
           <div className={styles.field}>
             <span className={styles.label}>Startdato</span>
             <span className={styles.value}>
-              {project?.startDate
-                ? formatDate(project.startDate)
-                : "-"}
+              {project?.startDate ? formatDate(project.startDate) : "-"}
             </span>
           </div>
 
           <div className={styles.field}>
             <span className={styles.label}>Deadline</span>
             <span className={styles.value}>
-              {project?.deadline
-                ? formatDate(project.deadline)
-                : "-"}
+              {project?.deadline ? formatDate(project.deadline) : "-"}
             </span>
           </div>
 
           <div className={styles.field}>
-            <span className={styles.label}>
-              Senest opdateret
-            </span>
+            <span className={styles.label}>Senest opdateret</span>
             <span className={styles.value}>
-              {project?.updatedAt
-                ? formatDate(project.updatedAt)
-                : "Aldrig"}
+              {project?.updatedAt ? formatDate(project.updatedAt) : "Aldrig"}
             </span>
           </div>
 
           <div className={styles.field}>
-            <span className={styles.label}>
-              Total estimeret tid
-            </span>
+            <span className={styles.label}>Total estimeret tid</span>
             <span className={styles.value}>
               {project?.totalEstimatedHours ?? 0} timer
             </span>
           </div>
 
           <div className={styles.field}>
-            <span className={styles.label}>
-              Estimeret omkostning
-            </span>
+            <span className={styles.label}>Estimeret omkostning</span>
             <span className={styles.value}>
               {(project?.totalCost ?? 0).toLocaleString("da-DK")} kr.
             </span>
@@ -129,21 +100,13 @@ const ProjectDetailBar = ({
           </div>
 
           <div className={styles.field}>
-            <span className={styles.label}>
-              Igangværende opgaver
-            </span>
-            <span className={styles.value}>
-              {tasksInProgress}
-            </span>
+            <span className={styles.label}>Igangværende opgaver</span>
+            <span className={styles.value}>{tasksInProgress}</span>
           </div>
 
           <div className={styles.field}>
-            <span className={styles.label}>
-              Ikke startede opgaver
-            </span>
-            <span className={styles.value}>
-              {tasksNotStarted}
-            </span>
+            <span className={styles.label}>Ikke startede opgaver</span>
+            <span className={styles.value}>{tasksNotStarted}</span>
           </div>
         </div>
       </div>
@@ -163,9 +126,7 @@ const ProjectDetailBar = ({
               <div
                 key={user.id}
                 className={styles.userItem}
-                onClick={() =>
-                  navigate(`/users/${user.id}`)
-                }
+                onClick={() => navigate(`/users/${user.id}`)}
               >
                 <Avatar
                   firstName={user.firstName}

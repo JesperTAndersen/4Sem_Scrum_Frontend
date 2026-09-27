@@ -9,12 +9,7 @@ import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
 
 import { validateTask } from "../../utils/validateTask";
 
-const TaskEditForm = ({
-  task,
-  onSubmit,
-  onCancel,
-  competences = [],
-}) => {
+const TaskEditForm = ({ task, onSubmit, onCancel, competences = [] }) => {
   const [formData, setFormData] = useState({
     name: task.name ?? "",
     estimate: task.estimate ?? "",
@@ -55,8 +50,7 @@ const TaskEditForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { errors: validationErrors, hasErrors } =
-      validateTask(formData);
+    const { errors: validationErrors, hasErrors } = validateTask(formData);
 
     if (hasErrors) {
       setErrors(validationErrors);
@@ -70,9 +64,7 @@ const TaskEditForm = ({
         name: formData.name.trim(),
         competenceId: Number(formData.competenceId),
         estimate: Number(formData.estimate),
-        minimumDurationInDays: Number(
-          formData.minimumDurationInDays,
-        ),
+        minimumDurationInDays: Number(formData.minimumDurationInDays),
       };
 
       await onSubmit(payload);

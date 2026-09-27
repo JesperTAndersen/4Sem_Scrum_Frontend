@@ -14,13 +14,7 @@ import {
 
 import { useState } from "react";
 
-const StageItem = ({
-  stage,
-  onEdit,
-  onDelete,
-  onTaskCreate,
-  onView,
-}) => {
+const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -61,11 +55,7 @@ const StageItem = ({
           />
 
           <span className={styles.chevronToggle}>
-            {isOpen ? (
-              <FiChevronUp size={20} />
-            ) : (
-              <FiChevronDown size={20} />
-            )}
+            {isOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
           </span>
         </div>
       </div>
@@ -91,11 +81,7 @@ const StageItem = ({
           {stage.tasks?.length > 0 ? (
             <div className={styles.taskGrid}>
               {stage.tasks.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  onClick={onView}
-                />
+                <TaskCard key={task.id} task={task} onClick={onView} />
               ))}
             </div>
           ) : (
