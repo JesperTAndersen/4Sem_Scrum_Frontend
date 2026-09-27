@@ -1,20 +1,51 @@
+import styles from "./TaskCard.module.css";
+
 import Badge from "@/shared/components/ui/Badge/Badge";
+import { FiChevronRight } from "react-icons/fi";
 
-
-const TaskCard = (task) => {
-
+const TaskCard = ({ task, onClick }) => {
   if (!task) return null;
 
   return (
-    <div className={styles.card}>
+    <button
+      type="button"
+      className={styles.card}
+      onClick={() => onClick?.(task)}
+    >
       <div className={styles.top}>
-        <span className={styles.taskName}>{task.name}</span>
-        <h4 className={styles.status}><Badge status={task.status || "NOT_STARTED"} /></h4>
-        <p className={styles.description}>Estimeret tid: {task.estimate || 0} timer</p>
-        <p className={styles.description}>Kompetence: {task?.competence?.name}</p>
+        <div className={styles.header}>
+          <h4 className={styles.taskName}>{task.name}</h4>
+          <Badge status={task.status || "NOT_STARTED"} />
+        </div>
+
+        <div className={styles.meta}>
+          <div className={styles.field}>
+            <span className={styles.label}>Kompetence</span>
+            <span className={styles.value}>
+              {task.competence?.name || "Ingen kompetence"}
+            </span>
+          </div>
+
+          <div className={styles.field}>
+            <span className={styles.label}>Estimeret tid</span>
+            <span className={styles.value}>
+              {task.estimate ?? 0} timer
+            </span>
+          </div>
+
+          <div className={styles.field}>
+            <span className={styles.label}>Planlagt varighed</span>
+            <span className={styles.value}>
+              {task.scheduledDurationInDays != null
+                ? `${task.scheduledDurationInDays.toFixed(2)} dage`
+                : "-"}
+            </span>
+          </div>
+        </div>
       </div>
-      
-    </div>
+
+      <FiChevronRight className={styles.chevron} />
+    </button>
   );
 };
 
