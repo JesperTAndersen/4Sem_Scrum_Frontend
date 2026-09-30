@@ -11,6 +11,9 @@ import ProjectDetailBar from "../../components/ProjectDetailBar/ProjectDetailBar
 import StagesList from "@/features/stages/components/StagesList/StagesList";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import competenceService from "@/features/competences/services/competenceService";
+import { FiList } from "react-icons/fi";
+import { FiTrello } from "react-icons/fi";
+
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -22,7 +25,7 @@ const ProjectDetailPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const []
+  const [viewMode, setViewMode] = useState("details");
 
   console.log(project);
 
