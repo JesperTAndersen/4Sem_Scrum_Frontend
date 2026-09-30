@@ -14,7 +14,14 @@ import {
 
 import { useState } from "react";
 
-const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
+const StageItem = ({
+  stage,
+  allTasks = [],
+  onEdit,
+  onDelete,
+  onTaskCreate,
+  onView,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -24,16 +31,16 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <div className={styles.titleInfo}>
-  <h4 className={styles.title}>{stage.title || stage.name}</h4>
+          <h4 className={styles.title}>{stage.title || stage.name}</h4>
 
-  <div className={styles.meta}>
-    <span>
-      {formatDate(stage?.startDate)} – {formatDate(stage?.endDate)}
-    </span>
-    <span>{stage.totalEstimatedHours ?? 0} timer</span>
-    <span>{formatCurrency(stage?.totalCost ?? 0)}</span>
-  </div>
-</div>
+          <div className={styles.meta}>
+            <span>
+              {formatDate(stage?.startDate)} – {formatDate(stage?.endDate)}
+            </span>
+            <span>{stage.totalEstimatedHours ?? 0} timer</span>
+            <span>{formatCurrency(stage?.totalCost ?? 0)}</span>
+          </div>
+        </div>
 
         <div className={styles.headerActions}>
           <Button
@@ -85,7 +92,12 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
           {stage.tasks?.length > 0 ? (
             <div className={styles.taskGrid}>
               {stage.tasks.map((task) => (
-                <TaskCard key={task.id} task={task} onClick={onView} />
+                <TaskCard
+                  key={task.id}
+                  task={task}
+                  onClick={onView}
+                  tasks={allTasks}
+                />
               ))}
             </div>
           ) : (

@@ -5,7 +5,7 @@ import stageService from "../../services/stageService";
 import Modal from "@/shared/components/ui/Modal/Modal";
 import StageCreateForm from "../StageCreateForm/StageCreateForm";
 import { FiPlusCircle } from "react-icons/fi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNotification } from "@/context/NotificationContext";
 import Card from "@/shared/components/ui/Card/Card";
 import StageEditForm from "../StageEditForm/StageEditForm";
@@ -179,6 +179,7 @@ const StagesList = ({
           <StageItem
             key={stage.id}
             stage={stage}
+            allTasks={allTasks}
             onEdit={(stage) => setEditingStage(stage)}
             onDelete={setDeletingStage}
             onTaskCreate={setTaskCreateStageId}

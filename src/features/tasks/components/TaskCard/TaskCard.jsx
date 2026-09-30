@@ -1,10 +1,18 @@
 import styles from "./TaskCard.module.css";
 import { formatCurrency } from "@/utils/formatters";
+import { formatDate } from "@/utils/dateHelpers";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import { FiChevronRight } from "react-icons/fi";
 
-const TaskCard = ({ task, onClick }) => {
+const formatDays = (days) =>
+  (days ?? 0).toLocaleString("da-DK", { maximumFractionDigits: 1 });
+
+const TaskCard = ({ task, tasks = [], onClick }) => {
   if (!task) return null;
+
+  const predecessorNames = (task.predecessorIds ?? [])
+    .map((id) => tasks.find((t) => t.id === id)?.name)
+    .filter(Boolean);
 
   return (
     <button
@@ -13,7 +21,15 @@ const TaskCard = ({ task, onClick }) => {
       onClick={() => onClick?.(task)}
     >
       <div className={styles.header}>
-        <h4 className={styles.taskName}>{task.name}</h4>
+        <div className={styles.titleInfo}>
+          <h4 className={styles.taskName}>{task.name}</h4>
+
+          {task.startDate && task.endDate && (
+            <span className={styles.period}>
+              {formatDate(task.startDate)} – {formatDate(task.endDate)}
+            </span>
+          )}
+        </div>
 
         <Badge status={task.status || "NOT_STARTED"} />
       </div>
@@ -32,33 +48,22 @@ const TaskCard = ({ task, onClick }) => {
         </div>
 
         <div className={styles.field}>
-          <span className={styles.label}>Opgave pris</span>
-          <span className={styles.value}>{formatCurrency(task.cost) ?? 0}</span>
+          <span className={styles.label}>Pris</span>
+          <span className={styles.value}>{formatCurrency(task.cost ?? 0)}</span>
         </div>
 
         <div className={styles.field}>
-          <span className={styles.label}>Minimum varighed</span>
+          <span className={styles.label}>Varighed</span>
           <span className={styles.value}>
-            {task.minimumDurationInDays ?? 0} dage
+            {formatDays(task.scheduledDurationInDays)} dage (min.{" "}
+            {formatDays(task.minimumDurationInDays)})
           </span>
         </div>
 
-        <div className={styles.field}>
-          <span className={styles.label}>Planlagt varighed</span>
-          <span className={styles.value}>
-            {task.scheduledDurationInDays != null
-              ? `${task.scheduledDurationInDays.toFixed(2)} dage`
-              : "-"}
-          </span>
-        </div>
-
-        {task.predecessorIds?.length > 0 && (
+        {predecessorNames.length > 0 && (
           <div className={styles.field}>
             <span className={styles.label}>Afhænger af</span>
-            <span className={styles.value}>
-              {task.predecessorIds.length}{" "}
-              {task.predecessorIds.length === 1 ? "opgave" : "opgaver"}
-            </span>
+            <span className={styles.value}>{predecessorNames.join(", ")}</span>
           </div>
         )}
       </div>
