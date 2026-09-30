@@ -31,7 +31,6 @@ const TaskCard = ({ task, onClick }) => {
           <span className={styles.value}>{task.estimate ?? 0} timer</span>
         </div>
 
-        
         <div className={styles.field}>
           <span className={styles.label}>Opgave pris</span>
           <span className={styles.value}>{formatCurrency(task.cost) ?? 0}</span>

@@ -30,15 +30,15 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
             Start dato: {formatDate(stage?.startDate)}
           </span>
 
-                    <span className={styles.hours}>
-          Slut dato: {formatDate(stage?.endDate)}
+          <span className={styles.hours}>
+            Slut dato: {formatDate(stage?.endDate)}
           </span>
 
-                    <span className={styles.hours}>
+          <span className={styles.hours}>
             Total estimeret tid: {stage.totalEstimatedHours ?? 0} timer
           </span>
 
-                    <span className={styles.hours}>
+          <span className={styles.hours}>
             Etape pris: {formatCurrency(stage?.totalCost) ?? 0}
           </span>
         </div>
