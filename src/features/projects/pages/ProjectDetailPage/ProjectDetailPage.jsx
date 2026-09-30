@@ -22,6 +22,7 @@ const ProjectDetailPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const []
 
   console.log(project);
 
