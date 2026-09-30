@@ -26,8 +26,6 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
     (task) => task.status === "NOT_STARTED",
   ).length;
 
-  console.log(project);
-
   return (
     <div className={styles.container}>
       <BackButton />

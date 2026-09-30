@@ -5,3 +5,23 @@
   max-width: 1400px;
   width: 100%;
 }
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.viewToolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.viewToggle {
+  display: flex;
+  gap: var(--spacing-xxs);
+  padding: var(--spacing-xxs);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
