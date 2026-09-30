@@ -14,7 +14,6 @@ import competenceService from "@/features/competences/services/competenceService
 import { FiList } from "react-icons/fi";
 import { FiTrello } from "react-icons/fi";
 
-
 const ProjectDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
