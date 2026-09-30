@@ -24,24 +24,16 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <div className={styles.titleInfo}>
-          <h4>{stage.title || stage.name}</h4>
+  <h4 className={styles.title}>{stage.title || stage.name}</h4>
 
-          <span className={styles.hours}>
-            Start dato: {formatDate(stage?.startDate)}
-          </span>
-
-          <span className={styles.hours}>
-            Slut dato: {formatDate(stage?.endDate)}
-          </span>
-
-          <span className={styles.hours}>
-            Total estimeret tid: {stage.totalEstimatedHours ?? 0} timer
-          </span>
-
-          <span className={styles.hours}>
-            Etape pris: {formatCurrency(stage?.totalCost) ?? 0}
-          </span>
-        </div>
+  <div className={styles.meta}>
+    <span>
+      {formatDate(stage?.startDate)} – {formatDate(stage?.endDate)}
+    </span>
+    <span>{stage.totalEstimatedHours ?? 0} timer</span>
+    <span>{formatCurrency(stage?.totalCost ?? 0)}</span>
+  </div>
+</div>
 
         <div className={styles.headerActions}>
           <Button

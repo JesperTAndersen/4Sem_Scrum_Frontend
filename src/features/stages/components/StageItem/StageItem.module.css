@@ -3,59 +3,58 @@
   justify-content: space-between;
   align-items: center;
   gap: var(--spacing-md);
-
   cursor: pointer;
-  padding: var(--spacing-xs) 0;
 }
 
 .titleInfo {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
+  flex-direction: column;
+  gap: var(--spacing-xxs);
   min-width: 0;
 }
 
-.titleInfo h4 {
+.title {
   margin: 0;
-
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
   color: var(--color-text-primary);
 }
 
-.hours {
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
   font-size: var(--text-sm);
   color: var(--color-text-muted);
+}
+
+.meta span + span::before {
+  content: "·";
+  margin-right: var(--spacing-xs);
 }
 
 .headerActions {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-2xs);
 }
 
 .chevronToggle {
   display: flex;
   align-items: center;
-  justify-content: center;
-
   margin-left: var(--spacing-xs);
-  padding: var(--spacing-xs);
-
   color: var(--color-text-muted);
 }
 
 .stageContent {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
-
-  margin-top: var(--spacing-md);
-  padding-top: var(--spacing-md);
-
-  border-top: 1px solid var(--color-border);
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background-color: var(--color-bg-section);
+  border-radius: var(--radius-md);
 }
 
 .contentHeader {
@@ -73,22 +72,15 @@
 .taskGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-
-  gap: var(--spacing-md);
-  width: 100%;
+  gap: var(--spacing-sm);
 }
 
 .emptyTask {
-  padding: var(--spacing-xl);
-
+  padding: var(--spacing-lg);
   text-align: center;
   font-size: var(--text-sm);
   font-style: italic;
-
   color: var(--color-text-muted);
-  background-color: var(--color-bg-surface);
-
-  border-radius: var(--radius-md);
 }
 
 @media (max-width: 768px) {
@@ -96,15 +88,9 @@
     align-items: flex-start;
   }
 
-  .titleInfo {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-xs);
-  }
-
   .contentHeader {
-    align-items: stretch;
     flex-direction: column;
+    align-items: stretch;
   }
 
   .taskGrid {
