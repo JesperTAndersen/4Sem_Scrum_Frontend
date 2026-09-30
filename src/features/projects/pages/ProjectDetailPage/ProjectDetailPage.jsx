@@ -99,6 +99,10 @@ const ProjectDetailPage = () => {
     }
   };
 
+  const handleOnTaskClicked = () => {
+    console.log("CLICKED TASK");
+  };
+
   const handleStageCreate = async (newStage) => {
     setProject((prevProject) => ({
       ...prevProject,
@@ -217,7 +221,10 @@ const ProjectDetailPage = () => {
                   </Card>
                 ) : (
                   <Card variant="card">
-                    <ProjectGantt project={project} />
+                    <ProjectGantt
+                      project={project}
+                      onTaskClick={handleOnTaskClicked}
+                    />
                   </Card>
                 )}
               </>

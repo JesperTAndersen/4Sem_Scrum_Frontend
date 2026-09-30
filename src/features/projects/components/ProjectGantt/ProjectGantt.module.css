@@ -1,14 +1,28 @@
 .container {
+  --gantt-stage: var(--color-primary);
+  --gantt-stage-bg: var(--color-badge-info-bg);
+  --gantt-not-started: var(--color-text-muted);
+  --gantt-not-started-bg: var(--color-bg-muted);
+  --gantt-in-progress: var(--color-warning);
+  --gantt-in-progress-bg: var(--color-badge-warning-bg);
+  --gantt-done: var(--color-success);
+  --gantt-done-bg: var(--color-badge-success-bg);
+
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
   width: 100%;
+}
+
+.container :global(.stage-row .bar-label) {
+  font-weight: 700;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--spacing-md);
 }
 
@@ -25,11 +39,51 @@
   color: var(--color-text-secondary);
 }
 
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.swatchStage {
+  background-color: var(--gantt-stage);
+}
+
+.swatchNotStarted {
+  background-color: var(--gantt-not-started);
+}
+
+.swatchInProgress {
+  background-color: var(--gantt-in-progress);
+}
+
+.swatchDone {
+  background-color: var(--gantt-done);
+}
+
 .scroller {
   width: 100%;
   overflow-x: auto;
+  padding: var(--spacing-sm) 0;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   background-color: var(--color-bg-surface);
 }
 
@@ -45,19 +99,36 @@
   color: var(--color-text-muted);
 }
 
-:global(.gantt .stage-row .bar) {
-  fill: var(--color-highlight) !important;
-  opacity: 0.45;
+.container :global(svg.gantt) {
+  max-width: none;
 }
 
-:global(.gantt .stage-row .bar-progress) {
-  fill: var(--color-highlight) !important;
+.container :global(.gantt .bar-wrapper .bar) {
+  outline: none;
 }
 
-:global(.gantt .stage-row .bar-label) {
-  font-weight: var(--weight-bold);
+.container :global(.gantt .bar-label) {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-:global(.gantt .task-row .bar) {
-  rx: var(--radius-sm);
+.container :global(.task-not-started) {
+  --g-bar-color: var(--gantt-not-started-bg);
+  --g-progress-color: var(--gantt-not-started);
+}
+
+.container :global(.task-in-progress) {
+  --g-bar-color: var(--gantt-in-progress-bg);
+  --g-progress-color: var(--gantt-in-progress);
+}
+
+.container :global(.task-done) {
+  --g-bar-color: var(--gantt-done-bg);
+  --g-progress-color: var(--gantt-done);
+}
+
+.container :global(.stage-row) {
+  --g-bar-color: var(--gantt-stage-bg);
+  --g-progress-color: var(--gantt-stage);
 }
