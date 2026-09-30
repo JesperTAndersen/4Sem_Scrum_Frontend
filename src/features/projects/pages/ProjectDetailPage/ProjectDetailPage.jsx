@@ -12,7 +12,8 @@ import StagesList from "@/features/stages/components/StagesList/StagesList";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import competenceService from "@/features/competences/services/competenceService";
 import { FiList } from "react-icons/fi";
-import { FiTrello } from "react-icons/fi";
+import { FiCalendar } from "react-icons/fi";
+import ProjectGantt from "../../components/ProjectGantt/ProjectGantt";
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -183,19 +184,42 @@ const ProjectDetailPage = () => {
                   </ProjectDetailBar>
                 </Card>
 
-                <Card variant="card">
-                  <StagesList
-                    projectId={project.id}
-                    stages={project.stages || []}
-                    competences={competences}
-                    onStageCreated={handleStageCreate}
-                    onStageEdited={handleStageEdit}
-                    onStageDeleted={handleStageDelete}
-                    onTaskCreated={handleTaskCreated}
-                    onTaskEdited={handleTaskEdited}
-                    onTaskDeleted={handleTaskDeleted}
+                <div className={styles.viewToolbar}>
+                  <Button
+                    icon={<FiList size={18} />}
+                    variant={viewMode === "details" ? "primary" : "ghost"}
+                    iconOnly
+                    title="Vis etaper og opgaver"
+                    onClick={() => setViewMode("details")}
                   />
-                </Card>
+
+                  <Button
+                    icon={<FiCalendar size={18} />}
+                    variant={viewMode === "gantt" ? "primary" : "ghost"}
+                    iconOnly
+                    title="Vis projektets tidsplan"
+                    onClick={() => setViewMode("gantt")}
+                  />
+                </div>
+                {viewMode === "details" ? (
+                  <Card variant="card">
+                    <StagesList
+                      projectId={project.id}
+                      stages={project.stages || []}
+                      competences={competences}
+                      onStageCreated={handleStageCreate}
+                      onStageEdited={handleStageEdit}
+                      onStageDeleted={handleStageDelete}
+                      onTaskCreated={handleTaskCreated}
+                      onTaskEdited={handleTaskEdited}
+                      onTaskDeleted={handleTaskDeleted}
+                    />
+                  </Card>
+                ) : (
+                  <Card variant="card">
+                    <ProjectGantt project={project} />
+                  </Card>
+                )}
               </>
             ) : (
               <Card variant="card">
