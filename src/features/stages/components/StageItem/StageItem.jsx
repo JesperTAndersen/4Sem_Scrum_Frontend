@@ -1,5 +1,5 @@
 import styles from "./StageItem.module.css";
-
+import { formatDate } from "@/utils/dateHelpers";
 import Button from "@/shared/components/ui/Button/Button";
 import Card from "@/shared/components/ui/Card/Card";
 import TaskCard from "@/features/tasks/components/TaskCard/TaskCard";
@@ -27,7 +27,19 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
           <h4>{stage.title || stage.name}</h4>
 
           <span className={styles.hours}>
+            Start dato: {formatDate(stage?.startDate)}
+          </span>
+
+                    <span className={styles.hours}>
+          Slut dato: {formatDate(stage?.endDate)}
+          </span>
+
+                    <span className={styles.hours}>
             Total estimeret tid: {stage.totalEstimatedHours ?? 0} timer
+          </span>
+
+                    <span className={styles.hours}>
+            Total pris: {stage?.totalCost ?? 0} kr
           </span>
         </div>
 
