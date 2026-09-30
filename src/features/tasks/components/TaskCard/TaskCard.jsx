@@ -1,5 +1,5 @@
 import styles from "./TaskCard.module.css";
-
+import { formatCurrency } from "@/utils/formatters";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import { FiChevronRight } from "react-icons/fi";
 
@@ -29,6 +29,12 @@ const TaskCard = ({ task, onClick }) => {
         <div className={styles.field}>
           <span className={styles.label}>Estimeret tid</span>
           <span className={styles.value}>{task.estimate ?? 0} timer</span>
+        </div>
+
+        
+        <div className={styles.field}>
+          <span className={styles.label}>Opgave pris</span>
+          <span className={styles.value}>{formatCurrency(task.cost) ?? 0}</span>
         </div>
 
         <div className={styles.field}>

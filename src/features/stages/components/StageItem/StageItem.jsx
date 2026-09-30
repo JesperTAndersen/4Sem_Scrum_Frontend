@@ -3,7 +3,7 @@ import { formatDate } from "@/utils/dateHelpers";
 import Button from "@/shared/components/ui/Button/Button";
 import Card from "@/shared/components/ui/Card/Card";
 import TaskCard from "@/features/tasks/components/TaskCard/TaskCard";
-
+import { formatCurrency } from "@/utils/formatters";
 import {
   FiChevronDown,
   FiChevronUp,
@@ -39,7 +39,7 @@ const StageItem = ({ stage, onEdit, onDelete, onTaskCreate, onView }) => {
           </span>
 
                     <span className={styles.hours}>
-            Total pris: {stage?.totalCost ?? 0} kr
+            Etape pris: {formatCurrency(stage?.totalCost) ?? 0}
           </span>
         </div>
 
