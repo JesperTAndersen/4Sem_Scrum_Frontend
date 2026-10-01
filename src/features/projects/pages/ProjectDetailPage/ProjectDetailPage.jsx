@@ -1,6 +1,6 @@
 import styles from "./ProjectDetailPage.module.css";
 import { useNotification } from "@/context/NotificationContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router";
 import projectService from "../../services/projectService";
 import ProjectEditForm from "../../components/ProjectEditForm/ProjectEditForm";
@@ -11,9 +11,12 @@ import ProjectDetailBar from "../../components/ProjectDetailBar/ProjectDetailBar
 import StagesList from "@/features/stages/components/StagesList/StagesList";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import competenceService from "@/features/competences/services/competenceService";
+import taskService from "@/features/tasks/services/taskService";
 import { FiList } from "react-icons/fi";
 import { FiCalendar } from "react-icons/fi";
 import ProjectGantt from "../../components/ProjectGantt/ProjectGantt";
+import TaskDetail from "@/features/tasks/components/TaskDetail/TaskDetail";
+import Modal from "@/shared/components/ui/Modal/Modal";
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -22,10 +25,14 @@ const ProjectDetailPage = () => {
   const [project, setProject] = useState();
   const [users, setUsers] = useState([]);
   const [competences, setCompetences] = useState([]);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [viewMode, setViewMode] = useState("details");
+
+  const allTasks = project?.stages?.flatMap((stage) => stage.tasks ?? []) ?? [];
+  const selectedTask = allTasks.find((task) => task.id === selectedTaskId);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -97,10 +104,6 @@ const ProjectDetailPage = () => {
     }
   };
 
-  const handleOnTaskClicked = () => {
-    console.log("CLICKED TASK");
-  };
-
   const refreshProject = async () => {
     try {
       const data = await projectService.getById(id);
@@ -126,12 +129,66 @@ const ProjectDetailPage = () => {
     refreshProject();
   };
 
-  const handleTaskEdited = () => {
-    refreshProject();
+  const handleOpenTask = useCallback((task) => {
+    setSelectedTaskId(task.id);
+  }, []);
+
+  const handleDeleteTask = async () => {
+    try {
+      await taskService.remove(selectedTaskId);
+      await refreshProject();
+      notify("success", "Opgave slettet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke slette opgave.");
+    } finally {
+      setSelectedTaskId(null);
+    }
   };
 
-  const handleTaskDeleted = () => {
-    refreshProject();
+  const handleEditTask = async (formData) => {
+    try {
+      await taskService.update(selectedTaskId, formData);
+      await refreshProject();
+      notify("success", "Opgave opdateret.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke opdatere opgaven.");
+      throw error;
+    } finally {
+      setSelectedTaskId(null);
+    }
+  };
+
+  const handleChangeStatusTask = async (currentTask, status) => {
+    try {
+      await taskService.update(currentTask.id, { status });
+      await refreshProject();
+      notify("success", "Opgavens status blev opdateret.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke opdatere opgavens status.");
+      throw error;
+    }
+  };
+
+  const handleTaskDependencyAdd = async (taskId, predecessorId) => {
+    try {
+      await taskService.addPredecessor(taskId, predecessorId);
+      await refreshProject();
+      notify("success", "Afhængighed tilføjet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke tilføje afhængigheden.");
+      throw error;
+    }
+  };
+
+  const handleTaskDependencyRemove = async (taskId, predecessorId) => {
+    try {
+      await taskService.removePredecessor(taskId, predecessorId);
+      await refreshProject();
+      notify("success", "Afhængighed fjernet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke fjerne afhængigheden.");
+      throw error;
+    }
   };
 
   return (
@@ -187,15 +244,14 @@ const ProjectDetailPage = () => {
                       onStageEdited={handleStageEdit}
                       onStageDeleted={handleStageDelete}
                       onTaskCreated={handleTaskCreated}
-                      onTaskEdited={handleTaskEdited}
-                      onTaskDeleted={handleTaskDeleted}
+                      onTaskView={handleOpenTask}
                     />
                   </Card>
                 ) : (
                   <Card variant="card">
                     <ProjectGantt
                       project={project}
-                      onTaskClick={handleOnTaskClicked}
+                      onTaskClick={handleOpenTask}
                     />
                   </Card>
                 )}
@@ -210,6 +266,23 @@ const ProjectDetailPage = () => {
               </Card>
             )}
           </>
+        )}
+
+        {selectedTask && (
+          <Modal onClose={() => setSelectedTaskId(null)}>
+            <Card>
+              <TaskDetail
+                task={selectedTask}
+                tasks={allTasks}
+                onTaskDelete={handleDeleteTask}
+                onTaskStatusChange={handleChangeStatusTask}
+                onTaskEdit={handleEditTask}
+                competences={competences}
+                onTaskDependencyAdd={handleTaskDependencyAdd}
+                onTaskDependencyRemove={handleTaskDependencyRemove}
+              />
+            </Card>
+          </Modal>
         )}
 
         {showConfirm && (
