@@ -6,37 +6,129 @@
 .label {
   display: block;
   margin-bottom: 6px;
+  font-size: 14px;
   font-weight: 500;
 }
 
 .input {
   width: 100%;
-  min-height: 44px;
-  padding: 0 12px;
-
+  min-height: 64px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 20px;
 
-  background: white;
+  background: #fff;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
 
   cursor: pointer;
   font-size: 14px;
+  text-align: left;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input:hover {
+  border-color: #999;
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: #666;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.input.error {
+  border-color: #dc2626;
+}
+
+.input.error:focus-visible {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.dateField {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dateLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #777;
+}
+
+.dateValue {
+  font-size: 14px;
+  font-weight: 500;
+  color: #222;
+}
+
+.placeholder {
+  font-size: 14px;
+  color: #999;
+}
+
+.arrow {
+  flex-shrink: 0;
+  color: #888;
+  font-size: 18px;
 }
 
 .calendar {
   position: absolute;
-  z-index: 10;
+  z-index: 100;
+
   top: calc(100% + 8px);
   left: 0;
 
   padding: 16px;
 
-  background: white;
+  background: #fff;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
 
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.calendar :global(.rdp) {
+  margin: 0;
+}
+
+.calendar :global(.rdp-months) {
+  gap: 32px;
+}
+
+.calendar :global(.rdp-month) {
+  padding: 4px;
+}
+
+.calendar :global(.rdp-month_caption) {
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.calendar :global(.rdp-button_previous),
+.calendar :global(.rdp-button_next) {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+}
+
+.calendar :global(.rdp-button_previous:hover),
+.calendar :global(.rdp-button_next:hover) {
+  background: #f1f1f1;
+}
+
+.errorMessage {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  color: #dc2626;
 }
