@@ -27,8 +27,6 @@ const ProjectDetailPage = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [viewMode, setViewMode] = useState("details");
 
-  console.log(project);
-
   useEffect(() => {
     const fetchProject = async () => {
       setIsLoading(true);

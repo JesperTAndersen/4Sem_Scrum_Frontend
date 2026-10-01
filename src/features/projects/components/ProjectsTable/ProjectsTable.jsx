@@ -4,6 +4,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { formatDate } from "@/utils/dateHelpers";
 
 const ProjectsTable = ({ projects, onView }) => {
+  console.log(projects);
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>
@@ -13,6 +14,8 @@ const ProjectsTable = ({ projects, onView }) => {
             <th>Oprettet af</th>
             <th>Tidslinje</th>
             <th>Antal opgaver</th>
+            <th>Deadline kan</th>
+            <th>Deadline</th>
             <th>Status</th>
             <th></th>
           </tr>
@@ -35,6 +38,16 @@ const ProjectsTable = ({ projects, onView }) => {
               <td>
                 {p?.taskCountDTO?.taskDone ?? 0} ud af{" "}
                 {p?.taskCountDTO?.totalTaskCount ?? 0} færdige
+              </td>
+
+              <td>
+                {p.schedule ? (
+                  <Badge
+                    status={p.schedule.feasible ? "FEASIBLE" : "INFEASIBLE"}
+                  />
+                ) : (
+                  "-"
+                )}
               </td>
               <td>
                 <Badge status={p.status} />
