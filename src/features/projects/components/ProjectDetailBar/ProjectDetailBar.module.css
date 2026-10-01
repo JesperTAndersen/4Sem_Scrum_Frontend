@@ -69,7 +69,7 @@
   margin: 0;
 
   font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-bold);
 
   color: var(--color-text-primary);
 }
@@ -110,7 +110,7 @@
 
 .summaryValue {
   font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-bold);
   line-height: 1.25;
 
   color: var(--color-text-primary);
@@ -145,7 +145,7 @@
 
 .progressPercent {
   font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-bold);
   line-height: 1;
 
   color: var(--color-text-primary);
@@ -206,7 +206,7 @@
 
 .taskStatValue {
   font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-bold);
   line-height: 1.2;
 
   color: var(--color-text-primary);

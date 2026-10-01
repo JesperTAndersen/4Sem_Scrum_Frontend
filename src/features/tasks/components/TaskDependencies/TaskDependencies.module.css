@@ -15,7 +15,7 @@
   margin: 0;
 
   font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-bold);
   color: var(--color-text-primary);
 }
 
