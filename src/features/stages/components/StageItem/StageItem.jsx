@@ -24,8 +24,8 @@ const StageItem = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const sortedTasks = [...allTasks].sort(
-    (a, b) => new Date(a.startDate) - new Date(b.endDate),
+  const sortedTasks = [...(stage.tasks ?? [])].sort(
+    (a, b) => new Date(a.startDate) - new Date(b.startDate),
   );
 
   return (
@@ -95,12 +95,12 @@ const StageItem = ({
 
           {stage.tasks?.length > 0 ? (
             <div className={styles.taskGrid}>
-              {stage.tasks.map((task) => (
+              {sortedTasks.map((task) => (
                 <TaskCard
                   key={task.id}
                   task={task}
                   onClick={onView}
-                  tasks={sortedTasks}
+                  tasks={allTasks}
                 />
               ))}
             </div>

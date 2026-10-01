@@ -9,7 +9,7 @@ const STATUS_COLORS = {
   DONE: styles.success,
   ACTIVE: styles.success,
   DISABLED: styles.neutral,
-  IN_FEASIBLE: styles.warning,
+  INFEASIBLE: styles.warning,
   FEASIBLE: styles.success,
 };
 
@@ -22,7 +22,7 @@ const STATUS_LABELS = {
   DISABLED: "Deaktiveret",
   NOT_STARTED: "Ikke startet",
   DONE: "Færdig",
-  IN_FEASIBLE: "Kan ikke nås",
+  INFEASIBLE: "Kan ikke nås",
   FEASIBLE: "Kan nås",
 };
 
