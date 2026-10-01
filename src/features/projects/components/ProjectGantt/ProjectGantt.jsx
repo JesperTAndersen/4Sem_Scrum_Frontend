@@ -35,7 +35,7 @@ const ProjectGantt = ({ project, onTaskClick }) => {
       if (stage.startDate && stage.endDate) {
         rows.push({
           id: `stage-${stage.id}`,
-          name: `Etape: ${index + 1}: ${stage.name}`,
+          name: `Etape ${index + 1}: ${stage.name}`,
           start: stage.startDate,
           end: stage.endDate,
           progress: getStageProgress(tasks),
