@@ -24,6 +24,10 @@ const StageItem = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const sortedTasks = [...allTasks].sort(
+    (a, b) => new Date(a.startDate) - new Date(b.endDate),
+  );
+
   return (
     <Card variant="flat">
       <div
@@ -96,7 +100,7 @@ const StageItem = ({
                   key={task.id}
                   task={task}
                   onClick={onView}
-                  tasks={allTasks}
+                  tasks={sortedTasks}
                 />
               ))}
             </div>
