@@ -101,65 +101,37 @@ const ProjectDetailPage = () => {
     console.log("CLICKED TASK");
   };
 
-  const handleStageCreate = async (newStage) => {
-    setProject((prevProject) => ({
-      ...prevProject,
-      stages: [...(prevProject.stages || []), newStage],
-    }));
+  const refreshProject = async () => {
+    try {
+      const data = await projectService.getById(id);
+      setProject(data);
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke opdatere tidsplanen.");
+    }
   };
 
-  const handleStageEdit = (updatedStage) => {
-    setProject((prevProject) => ({
-      ...prevProject,
-      stages: (prevProject.stages || []).map((stage) =>
-        stage.id === updatedStage.id ? updatedStage : stage,
-      ),
-    }));
+  const handleStageCreate = () => {
+    refreshProject();
   };
 
-  const handleStageDelete = (stageId) => {
-    setProject((prevProject) => ({
-      ...prevProject,
-      stages: (prevProject.stages || []).filter(
-        (stage) => stage.id !== stageId,
-      ),
-    }));
+  const handleStageEdit = () => {
+    refreshProject();
   };
 
-  const handleTaskCreated = (stageId, newTask) => {
-    setProject((prev) => ({
-      ...prev,
-      stages: prev.stages.map((stage) =>
-        stage.id === stageId
-          ? {
-              ...stage,
-              tasks: [...(stage.tasks || []), newTask],
-            }
-          : stage,
-      ),
-    }));
+  const handleStageDelete = () => {
+    refreshProject();
   };
 
-  const handleTaskEdited = (updatedTask) => {
-    setProject((prev) => ({
-      ...prev,
-      stages: (prev.stages || []).map((stage) => ({
-        ...stage,
-        tasks: (stage.tasks || []).map((task) =>
-          task.id === updatedTask.id ? updatedTask : task,
-        ),
-      })),
-    }));
+  const handleTaskCreated = () => {
+    refreshProject();
   };
 
-  const handleTaskDeleted = (taskId) => {
-    setProject((prev) => ({
-      ...prev,
-      stages: (prev.stages || []).map((stage) => ({
-        ...stage,
-        tasks: (stage.tasks || []).filter((task) => task.id !== taskId),
-      })),
-    }));
+  const handleTaskEdited = () => {
+    refreshProject();
+  };
+
+  const handleTaskDeleted = () => {
+    refreshProject();
   };
 
   return (
