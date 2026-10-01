@@ -1,6 +1,6 @@
 import styles from "./ProjectDetailPage.module.css";
 import { useNotification } from "@/context/NotificationContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router";
 import projectService from "../../services/projectService";
 import ProjectEditForm from "../../components/ProjectEditForm/ProjectEditForm";
@@ -11,6 +11,12 @@ import ProjectDetailBar from "../../components/ProjectDetailBar/ProjectDetailBar
 import StagesList from "@/features/stages/components/StagesList/StagesList";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import competenceService from "@/features/competences/services/competenceService";
+import taskService from "@/features/tasks/services/taskService";
+import { FiList } from "react-icons/fi";
+import { FiCalendar } from "react-icons/fi";
+import ProjectGantt from "../../components/ProjectGantt/ProjectGantt";
+import TaskDetail from "@/features/tasks/components/TaskDetail/TaskDetail";
+import Modal from "@/shared/components/ui/Modal/Modal";
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -19,11 +25,14 @@ const ProjectDetailPage = () => {
   const [project, setProject] = useState();
   const [users, setUsers] = useState([]);
   const [competences, setCompetences] = useState([]);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [viewMode, setViewMode] = useState("details");
 
-  console.log(project);
+  const allTasks = project?.stages?.flatMap((stage) => stage.tasks ?? []) ?? [];
+  const selectedTask = allTasks.find((task) => task.id === selectedTaskId);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -95,68 +104,92 @@ const ProjectDetailPage = () => {
     }
   };
 
-  const handleStageCreate = async (newStage) => {
-    setProject((prevProject) => ({
-      ...prevProject,
-      stages: [...(prevProject.stages || []), newStage],
-    }));
+  const refreshProject = async () => {
+    try {
+      const data = await projectService.getById(id);
+      setProject(data);
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke opdatere tidsplanen.");
+    }
   };
 
-  const handleStageEdit = (updatedStage) => {
-    setProject((prevProject) => ({
-      ...prevProject,
-      stages: (prevProject.stages || []).map((stage) =>
-        stage.id === updatedStage.id ? updatedStage : stage,
-      ),
-    }));
+  const handleStageCreate = () => {
+    refreshProject();
   };
 
-  const handleStageDelete = (stageId) => {
-    setProject((prevProject) => ({
-      ...prevProject,
-      stages: (prevProject.stages || []).filter(
-        (stage) => stage.id !== stageId,
-      ),
-    }));
+  const handleStageEdit = () => {
+    refreshProject();
   };
 
-  const handleTaskCreated = (stageId, newTask) => {
-    setProject((prev) => ({
-      ...prev,
-      stages: prev.stages.map((stage) =>
-        stage.id === stageId
-          ? {
-              ...stage,
-              tasks: [...(stage.tasks || []), newTask],
-            }
-          : stage,
-      ),
-    }));
+  const handleStageDelete = () => {
+    refreshProject();
   };
 
-const handleTaskEdited = (updatedTask) => {
-  setProject((prev) => ({
-    ...prev,
-    stages: (prev.stages || []).map((stage) => ({
-      ...stage,
-      tasks: (stage.tasks || []).map((task) =>
-        task.id === updatedTask.id ? updatedTask : task
-      ),
-    })),
-  }));
-};
+  const handleTaskCreated = () => {
+    refreshProject();
+  };
 
-const handleTaskDeleted = (taskId) => {
-  setProject((prev) => ({
-    ...prev,
-    stages: (prev.stages || []).map((stage) => ({
-      ...stage,
-      tasks: (stage.tasks || []).filter(
-        (task) => task.id !== taskId
-      ),
-    })),
-  }));
-};
+  const handleOpenTask = useCallback((task) => {
+    setSelectedTaskId(task.id);
+  }, []);
+
+  const handleDeleteTask = async () => {
+    try {
+      await taskService.remove(selectedTaskId);
+      await refreshProject();
+      notify("success", "Opgave slettet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke slette opgave.");
+    } finally {
+      setSelectedTaskId(null);
+    }
+  };
+
+  const handleEditTask = async (formData) => {
+    try {
+      await taskService.update(selectedTaskId, formData);
+      await refreshProject();
+      notify("success", "Opgave opdateret.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke opdatere opgaven.");
+      throw error;
+    } finally {
+      setSelectedTaskId(null);
+    }
+  };
+
+  const handleChangeStatusTask = async (currentTask, status) => {
+    try {
+      await taskService.update(currentTask.id, { status });
+      await refreshProject();
+      notify("success", "Opgavens status blev opdateret.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke opdatere opgavens status.");
+      throw error;
+    }
+  };
+
+  const handleTaskDependencyAdd = async (taskId, predecessorId) => {
+    try {
+      await taskService.addPredecessor(taskId, predecessorId);
+      await refreshProject();
+      notify("success", "Afhængighed tilføjet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke tilføje afhængigheden.");
+      throw error;
+    }
+  };
+
+  const handleTaskDependencyRemove = async (taskId, predecessorId) => {
+    try {
+      await taskService.removePredecessor(taskId, predecessorId);
+      await refreshProject();
+      notify("success", "Afhængighed fjernet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke fjerne afhængigheden.");
+      throw error;
+    }
+  };
 
   return (
     <div className={styles.pageContainer}>
@@ -182,19 +215,46 @@ const handleTaskDeleted = (taskId) => {
                   </ProjectDetailBar>
                 </Card>
 
-                <Card variant="card">
-                  <StagesList
-                    projectId={project.id}
-                    stages={project.stages || []}
-                    competences={competences}
-                    onStageCreated={handleStageCreate}
-                    onStageEdited={handleStageEdit}
-                    onStageDeleted={handleStageDelete}
-                    onTaskCreated={handleTaskCreated}
-                    onTaskEdited={handleTaskEdited}
-                    onTaskDeleted={handleTaskDeleted}
-                  />
-                </Card>
+                <div className={styles.viewToolbar}>
+                  <div className={styles.viewToggle}>
+                    <Button
+                      icon={<FiList size={18} />}
+                      name="Liste"
+                      variant={viewMode === "details" ? "primary" : "ghost"}
+                      title="Vis etaper og opgaver"
+                      onClick={() => setViewMode("details")}
+                    />
+
+                    <Button
+                      icon={<FiCalendar size={18} />}
+                      name="Tidsplan"
+                      variant={viewMode === "gantt" ? "primary" : "ghost"}
+                      title="Vis projektets tidsplan"
+                      onClick={() => setViewMode("gantt")}
+                    />
+                  </div>
+                </div>
+                {viewMode === "details" ? (
+                  <Card variant="card">
+                    <StagesList
+                      projectId={project.id}
+                      stages={project.stages || []}
+                      competences={competences}
+                      onStageCreated={handleStageCreate}
+                      onStageEdited={handleStageEdit}
+                      onStageDeleted={handleStageDelete}
+                      onTaskCreated={handleTaskCreated}
+                      onTaskView={handleOpenTask}
+                    />
+                  </Card>
+                ) : (
+                  <Card variant="card">
+                    <ProjectGantt
+                      project={project}
+                      onTaskClick={handleOpenTask}
+                    />
+                  </Card>
+                )}
               </>
             ) : (
               <Card variant="card">
@@ -206,6 +266,23 @@ const handleTaskDeleted = (taskId) => {
               </Card>
             )}
           </>
+        )}
+
+        {selectedTask && (
+          <Modal onClose={() => setSelectedTaskId(null)}>
+            <Card>
+              <TaskDetail
+                task={selectedTask}
+                tasks={allTasks}
+                onTaskDelete={handleDeleteTask}
+                onTaskStatusChange={handleChangeStatusTask}
+                onTaskEdit={handleEditTask}
+                competences={competences}
+                onTaskDependencyAdd={handleTaskDependencyAdd}
+                onTaskDependencyRemove={handleTaskDependencyRemove}
+              />
+            </Card>
+          </Modal>
         )}
 
         {showConfirm && (

@@ -77,6 +77,18 @@
   text-overflow: ellipsis;
 }
 
+.infoCell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+}
+
+.date {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
 .chevron {
   color: var(--color-text-muted);
   display: flex;

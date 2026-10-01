@@ -13,14 +13,14 @@ const getById = async (id) => {
 const create = async (body) => {
   return await apiClient(RESOURCE_URL, {
     method: "POST",
-    body: body,
+    body,
   });
 };
 
 const update = async (id, body) => {
   return await apiClient(`${RESOURCE_URL}/${id}`, {
     method: "PUT",
-    body: body,
+    body,
   });
 };
 
@@ -30,10 +30,30 @@ const remove = async (id) => {
   });
 };
 
+const addPredecessor = async (taskId, predecessorId) => {
+  return await apiClient(
+    `${RESOURCE_URL}/${taskId}/predecessors/${predecessorId}`,
+    {
+      method: "POST",
+    },
+  );
+};
+
+const removePredecessor = async (taskId, predecessorId) => {
+  return await apiClient(
+    `${RESOURCE_URL}/${taskId}/predecessors/${predecessorId}`,
+    {
+      method: "DELETE",
+    },
+  );
+};
+
 export default {
   getAll,
   getById,
   create,
   update,
   remove,
+  addPredecessor,
+  removePredecessor,
 };

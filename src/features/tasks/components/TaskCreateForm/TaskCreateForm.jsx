@@ -1,16 +1,18 @@
 import styles from "./TaskCreateForm.module.css";
 import { useState } from "react";
+
 import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 import Input from "@/shared/components/ui/Input/Input";
 import Button from "@/shared/components/ui/Button/Button";
 import Select from "@/shared/components/filter/Select/Select";
 import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
-import { validateTask } from "../../utils/validateTask";
 
+import { validateTask } from "../../utils/validateTask";
 import { useNotification } from "@/context/NotificationContext";
 
 const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
   const { notify } = useNotification();
+
   const [formData, setFormData] = useState({
     stageId,
     name: "",
@@ -18,7 +20,7 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
     minimumDurationInDays: "",
     competenceId: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [errors, setErrors] = useState({
     name: "",
     estimate: "",
@@ -26,10 +28,13 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
     competenceId: "",
   });
 
-  const competenceOptions = competences.map((c) => ({
-    value: c.id,
-    label: c.name,
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const competenceOptions = competences.map((competence) => ({
+    value: competence.id,
+    label: competence.name,
   }));
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -42,22 +47,6 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
       setErrors((prev) => ({
         ...prev,
         [name]: "",
-      }));
-    }
-  };
-
-  const handleCompetenceChange = (e) => {
-    const value = e.target.value;
-
-    setFormData((prev) => ({
-      ...prev,
-      competenceIds: value ? [Number(value)] : [],
-    }));
-
-    if (errors.competenceIds) {
-      setErrors((prev) => ({
-        ...prev,
-        competenceIds: "",
       }));
     }
   };
@@ -76,15 +65,16 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
       setIsSubmitting(true);
 
       const payload = {
-        ...formData,
         stageId: Number(formData.stageId),
+        name: formData.name.trim(),
         competenceId: Number(formData.competenceId),
         estimate: Number(formData.estimate),
         minimumDurationInDays: Number(formData.minimumDurationInDays),
       };
+
       await onSubmit(payload);
     } catch (error) {
-      notify("error", error || "Noget gik galt ved oprettelsen");
+      notify("error", error?.message || "Noget gik galt ved oprettelsen");
     } finally {
       setIsSubmitting(false);
     }
@@ -96,6 +86,7 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
         title="Opret opgave"
         subtitle="Tilføj en ny opgave til etappen"
       />
+
       <Input
         label="Opgave navn"
         type="text"
@@ -120,12 +111,14 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
       />
 
       <Input
-        label="Tids estimering"
+        label="Tidsestimering"
         type="number"
         name="estimate"
         value={formData.estimate}
         onChange={handleChange}
         placeholder="8"
+        min="0"
+        step="0.5"
         hasError={!!errors.estimate}
         errorMessage={errors.estimate}
         required
@@ -152,6 +145,7 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
           name="Fortryd"
           onClick={onCancel}
         />
+
         <Button
           type="submit"
           variant="primary"
