@@ -4,7 +4,6 @@ import { FiChevronRight } from "react-icons/fi";
 import { formatDate } from "@/utils/dateHelpers";
 
 const ProjectsTable = ({ projects, onView }) => {
-  console.log(projects);
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>
@@ -14,27 +13,47 @@ const ProjectsTable = ({ projects, onView }) => {
             <th>Oprettet af</th>
             <th>Tidslinje</th>
             <th>Antal opgaver</th>
-            <th>Deadline kan</th>
             <th>Deadline</th>
             <th>Status</th>
             <th></th>
           </tr>
         </thead>
+
         <tbody>
           {projects.map((p) => (
-            <tr key={p.id} className={styles.row} onClick={() => onView(p.id)}>
+            <tr
+              key={p.id}
+              className={styles.row}
+              onClick={() => onView(p.id)}
+            >
               <td>
                 <div className={styles.nameCell}>
-                  <span className={styles.title}>{p.title}</span>
-                  <span className={styles.description}>{p.description}</span>
+                  <span className={styles.title}>
+                    {p.title}
+                  </span>
+
+                  <span className={styles.description}>
+                    {p.description}
+                  </span>
                 </div>
               </td>
+
               <td>
                 {p.createdBy.firstName} {p.createdBy.lastName}
               </td>
+
               <td>
-                Start: {formatDate(p.startDate)} Slut: {formatDate(p.deadline)}
+                <div className={styles.infoCell}>
+                  <span>
+                    Start: {formatDate(p.startDate)}
+                  </span>
+
+                  <span >
+                    Slut: {formatDate(p.deadline)}
+                  </span>
+                </div>
               </td>
+
               <td>
                 {p?.taskCountDTO?.taskDone ?? 0} ud af{" "}
                 {p?.taskCountDTO?.totalTaskCount ?? 0} færdige
@@ -42,18 +61,35 @@ const ProjectsTable = ({ projects, onView }) => {
 
               <td>
                 {p.schedule ? (
-                  <Badge
-                    status={p.schedule.feasible ? "FEASIBLE" : "INFEASIBLE"}
-                  />
+                  <div className={styles.infoCell}>
+                    <Badge
+                      status={
+                        p.schedule.feasible
+                          ? "FEASIBLE"
+                          : "INFEASIBLE"
+                      }
+                    />
+
+                    <span className={styles.date}>
+                      Forventet:{" "}
+                      {formatDate(
+                        p.schedule.calculatedFinishDate,
+                      )}
+                    </span>
+                  </div>
                 ) : (
                   "-"
                 )}
               </td>
+
               <td>
                 <Badge status={p.status} />
               </td>
+
               <td>
-                <FiChevronRight className={styles.chevron} />
+                <FiChevronRight
+                  className={styles.chevron}
+                />
               </td>
             </tr>
           ))}
