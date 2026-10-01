@@ -68,6 +68,14 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
             <span className={styles.label}>Deadline</span>
             <span className={styles.value}>
               {project?.deadline ? formatDate(project.deadline) : "-"}
+              <Badge status={project?.schedule?.feasible ? "FEASIBLE" : "IN_FEASIBLE"} />
+            </span>
+          </div>
+
+                    <div className={styles.field}>
+            <span className={styles.label}>Forløbig afslutning</span>
+            <span className={styles.value}>
+              {project?.schedule?.calculatedFinishDate ? formatDate(project.schedule.calculatedFinishDate) : "-"}
             </span>
           </div>
 
@@ -108,6 +116,8 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
             <span className={styles.label}>Ikke startede opgaver</span>
             <span className={styles.value}>{tasksNotStarted}</span>
           </div>
+
+        
         </div>
       </div>
 

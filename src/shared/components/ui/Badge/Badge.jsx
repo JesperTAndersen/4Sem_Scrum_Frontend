@@ -9,6 +9,9 @@ const STATUS_COLORS = {
   DONE: styles.success,
   ACTIVE: styles.success,
   DISABLED: styles.neutral,
+  IN_FEASIBLE: styles.warning,
+  FEASIBLE: styles.success
+
 };
 
 const STATUS_LABELS = {
@@ -18,9 +21,10 @@ const STATUS_LABELS = {
   COMPLETED: "Afsluttet",
   ACTIVE: "Aktiv",
   DISABLED: "Deaktiveret",
-
   NOT_STARTED: "Ikke startet",
   DONE: "Færdig",
+  IN_FEASIBLE: "Kan ikke nås",
+  FEASIBLE: "Kan nås"
 };
 
 const Badge = ({ status, label }) => {
