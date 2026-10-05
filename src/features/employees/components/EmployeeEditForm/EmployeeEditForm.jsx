@@ -1,12 +1,12 @@
-import styles from "./CompetenceEditForm.module.css";
+import styles from "./EmployeeEditForm.module.css";
 import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 import Input from "@/shared/components/ui/Input/Input";
 import Button from "@/shared/components/ui/Button/Button";
 import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
-import { validateCompetence } from "../../utils/validateCompetence";
+import { validateEmployee } from "../../utils/validateEmployee";
 import { useState } from "react";
 
-const CompetenceEditForm = ({ competence, onSubmit, onCancel }) => {
+const EmployeeEditForm = ({ competence, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     name: competence.name,
     rate: competence.rate,
@@ -48,7 +48,7 @@ const CompetenceEditForm = ({ competence, onSubmit, onCancel }) => {
     <>
       <FormLayout onSubmit={handleSubmit}>
         <FormHeader
-          title="Rediger kompentence"
+          title="Rediger station"
           subtitle="Opdater navn og beskrivelse"
         />
 
@@ -92,4 +92,4 @@ const CompetenceEditForm = ({ competence, onSubmit, onCancel }) => {
   );
 };
 
-export default CompetenceEditForm;
+export default EmployeeEditForm;
