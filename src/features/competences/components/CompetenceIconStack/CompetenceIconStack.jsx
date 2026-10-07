@@ -1,5 +1,5 @@
-import styles from './CompetenceIconStack.module.css';
-import CompetenceIcon from '../CompetenceIcon/CompetenceIcon';
+import styles from "./CompetenceIconStack.module.css";
+import CompetenceIcon from "../CompetenceIcon/CompetenceIcon";
 
 const CompetenceIconStack = ({ competences = [], max = 4 }) => {
   if (!competences?.length) return <span className={styles.none}>—</span>;
@@ -11,10 +11,7 @@ const CompetenceIconStack = ({ competences = [], max = 4 }) => {
     <div className={styles.stack}>
       {visible.map((c) => (
         <div key={c.id} className={styles.item}>
-          <CompetenceIcon
-            displayNumber={c.displayNumber}
-            size="xs"
-          />
+          <CompetenceIcon displayNumber={c.displayNumber} size="xs" />
         </div>
       ))}
 

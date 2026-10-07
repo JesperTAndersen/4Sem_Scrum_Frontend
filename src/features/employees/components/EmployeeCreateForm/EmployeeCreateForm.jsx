@@ -4,14 +4,27 @@ import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 import Input from "@/shared/components/ui/Input/Input";
 import Button from "@/shared/components/ui/Button/Button";
 import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
+import CompetenceSelector from "@/features/competences/components/CompetenceSelector/CompetenceSelector";
 import { validateEmployee } from "../../utils/validateEmployee";
 import { useNotification } from "@/context/NotificationContext";
 
-const EmployeeCreateForm = ({ onSubmit, onCancel }) => {
+const EmployeeCreateForm = ({ onSubmit, onCancel, competences }) => {
   const { notify } = useNotification();
-  const [formData, setFormData] = useState({ firstName: "", lastName: "", standardCapacity: "true", daily });
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    standardCapacity: "true",
+    dailyCapacity: "",
+    competenceIds: [],
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState({ firstName: "", lastName: "", standardCapacity: "true", daily });
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    standardCapacity: "true",
+    dailyCapacity: "",
+    competenceIds: [],
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,11 +35,19 @@ const EmployeeCreateForm = ({ onSubmit, onCancel }) => {
     }
   };
 
+  const handleToggleCompetence = (id) => {
+    setFormData((prev) => ({
+      ...prev,
+      competenceIds: prev.competenceIds.includes(id)
+        ? prev.competenceIds.filter((competenceId) => competenceId !== id)
+        : [...prev.competenceIds, id],
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { errors: validationErrors, hasErrors } =
-      validateEmployee(formData);
+    const { errors: validationErrors, hasErrors } = validateEmployee(formData);
 
     if (hasErrors) {
       setErrors(validationErrors);
@@ -42,7 +63,7 @@ const EmployeeCreateForm = ({ onSubmit, onCancel }) => {
       };
       await onSubmit(payload);
     } catch (error) {
-        notify("error", error.message || "Noget gik galt ved oprettelsen");
+      notify("error", error.message || "Noget gik galt ved oprettelsen");
     } finally {
       setIsSubmitting(false);
     }
@@ -66,7 +87,7 @@ const EmployeeCreateForm = ({ onSubmit, onCancel }) => {
         required
       />
 
-            <Input
+      <Input
         label="Medarbejders efternavn"
         type="text"
         name="lastName"
@@ -90,6 +111,12 @@ const EmployeeCreateForm = ({ onSubmit, onCancel }) => {
         min="0"
         step="0.01"
         required
+      />
+
+      <CompetenceSelector
+        competences={competences}
+        selectedIds={formData.competenceIds}
+        onToggle={handleToggleCompetence}
       />
 
       <div className={styles.actions}>

@@ -1,7 +1,6 @@
-import styles from './CompetencePill.module.css';
+import styles from "./CompetencePill.module.css";
 
 const CompetencePill = ({ competence }) => {
-
   return (
     <span className={styles.pill}>
       <span className={styles.number}>{competence.displayNumber}</span>

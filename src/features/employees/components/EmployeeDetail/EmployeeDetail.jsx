@@ -34,9 +34,7 @@ const EmployeeDetail = ({ employee, actions }) => {
           <div className={styles.field}>
             <span className={styles.label}>Senest opdateret</span>
             <span className={styles.value}>
-              {employee.updatedAt
-                ? formatDate(employee.updatedAt)
-                : "Aldrig"}
+              {employee.updatedAt ? formatDate(employee.updatedAt) : "Aldrig"}
             </span>
           </div>
         </div>

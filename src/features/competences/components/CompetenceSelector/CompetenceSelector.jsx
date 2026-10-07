@@ -1,11 +1,9 @@
-import styles from './CompetenceSelector.module.css';
+import styles from "./CompetenceSelector.module.css";
 
 const CompetenceSelector = ({ competences, selectedIds, onToggle }) => {
   return (
     <div>
-      <label className={styles.groupLabel}>
-        Indeholder kompetencer:
-      </label>
+      <label className={styles.groupLabel}>Indeholder kompetencer:</label>
       <div className={styles.grid}>
         {competences.map((c) => {
           const isSelected = selectedIds.includes(c.id);
@@ -14,7 +12,7 @@ const CompetenceSelector = ({ competences, selectedIds, onToggle }) => {
             <button
               key={c.id}
               type="button"
-              className={`${styles.competenceBadge} ${isSelected ? styles.selected : ''}`}
+              className={`${styles.competenceBadge} ${isSelected ? styles.selected : ""}`}
               onClick={() => onToggle(c.id)}
             >
               <span className={styles.number}>{c.displayNumber}</span>

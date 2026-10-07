@@ -5,7 +5,7 @@
 
 .item {
   flex-shrink: 0;
-  margin-left: calc(var(--spacing-xs) * -1)
+  margin-left: calc(var(--spacing-xs) * -1);
 }
 
 .item:first-child {

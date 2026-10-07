@@ -1,7 +1,7 @@
-import styles from './CompetenceIcon.module.css';
-import { allergenIconByDisplayNumber } from '../../../features/allergens/utils/allergenIconMap';
+import styles from "./CompetenceIcon.module.css";
+import { allergenIconByDisplayNumber } from "../../../features/allergens/utils/allergenIconMap";
 
-const CompetenceIcon = ({ displayNumber, size = 'sm' }) => {
+const CompetenceIcon = ({ displayNumber, size = "sm" }) => {
   const src = allergenIconByDisplayNumber[displayNumber];
 
   if (!src) {

@@ -13,7 +13,6 @@ const DashboardPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -34,7 +33,7 @@ const DashboardPage = () => {
 
   const handleOnView = (id) => {
     navigate(`/projects/${id}`);
-  }
+  };
 
   return (
     <div className={styles.contentArea}>
@@ -62,7 +61,12 @@ const DashboardPage = () => {
         isLoading={false}
       />
 
-      <ProjectsCard cols={6} projects={projects} isLoading={isLoading} onView={handleOnView} />
+      <ProjectsCard
+        cols={6}
+        projects={projects}
+        isLoading={isLoading}
+        onView={handleOnView}
+      />
     </div>
   );
 };
