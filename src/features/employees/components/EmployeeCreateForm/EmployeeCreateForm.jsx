@@ -9,9 +9,9 @@ import { useNotification } from "@/context/NotificationContext";
 
 const EmployeeCreateForm = ({ onSubmit, onCancel }) => {
   const { notify } = useNotification();
-  const [formData, setFormData] = useState({ name: "", rate: "" });
+  const [formData, setFormData] = useState({ firstName: "", lastName: "", standardCapacity: "true", daily });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState({ name: "", rate: "" });
+  const [errors, setErrors] = useState({ firstName: "", lastName: "", standardCapacity: "true", daily });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +38,7 @@ const EmployeeCreateForm = ({ onSubmit, onCancel }) => {
 
       const payload = {
         ...formData,
-        rate: Number(formData.rate),
+        dailyCapacity: Number(formData.rate),
       };
       await onSubmit(payload);
     } catch (error) {
@@ -55,26 +55,38 @@ const EmployeeCreateForm = ({ onSubmit, onCancel }) => {
         subtitle="Tilføj en ny medarbejder til systemet"
       />
       <Input
-        label="Medarbejder navn"
+        label="Medarbejders fornavn"
         type="text"
-        name="name"
-        value={formData.name}
+        name="firstName"
+        value={formData.firstName}
         onChange={handleChange}
         placeholder="Fx. Hans eller Lise"
-        hasError={!!errors.name}
-        errorMessage={errors.name}
+        hasError={!!errors.firstName}
+        errorMessage={errors.firstName}
+        required
+      />
+
+            <Input
+        label="Medarbejders efternavn"
+        type="text"
+        name="lastName"
+        value={formData.lastName}
+        onChange={handleChange}
+        placeholder="Fx. Hansen eller Lisesen"
+        hasError={!!errors.lastName}
+        errorMessage={errors.lastName}
         required
       />
 
       <Input
-        label="Timepris (Rate)"
+        label="Daglig kapicitet"
         type="number"
-        name="rate"
-        value={formData.rate}
+        name="dailyCapacity"
+        value={formData.dailyCapacity}
         onChange={handleChange}
-        placeholder="Fx. 850"
-        hasError={!!errors.rate}
-        errorMessage={errors.rate}
+        placeholder="Fx. 7.5"
+        hasError={!!errors.dailyCapacity}
+        errorMessage={errors.dailyCapacity}
         min="0"
         step="0.01"
         required

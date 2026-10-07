@@ -1,0 +1,72 @@
+.groupLabel {
+  display: block;
+  font-size: var(--text-xs);
+  letter-spacing: 1px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.allergenBadge {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--spacing-xs);
+  padding: 8px 12px;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  width: 100%;
+}
+
+.allergenBadge:hover {
+  border-color: var(--color-highlight);
+  color: var(--color-highlight);
+}
+
+.selected {
+  background-color: var(--color-highlight);
+  border-color: var(--color-highlight);
+  color: var(--color-bg-surface);
+}
+
+.number {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  background-color: var(--color-bg-main);
+  color: var(--color-text-secondary);
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.selected .number {
+  background-color: var(--color-bg-surface);
+  color: var(--color-primary);
+}
+
+.allergenBadge.selected:hover {
+  color: var(--color-bg-surface);
+}
+
+.name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
