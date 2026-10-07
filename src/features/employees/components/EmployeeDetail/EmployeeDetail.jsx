@@ -2,8 +2,8 @@ import styles from "./EmployeeDetail.module.css";
 import Avatar from "@/shared/components/ui/Avatar/Avatar";
 import BackButton from "@/shared/components/ui/BackButton/BackButton";
 import Badge from "@/shared/components/ui/Badge/Badge";
+import CompetenceIcon from "@/features/competences/components/CompetenceIcon/CompetenceIcon";
 import { formatDate } from "@/utils/dateHelpers";
-import { formatUserRole } from "@/utils/formatters";
 import { useNavigate } from "react-router";
 
 const EmployeeDetail = ({ employee, actions }) => {
@@ -16,12 +16,31 @@ const EmployeeDetail = ({ employee, actions }) => {
       <div className={styles.header}>
         <div className={styles.titleWrapper}>
           <div className={styles.titleRow}>
-            <h1 className={styles.title}>{competence.name}</h1>
+            <h1 className={styles.title}>{employee.firstName} {employee.lastName}</h1>
             <Badge status={employee.active ? "ACTIVE" : "DISABLED"} />
           </div>
-          <p className={styles.description}>{competence.rate} kr. i timen</p>
+          <p className={styles.description}>{employee.dailyCapacity} i daglig kapicitet</p>
         </div>
       </div>
+
+            {employee.competences?.length > 0 && (
+        <div className={styles.group}>
+          <h3 className={styles.groupLabel}>Tilknyttede kompetencer</h3>
+
+          <div className={styles.competenceGrid}>
+            {employee.competences
+              .slice()
+              .map((c) => (
+                <div key={c.id} className={styles.competenceItem}>
+                  <CompetenceIcon displayNumber={c.displayNumber} size="sm" />
+                  <div className={styles.competenceText}>
+                    <span className={styles.competenceName}>{c.name}</span>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
 
       <div className={styles.group}>
         <div className={styles.metaGrid}>
@@ -38,42 +57,6 @@ const EmployeeDetail = ({ employee, actions }) => {
             </span>
           </div>
         </div>
-      </div>
-
-      <div className={styles.group}>
-        <h3 className={styles.groupLabel}>
-          Tilknyttede kompetencer ({employee?.comptences?.length ?? 0})
-        </h3>
-
-        {employee?.comptences?.length === 0 ? (
-          <p className={styles.emptyText}>
-            Ingen kompentencer er tilknyttet denne medarbejder endnu.
-          </p>
-        ) : (
-          <div className={styles.userList}>
-            {users.map((user) => (
-              <div
-                key={user.id}
-                className={styles.userItem}
-                onClick={() => navigate(`/admin/users/${user.id}`)}
-              >
-                <Avatar
-                  firstName={user.firstName}
-                  lastName={user.lastName}
-                  size="md"
-                />
-                <div className={styles.userInfo}>
-                  <span className={styles.userName}>
-                    {user.firstName} {user.lastName}
-                  </span>
-                  <span className={styles.userRole}>
-                    {formatUserRole(user.userRole)}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
 
       {actions && (
