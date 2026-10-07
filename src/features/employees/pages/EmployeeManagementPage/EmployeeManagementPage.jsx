@@ -1,22 +1,22 @@
-import styles from "./CompetenceManagementPage.module.css";
+import styles from "./EmployeeManagementPage.module.css";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useNotification } from "@/context/NotificationContext";
-import competenceService from "../../services/employeeService";
+import employeeService from "../../services/employeeService";
 import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
 import Card from "@/shared/components/ui/Card/Card";
 import Button from "@/shared/components/ui/Button/Button";
 import { FiPlusCircle } from "react-icons/fi";
-import CompetenceTable from "../../components/CompetenceTable/CompetenceTable";
-import CompetenceCreateForm from "../../components/CompentenceCreateForm/CompetenceCreateForm";
+import EmployeeTable from "../../components/EmployeeTable/EmployeeTable";
+import EmployeeCreateForm from "../../components/EmployeeCreateForm/EmployeeCreateForm";
 import TableSearch from "@/shared/components/filter/TableSearch/TableSearch";
 import TableEmptyState from "@/shared/components/ui/TableEmptyState/TableEmptyState";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 
-const CompetenceManagementPage = () => {
+const EmployeeManagementPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [competences, setCompetences] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const { notify } = useNotification();
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -30,36 +30,37 @@ const CompetenceManagementPage = () => {
   }, []);
 
   useEffect(() => {
-    const fetchCompetences = async () => {
+    const fetchEmployees = async () => {
       try {
         setIsLoading(true);
-        const data = await competenceService.getAll();
-        setCompetences(data);
+        const data = await employeeService.getAll();
+        setEmployees(data);
       } catch (error) {
         notify(
           "error",
-          error.message || "Noget gik galt ved hentning af kompetencer",
+          error.message || "Noget gik galt ved hentning af medarbejdere",
         );
       } finally {
         setIsLoading(false);
       }
     };
-    fetchCompetences();
+    fetchEmployees();
   }, []);
 
   const handleOnView = (id) => {
     navigate(`/competences/${id}`);
   };
 
-  const filteredCompetences = competences.length
-    ? competences.filter((s) =>
-        s.name.toLowerCase().includes(search.toLowerCase()),
+  const filteredEmployees = employees.length
+    ? employees.filter((s) =>
+        s.firstName.toLowerCase().includes(search.toLowerCase()),
+        s.lastName.toLowerCase().includes(search.toLowerCase()),
       )
     : [];
 
   const handleSubmit = async (formData) => {
-    const data = await competenceService.create(formData);
-    setCompetences((prev) => [...prev, data]);
+    const data = await employeeService.create(formData);
+    setEmployees((prev) => [...prev, data]);
     setShowForm(false);
     notify("success", `${data.name} blev oprettet.`);
   };
@@ -67,13 +68,13 @@ const CompetenceManagementPage = () => {
   return (
     <div className={styles.pageContainer}>
       <PageHeader
-        title="Kompetenceadministration"
-        subtitle="Opret og administrer kompetencer"
+        title="Medarbejderadministration"
+        subtitle="Opret og administrer medarbejdere"
       />
 
       {showForm && (
         <Card cols={6} variant="flat">
-          <CompetenceCreateForm
+          <EmployeeCreateForm
             onSubmit={handleSubmit}
             onCancel={() => setShowForm(false)}
           />
@@ -85,35 +86,35 @@ const CompetenceManagementPage = () => {
           <TableSearch
             value={search}
             onChange={setSearch}
-            placeholder="Søg efter kompetences navn"
+            placeholder="Søg efter medarbejderens navn"
           />
 
           <Button
             icon={<FiPlusCircle />}
-            name="Opret kompetence"
+            name="Opret medarbejder"
             variant={showForm ? "secondary" : "primary"}
             onClick={() => setShowForm((p) => !p)}
           />
         </div>
 
         <div className={styles.tableCount}>
-          Viser {filteredCompetences.length}{" "}
-          {filteredCompetences.length === 1 ? "kompetence" : "kompetencer"}
-          {filteredCompetences.length !== competences.length &&
-            ` (ud af ${competences.length})`}
+          Viser {filteredEmployees.length}{" "}
+          {filteredEmployees.length === 1 ? "medarbejder" : "medarbejdere"}
+          {filteredEmployees.length !== employees.length &&
+            ` (ud af ${employees.length})`}
         </div>
 
-        {isLoading || !competences ? (
-          <LoadingSpinner text="Henter kompetencer..." inline />
+        {isLoading || !employees ? (
+          <LoadingSpinner text="Henter medarbejdere..." inline />
         ) : (
           <>
-            <CompetenceTable
-              competences={filteredCompetences}
+            <EmployeeTable
+              competences={filteredEmployees}
               onView={handleOnView}
             />
-            {filteredCompetences.length === 0 && (
+            {filteredEmployees.length === 0 && (
               <TableEmptyState
-                text="Ingen kompetencer matcher din søgning."
+                text="Ingen medarbejdere matcher din søgning."
                 onReset={() => setSearch("")}
               />
             )}
@@ -124,4 +125,4 @@ const CompetenceManagementPage = () => {
   );
 };
 
-export default CompetenceManagementPage;
+export default EmployeeManagementPage;

@@ -1,13 +1,10 @@
 import styles from "./EmployeeDetail.module.css";
-import Avatar from "@/shared/components/ui/Avatar/Avatar";
 import BackButton from "@/shared/components/ui/BackButton/BackButton";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import CompetenceIcon from "@/features/competences/components/CompetenceIcon/CompetenceIcon";
 import { formatDate } from "@/utils/dateHelpers";
-import { useNavigate } from "react-router";
 
 const EmployeeDetail = ({ employee, actions }) => {
-  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>
