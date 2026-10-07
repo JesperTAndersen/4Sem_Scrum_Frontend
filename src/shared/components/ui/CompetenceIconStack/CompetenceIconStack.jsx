@@ -1,18 +1,18 @@
-import styles from './AllergenIconStack.module.css';
-import AllergenIcon from '../CompetenceIcon/CompetenceIcon';
+import styles from './CompetenceIconStack.module.css';
+import CompetenceIcon from '../CompetenceIcon/CompetenceIcon';
 
-const CompetenceIconStack = ({ allergens = [], max = 4 }) => {
-  if (!allergens?.length) return <span className={styles.none}>—</span>;
+const CompetenceIconStack = ({ competences = [], max = 4 }) => {
+  if (!competences?.length) return <span className={styles.none}>—</span>;
 
-  const visible = allergens.slice(0, max);
-  const remaining = allergens.length - visible.length;
+  const visible = competences.slice(0, max);
+  const remaining = competences.length - visible.length;
 
   return (
     <div className={styles.stack}>
-      {visible.map((a) => (
-        <div key={a.id} className={styles.item}>
-          <AllergenIcon
-            displayNumber={a.displayNumber}
+      {visible.map((c) => (
+        <div key={c.id} className={styles.item}>
+          <CompetenceIcon
+            displayNumber={c.displayNumber}
             size="xs"
           />
         </div>

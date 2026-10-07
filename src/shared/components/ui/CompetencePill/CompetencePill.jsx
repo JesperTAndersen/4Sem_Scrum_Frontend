@@ -4,7 +4,7 @@ const CompetencePill = ({ competence }) => {
 
   return (
     <span className={styles.pill}>
-      <span className={styles.number}>{allergen.displayNumber}</span>
+      <span className={styles.number}>{competence.displayNumber}</span>
       <span className={styles.name}>{competence.name}</span>
     </span>
   );

@@ -1,4 +1,4 @@
-import styles from './AllergenIcon.module.css';
+import styles from './CompetenceIcon.module.css';
 import { allergenIconByDisplayNumber } from '../../../features/allergens/utils/allergenIconMap';
 
 const CompetenceIcon = ({ displayNumber, size = 'sm' }) => {
@@ -17,4 +17,4 @@ const CompetenceIcon = ({ displayNumber, size = 'sm' }) => {
   );
 };
 
-export default AllergenIcon;
+export default CompetenceIcon;
