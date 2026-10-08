@@ -31,6 +31,10 @@ const updateCompetences = async (id, competenceIds) => {
   });
 };
 
+const getCapacity = async () => {
+  return await apiClient(`${RESOURCE_URL}/capacity`);
+};
+
 const activate = async (id) => {
   return await apiClient(`${RESOURCE_URL}/${id}/activate`, {
     method: "PATCH",
@@ -51,6 +55,7 @@ const remove = async (id) => {
 
 export default {
   getAll,
+  getCapacity,
   getById,
   create,
   activate,

@@ -5,6 +5,8 @@ import { useNotification } from "@/context/NotificationContext";
 import employeeService from "../../services/employeeService";
 import EmployeeDetail from "../../components/EmployeeDetail/EmployeeDetail";
 import EmployeeEditForm from "../../components/EmployeeEditForm/EmployeeEditForm";
+import EmployeeCompetenceForm from "../../components/EmployeeCompetenceForm/EmployeeCompetenceForm";
+import competenceService from "@/features/competences/services/competenceService";
 import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
 import Card from "@/shared/components/ui/Card/Card";
 import Button from "@/shared/components/ui/Button/Button";
@@ -19,6 +21,8 @@ const EmployeeDetailPage = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingCompetences, setIsEditingCompetences] = useState(false);
+  const [competences, setCompetences] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +39,19 @@ const EmployeeDetailPage = () => {
 
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    const fetchCompetences = async () => {
+      try {
+        const data = await competenceService.getAll();
+        setCompetences(data);
+      } catch (error) {
+        notify("error", error.message || "Kunne ikke hente kompetencer");
+      }
+    };
+
+    fetchCompetences();
+  }, []);
 
   const handleDelete = async () => {
     try {
@@ -58,6 +75,20 @@ const EmployeeDetailPage = () => {
     } catch (error) {
       notify("error", error.message || "Kunne ikke opdatere medarbejderen.");
       throw error;
+    }
+  };
+
+  const handleUpdateCompetences = async (competenceIds) => {
+    try {
+      const updated = await employeeService.updateCompetences(
+        employee.id,
+        competenceIds,
+      );
+      setEmployee(updated);
+      notify("success", "Kompetencer opdateret!");
+      setIsEditingCompetences(false);
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke opdatere kompetencer.");
     }
   };
 
@@ -110,9 +141,17 @@ const EmployeeDetailPage = () => {
                   onSubmit={handleUpdate}
                   onCancel={() => setIsEditing(false)}
                 />
+              ) : isEditingCompetences ? (
+                <EmployeeCompetenceForm
+                  employee={employee}
+                  competences={competences}
+                  onSubmit={handleUpdateCompetences}
+                  onCancel={() => setIsEditingCompetences(false)}
+                />
               ) : (
                 <EmployeeDetail
                   employee={employee}
+                  onEditCompetences={() => setIsEditingCompetences(true)}
                   actions={{
                     left: (
                       <Button

@@ -19,6 +19,7 @@ const EmployeeManagementPage = () => {
   const location = useLocation();
   const [employees, setEmployees] = useState([]);
   const [competences, setCompetences] = useState([]);
+  const [capacity, setCapacity] = useState(null);
   const { notify } = useNotification();
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -47,6 +48,18 @@ const EmployeeManagementPage = () => {
       }
     };
     fetchEmployees();
+  }, []);
+
+  useEffect(() => {
+    const fetchCapacity = async () => {
+      try {
+        const data = await employeeService.getCapacity();
+        setCapacity(data);
+      } catch (error) {
+        notify("error", error.message || "Kunne ikke hente kapacitet");
+      }
+    };
+    fetchCapacity();
   }, []);
 
   useEffect(() => {
@@ -83,6 +96,7 @@ const EmployeeManagementPage = () => {
     }
 
     setEmployees((prev) => [...prev, data]);
+    setCapacity(await employeeService.getCapacity());
     setShowForm(false);
     notify("success", `${data.firstName} ${data.lastName} blev oprettet.`);
   };
@@ -102,6 +116,22 @@ const EmployeeManagementPage = () => {
             onCancel={() => setShowForm(false)}
           />
         </Card>
+      )}
+
+      {capacity && (
+        <div className={styles.statsRow}>
+          <div className={styles.statCard}>
+            <span className={styles.statLabel}>Aktive medarbejdere</span>
+            <span className={styles.statValue}>{capacity.employeeCount}</span>
+          </div>
+
+          <div className={styles.statCard}>
+            <span className={styles.statLabel}>Samlet kapacitet</span>
+            <span className={styles.statValue}>
+              {capacity.dailyCapacity.toLocaleString("da-DK")} timer/dag
+            </span>
+          </div>
+        </div>
       )}
 
       <Card variant="table">
