@@ -3,8 +3,6 @@ import styles from "./RouteSelect.module.css";
 import {
   FiGrid,
   FiFolder,
-  FiLayers,
-  FiCheckSquare,
   FiTool,
   FiDollarSign,
   FiUsers,
@@ -30,18 +28,6 @@ const RouteSelect = ({ collapsed }) => {
         to="/projects"
         title="Projekter"
         Icon={FiFolder}
-        collapsed={collapsed}
-      />
-      <Route
-        to="/stages"
-        title="Etaper"
-        Icon={FiLayers}
-        collapsed={collapsed}
-      />
-      <Route
-        to="/tasks"
-        title="Opgaver"
-        Icon={FiCheckSquare}
         collapsed={collapsed}
       />
 
