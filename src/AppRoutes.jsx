@@ -3,7 +3,6 @@ import AuthLayout from "./layouts/AuthLayout/AuthLayout";
 import DashboardLayout from "./layouts/DashboardLayout/DashboardLayout";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import ForbiddenPage from "./pages/ForbiddenPage/ForbiddenPage";
-import UnderDevelopmentPage from "./pages/UnderDevelopmentPage/UnderDevelopmentPage";
 import LoginPage from "./features/auth/pages/LoginPage/LoginPage";
 import RegisterPage from "./features/auth/pages/RegisterPage/RegisterPage";
 import DashboardPage from "./features/dashboard/pages/DashboardPage";
@@ -32,7 +31,6 @@ const AppRoutes = () => (
         <Route path="/projects/:id" element={<ProjectDetailPage />} />
         <Route path="/competences" element={<CompetenceManagementPage />} />
         <Route path="/competences/:id" element={<CompetenceDetailPage />} />
-        <Route path="/costs" element={<UnderDevelopmentPage />} />
         <Route path="/users" element={<UserManagementPage />} />
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/employees" element={<EmployeeManagementPage />}/>
