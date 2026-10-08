@@ -14,6 +14,8 @@ import ProjectDetailPage from "./features/projects/pages/ProjectDetailPage/Proje
 import ProtectedRoute from "./shared/components/ProtectedRoute/ProtectedRoute";
 import CompetenceManagementPage from "./features/competences/pages/CompetenceManagementPage/CompetenceManagementPage";
 import CompetenceDetailPage from "./features/competences/pages/CompetenceDetailPage/CompetenceDetailPage";
+import EmployeeDetailPage from "./features/employees/pages/EmployeeDetailPage/EmployeeDetailPage";
+import EmployeeManagementPage from "./features/employees/pages/EmployeeManagementPage/EmployeeManagementPage";
 
 const AppRoutes = () => (
   <Routes>
@@ -35,6 +37,8 @@ const AppRoutes = () => (
         <Route path="/costs" element={<UnderDevelopmentPage />} />
         <Route path="/users" element={<UserManagementPage />} />
         <Route path="/profile" element={<UserProfilePage />} />
+        <Route path="/employees" element={<EmployeeManagementPage />}/>
+        <Route path="/employees/:id" element={<EmployeeDetailPage />}/>
       </Route>
     </Route>
 

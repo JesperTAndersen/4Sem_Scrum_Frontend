@@ -24,6 +24,12 @@ const fieldConfig = {
     currentPassword: { min: 6, max: 100 },
     newPassword: { min: 6, max: 100 },
   },
+  employee: {
+    firstName: { min: 2, max: 50 },
+    lastName: { min: 2, max: 50 },
+    dailyCapacity: {min: 2, max: 50},
+    competenceId: { min: 1 },
+  }
 };
 
 export default fieldConfig;
