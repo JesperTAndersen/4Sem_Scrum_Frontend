@@ -1,5 +1,6 @@
 import styles from "./EmployeeDetailPage.module.css";
 import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router";
 import { useNotification } from "@/context/NotificationContext";
 import employeeService from "../../services/employeeService";
 import EmployeeDetail from "../../components/EmployeeDetail/EmployeeDetail";
@@ -12,6 +13,7 @@ import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner
 
 const EmployeeDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { notify } = useNotification();
   const [employee, setEmployee] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -39,7 +41,7 @@ const EmployeeDetailPage = () => {
       await employeeService.remove(id);
       navigate("/employees", {
         state: {
-          successMessage: `${employee.name} blev slettet`,
+          successMessage: `${employee.firstName} ${employee.lastName} blev slettet`,
         },
       });
     } catch (error) {
@@ -51,7 +53,7 @@ const EmployeeDetailPage = () => {
     try {
       const updated = await employeeService.update(employee.id, formData);
       setEmployee(updated);
-      notify("success", `${employee.firstName} ${employee.lastName} opdateret!`);
+      notify("success", `${updated.firstName} ${updated.lastName} opdateret!`);
       setIsEditing(false);
     } catch (error) {
       notify("error", error.message || "Kunne ikke opdatere medarbejderen.");
@@ -104,7 +106,7 @@ const EmployeeDetailPage = () => {
             <Card variant="flat">
               {isEditing ? (
                 <EmployeeEditForm
-                  competence={employee}
+                  employee={employee}
                   onSubmit={handleUpdate}
                   onCancel={() => setIsEditing(false)}
                 />

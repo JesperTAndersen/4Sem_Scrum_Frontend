@@ -6,38 +6,45 @@ import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
 import { validateEmployee } from "../../utils/validateEmployee";
 import { useState } from "react";
 
-const EmployeeEditForm = ({ competence, onSubmit, onCancel }) => {
+const EmployeeEditForm = ({ employee, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    name: competence.name,
-    rate: competence.rate,
+    firstName: employee.firstName,
+    lastName: employee.lastName,
+    dailyCapacity: employee.dailyCapacity,
   });
-  const [errors, setErrors] = useState({ name: "", rate: "" });
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    dailyCapacity: "",
+  });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { errors: validationErrors, hasErrors } =
-      validateCompetence(formData);
+    const { errors: validationErrors, hasErrors } = validateEmployee(formData);
 
     if (hasErrors) {
       setErrors(validationErrors);
       return;
     }
 
-    if (hasErrors) return;
-
     try {
       setIsSubmitting(true);
       await onSubmit({
         ...formData,
-        rate: Number(formData.rate),
+        dailyCapacity: Number(formData.dailyCapacity),
+        competenceIds: employee.competences?.map((c) => c.id) ?? [],
       });
     } finally {
       setIsSubmitting(false);
@@ -45,50 +52,65 @@ const EmployeeEditForm = ({ competence, onSubmit, onCancel }) => {
   };
 
   return (
-    <>
-      <FormLayout onSubmit={handleSubmit}>
-        <FormHeader
-          title="Rediger station"
-          subtitle="Opdater navn og beskrivelse"
+    <FormLayout onSubmit={handleSubmit}>
+      <FormHeader
+        title="Rediger medarbejder"
+        subtitle="Opdater navn og daglig kapacitet"
+      />
+
+      <Input
+        label="Medarbejders fornavn"
+        type="text"
+        name="firstName"
+        value={formData.firstName}
+        onChange={handleChange}
+        placeholder="Fx. Hans eller Lise"
+        hasError={!!errors.firstName}
+        errorMessage={errors.firstName}
+        required
+      />
+
+      <Input
+        label="Medarbejders efternavn"
+        type="text"
+        name="lastName"
+        value={formData.lastName}
+        onChange={handleChange}
+        placeholder="Fx. Hansen eller Lisesen"
+        hasError={!!errors.lastName}
+        errorMessage={errors.lastName}
+        required
+      />
+
+      <Input
+        label="Daglig kapacitet"
+        type="number"
+        name="dailyCapacity"
+        value={formData.dailyCapacity}
+        onChange={handleChange}
+        placeholder="Fx. 7.5"
+        hasError={!!errors.dailyCapacity}
+        errorMessage={errors.dailyCapacity}
+        min="0"
+        step="0.01"
+        required
+      />
+
+      <div className={styles.actions}>
+        <Button
+          type="button"
+          variant="secondary"
+          name="Fortryd"
+          onClick={onCancel}
         />
-
-        <Input
-          label="Kompetencenavn"
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Fx. Maler"
-          hasError={!!errors.name}
-          errorMessage={errors.name}
-          required
+        <Button
+          type="submit"
+          variant="primary"
+          name={isSubmitting ? "Opdaterer..." : "Opdater medarbejder"}
+          disabled={isSubmitting}
         />
-
-        <Input
-          label="Timepris (Rate)"
-          type="number"
-          name="rate"
-          value={formData.rate}
-          onChange={handleChange}
-          placeholder="Fx. 850"
-          hasError={!!errors.rate}
-          errorMessage={errors.rate}
-          min="0"
-          step="0.01"
-          required
-        />
-
-        <div className={styles.actions}>
-          <Button onClick={onCancel} variant="secondary" name="Fortryd" />
-
-          <Button
-            type="submit"
-            variant="primary"
-            name={isSubmitting ? "Opdaterer..." : "Opdater kompetence"}
-          />
-        </div>
-      </FormLayout>
-    </>
+      </div>
+    </FormLayout>
   );
 };
 

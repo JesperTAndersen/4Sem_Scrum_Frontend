@@ -2,8 +2,13 @@ import { validateField } from "@/utils/validation/fieldValidators";
 
 export const validateEmployee = (formData) => {
   const errors = {
-    name: validateField("competence", "name", formData.name),
-    rate: validateField("competence", "rate", formData.rate),
+    firstName: validateField("employee", "firstName", formData.firstName),
+    lastName: validateField("employee", "lastName", formData.lastName),
+    dailyCapacity: validateField(
+      "employee",
+      "dailyCapacity",
+      formData.dailyCapacity,
+    ),
   };
 
   const hasErrors = Object.values(errors).some(Boolean);

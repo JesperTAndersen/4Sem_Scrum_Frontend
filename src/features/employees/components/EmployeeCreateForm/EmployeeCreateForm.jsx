@@ -59,7 +59,7 @@ const EmployeeCreateForm = ({ onSubmit, onCancel, competences }) => {
 
       const payload = {
         ...formData,
-        dailyCapacity: Number(formData.rate),
+        dailyCapacity: Number(formData.dailyCapacity),
       };
       await onSubmit(payload);
     } catch (error) {

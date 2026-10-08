@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useNotification } from "@/context/NotificationContext";
 import employeeService from "../../services/employeeService";
+import competenceService from "@/features/competences/services/competenceService";
 import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
 import Card from "@/shared/components/ui/Card/Card";
 import Button from "@/shared/components/ui/Button/Button";
@@ -17,6 +18,7 @@ const EmployeeManagementPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [employees, setEmployees] = useState([]);
+  const [competences, setCompetences] = useState([]);
   const { notify } = useNotification();
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -47,14 +49,27 @@ const EmployeeManagementPage = () => {
     fetchEmployees();
   }, []);
 
+  useEffect(() => {
+    const fetchCompetences = async () => {
+      try {
+        const data = await competenceService.getAll();
+        setCompetences(data);
+      } catch (error) {
+        notify("error", error.message || "Kunne ikke hente kompetencer");
+      }
+    };
+    fetchCompetences();
+  }, []);
+
   const handleOnView = (id) => {
-    navigate(`/competences/${id}`);
+    navigate(`/employees/${id}`);
   };
 
   const filteredEmployees = employees.length
-    ? employees.filter((s) =>
-        s.firstName.toLowerCase().includes(search.toLowerCase()),
-        s.lastName.toLowerCase().includes(search.toLowerCase()),
+    ? employees.filter((e) =>
+        `${e.firstName} ${e.lastName}`
+          .toLowerCase()
+          .includes(search.toLowerCase()),
       )
     : [];
 
@@ -62,7 +77,7 @@ const EmployeeManagementPage = () => {
     const data = await employeeService.create(formData);
     setEmployees((prev) => [...prev, data]);
     setShowForm(false);
-    notify("success", `${data.name} blev oprettet.`);
+    notify("success", `${data.firstName} ${data.lastName} blev oprettet.`);
   };
 
   return (
@@ -75,6 +90,7 @@ const EmployeeManagementPage = () => {
       {showForm && (
         <Card cols={6} variant="flat">
           <EmployeeCreateForm
+            competences={competences}
             onSubmit={handleSubmit}
             onCancel={() => setShowForm(false)}
           />
@@ -109,7 +125,7 @@ const EmployeeManagementPage = () => {
         ) : (
           <>
             <EmployeeTable
-              competences={filteredEmployees}
+              employees={filteredEmployees}
               onView={handleOnView}
             />
             {filteredEmployees.length === 0 && (

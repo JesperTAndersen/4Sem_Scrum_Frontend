@@ -10,7 +10,7 @@ const EmployeeTable = ({ employees, onView }) => {
         <thead>
           <tr>
             <th>Navn</th>
-            <th>Competencer</th>
+            <th>Kompetencer</th>
             <th>Status</th>
             <th></th>
           </tr>
@@ -18,8 +18,12 @@ const EmployeeTable = ({ employees, onView }) => {
         <tbody>
           {employees.map((e) => (
             <tr key={e.id} className={styles.row} onClick={() => onView(e.id)}>
-              <td>{e.name}</td>
-              <td><CompetenceIconStack  competences={e.competences} max={4} /></td>
+              <td>
+                {e.firstName} {e.lastName}
+              </td>
+              <td>
+                <CompetenceIconStack competences={e.competences} max={4} />
+              </td>
               <td>
                 <Badge status={e.active ? "ACTIVE" : "DISABLED"} />
               </td>

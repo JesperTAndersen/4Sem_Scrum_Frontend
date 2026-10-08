@@ -27,7 +27,7 @@ const fieldConfig = {
   employee: {
     firstName: { min: 2, max: 50 },
     lastName: { min: 2, max: 50 },
-    dailyCapacity: {min: 2, max: 50},
+    dailyCapacity: { type: "number", min: 0, max: 24 },
     competenceId: { min: 1 },
   }
 };
