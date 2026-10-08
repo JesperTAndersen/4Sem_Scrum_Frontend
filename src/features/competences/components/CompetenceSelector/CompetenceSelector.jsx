@@ -1,4 +1,5 @@
 import styles from "./CompetenceSelector.module.css";
+import CompetenceIcon from "../CompetenceIcon/CompetenceIcon";
 
 const CompetenceSelector = ({ competences, selectedIds, onToggle }) => {
   return (
@@ -15,7 +16,7 @@ const CompetenceSelector = ({ competences, selectedIds, onToggle }) => {
               className={`${styles.competenceBadge} ${isSelected ? styles.selected : ""}`}
               onClick={() => onToggle(c.id)}
             >
-              <span className={styles.number}>{c.displayNumber}</span>
+              <CompetenceIcon name={c.name} size="xs" />
               <span className={styles.name}>{c.name}</span>
             </button>
           );

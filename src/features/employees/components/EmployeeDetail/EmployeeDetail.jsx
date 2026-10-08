@@ -29,7 +29,7 @@ const EmployeeDetail = ({ employee, actions }) => {
               .slice()
               .map((c) => (
                 <div key={c.id} className={styles.competenceItem}>
-                  <CompetenceIcon displayNumber={c.displayNumber} size="sm" />
+                  <CompetenceIcon name={c.name} size="sm" />
                   <div className={styles.competenceText}>
                     <span className={styles.competenceName}>{c.name}</span>
                   </div>

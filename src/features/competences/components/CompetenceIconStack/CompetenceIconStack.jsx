@@ -11,7 +11,7 @@ const CompetenceIconStack = ({ competences = [], max = 4 }) => {
     <div className={styles.stack}>
       {visible.map((c) => (
         <div key={c.id} className={styles.item}>
-          <CompetenceIcon displayNumber={c.displayNumber} size="xs" />
+          <CompetenceIcon name={c.name} size="xs" />
         </div>
       ))}
 

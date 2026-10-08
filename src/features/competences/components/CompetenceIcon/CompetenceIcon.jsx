@@ -1,19 +1,23 @@
+import { createElement } from "react";
 import styles from "./CompetenceIcon.module.css";
-import { allergenIconByDisplayNumber } from "../../../features/allergens/utils/allergenIconMap";
+import { getCompetenceIcon } from "../../utils/competenceIcons";
 
-const CompetenceIcon = ({ displayNumber, size = "sm" }) => {
-  const src = allergenIconByDisplayNumber[displayNumber];
+const ICON_SIZES = {
+  xs: 14,
+  sm: 18,
+  md: 20,
+  lg: 32,
+};
 
-  if (!src) {
-    return <div className={`${styles.fallback} ${styles[size]}`}>?</div>;
-  }
+const CompetenceIcon = ({ name, size = "sm" }) => {
+  const Icon = getCompetenceIcon(name);
 
   return (
-    <img
-      className={`${styles.icon} ${styles[size]}`}
-      src={src}
-      loading="lazy"
-    />
+    <div className={`${styles.icon} ${styles[size]}`} title={name}>
+      {Icon
+        ? createElement(Icon, { size: ICON_SIZES[size], strokeWidth: 1.8 })
+        : name?.charAt(0).toUpperCase() || "?"}
+    </div>
   );
 };
 
