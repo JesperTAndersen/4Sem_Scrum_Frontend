@@ -24,6 +24,13 @@ const update = async (id, body) => {
   });
 };
 
+const updateCompetences = async (id, competenceIds) => {
+  return await apiClient(`${RESOURCE_URL}/${id}/competences`, {
+    method: "PUT",
+    body: { competenceIds },
+  });
+};
+
 const activate = async (id) => {
   return await apiClient(`${RESOURCE_URL}/${id}/activate`, {
     method: "PATCH",
@@ -49,5 +56,6 @@ export default {
   activate,
   deActivate,
   update,
+  updateCompetences,
   remove,
 };

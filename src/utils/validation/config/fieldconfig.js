@@ -25,9 +25,9 @@ const fieldConfig = {
     newPassword: { min: 6, max: 100 },
   },
   employee: {
-    firstName: { min: 2, max: 50 },
-    lastName: { min: 2, max: 50 },
-    dailyCapacity: { type: "number", min: 0, max: 24 },
+    firstName: { min: 2, max: 100 },
+    lastName: { min: 2, max: 100 },
+    dailyCapacity: { type: "number", min: 0.5, max: 24 },
     competenceId: { min: 1 },
   }
 };

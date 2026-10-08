@@ -10,6 +10,7 @@ const EmployeeEditForm = ({ employee, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     firstName: employee.firstName,
     lastName: employee.lastName,
+    standardCapacity: employee.standardCapacity,
     dailyCapacity: employee.dailyCapacity,
   });
   const [errors, setErrors] = useState({
@@ -29,6 +30,11 @@ const EmployeeEditForm = ({ employee, onSubmit, onCancel }) => {
     }
   };
 
+  const handleToggleStandardCapacity = (e) => {
+    setFormData((prev) => ({ ...prev, standardCapacity: e.target.checked }));
+    setErrors((prev) => ({ ...prev, dailyCapacity: "" }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -43,8 +49,9 @@ const EmployeeEditForm = ({ employee, onSubmit, onCancel }) => {
       setIsSubmitting(true);
       await onSubmit({
         ...formData,
-        dailyCapacity: Number(formData.dailyCapacity),
-        competenceIds: employee.competences?.map((c) => c.id) ?? [],
+        dailyCapacity: formData.standardCapacity
+          ? null
+          : Number(formData.dailyCapacity),
       });
     } finally {
       setIsSubmitting(false);
@@ -82,19 +89,30 @@ const EmployeeEditForm = ({ employee, onSubmit, onCancel }) => {
         required
       />
 
-      <Input
-        label="Daglig kapacitet"
-        type="number"
-        name="dailyCapacity"
-        value={formData.dailyCapacity}
-        onChange={handleChange}
-        placeholder="Fx. 7.5"
-        hasError={!!errors.dailyCapacity}
-        errorMessage={errors.dailyCapacity}
-        min="0"
-        step="0.01"
-        required
-      />
+      <label className={styles.checkbox}>
+        <input
+          type="checkbox"
+          checked={formData.standardCapacity}
+          onChange={handleToggleStandardCapacity}
+        />
+        Brug virksomhedens standardkapacitet
+      </label>
+
+      {!formData.standardCapacity && (
+        <Input
+          label="Daglig kapacitet (timer)"
+          type="number"
+          name="dailyCapacity"
+          value={formData.dailyCapacity}
+          onChange={handleChange}
+          placeholder="Fx. 7.5"
+          hasError={!!errors.dailyCapacity}
+          errorMessage={errors.dailyCapacity}
+          min="0"
+          step="0.01"
+          required
+        />
+      )}
 
       <div className={styles.actions}>
         <Button

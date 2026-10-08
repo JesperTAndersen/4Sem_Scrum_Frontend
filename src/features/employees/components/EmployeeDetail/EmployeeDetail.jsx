@@ -16,7 +16,7 @@ const EmployeeDetail = ({ employee, actions }) => {
             <h1 className={styles.title}>{employee.firstName} {employee.lastName}</h1>
             <Badge status={employee.active ? "ACTIVE" : "DISABLED"} />
           </div>
-          <p className={styles.description}>{employee.dailyCapacity} i daglig kapicitet</p>
+          <p className={styles.description}>{employee.dailyCapacity} timer i daglig kapacitet</p>
         </div>
       </div>
 

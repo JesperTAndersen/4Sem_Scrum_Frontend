@@ -13,7 +13,7 @@ const EmployeeCreateForm = ({ onSubmit, onCancel, competences }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    standardCapacity: "true",
+    standardCapacity: true,
     dailyCapacity: "",
     competenceIds: [],
   });
@@ -21,9 +21,7 @@ const EmployeeCreateForm = ({ onSubmit, onCancel, competences }) => {
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
-    standardCapacity: "true",
     dailyCapacity: "",
-    competenceIds: [],
   });
 
   const handleChange = (e) => {
@@ -33,6 +31,11 @@ const EmployeeCreateForm = ({ onSubmit, onCancel, competences }) => {
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
+  };
+
+  const handleToggleStandardCapacity = (e) => {
+    setFormData((prev) => ({ ...prev, standardCapacity: e.target.checked }));
+    setErrors((prev) => ({ ...prev, dailyCapacity: "" }));
   };
 
   const handleToggleCompetence = (id) => {
@@ -59,7 +62,9 @@ const EmployeeCreateForm = ({ onSubmit, onCancel, competences }) => {
 
       const payload = {
         ...formData,
-        dailyCapacity: Number(formData.dailyCapacity),
+        dailyCapacity: formData.standardCapacity
+          ? null
+          : Number(formData.dailyCapacity),
       };
       await onSubmit(payload);
     } catch (error) {
@@ -99,19 +104,30 @@ const EmployeeCreateForm = ({ onSubmit, onCancel, competences }) => {
         required
       />
 
-      <Input
-        label="Daglig kapicitet"
-        type="number"
-        name="dailyCapacity"
-        value={formData.dailyCapacity}
-        onChange={handleChange}
-        placeholder="Fx. 7.5"
-        hasError={!!errors.dailyCapacity}
-        errorMessage={errors.dailyCapacity}
-        min="0"
-        step="0.01"
-        required
-      />
+      <label className={styles.checkbox}>
+        <input
+          type="checkbox"
+          checked={formData.standardCapacity}
+          onChange={handleToggleStandardCapacity}
+        />
+        Brug virksomhedens standardkapacitet
+      </label>
+
+      {!formData.standardCapacity && (
+        <Input
+          label="Daglig kapacitet (timer)"
+          type="number"
+          name="dailyCapacity"
+          value={formData.dailyCapacity}
+          onChange={handleChange}
+          placeholder="Fx. 7.5"
+          hasError={!!errors.dailyCapacity}
+          errorMessage={errors.dailyCapacity}
+          min="0"
+          step="0.01"
+          required
+        />
+      )}
 
       <CompetenceSelector
         competences={competences}

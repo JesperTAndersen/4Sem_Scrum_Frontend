@@ -4,3 +4,12 @@
   margin-top: var(--spacing-sm);
   gap: var(--spacing-sm);
 }
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}

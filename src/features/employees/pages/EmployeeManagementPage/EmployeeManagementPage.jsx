@@ -74,7 +74,14 @@ const EmployeeManagementPage = () => {
     : [];
 
   const handleSubmit = async (formData) => {
-    const data = await employeeService.create(formData);
+    const { competenceIds, ...employeeData } = formData;
+
+    let data = await employeeService.create(employeeData);
+
+    if (competenceIds.length > 0) {
+      data = await employeeService.updateCompetences(data.id, competenceIds);
+    }
+
     setEmployees((prev) => [...prev, data]);
     setShowForm(false);
     notify("success", `${data.firstName} ${data.lastName} blev oprettet.`);

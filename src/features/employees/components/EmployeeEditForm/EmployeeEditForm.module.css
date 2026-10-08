@@ -5,3 +5,12 @@
   border-top: 1px solid var(--color-border);
   padding-top: var(--spacing-md);
 }
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
