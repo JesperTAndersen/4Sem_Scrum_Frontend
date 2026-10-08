@@ -1,4 +1,4 @@
-import styles from "./CompetenceDetailPage.module.css";
+import styles from "./EmployeeDetailPage.module.css";
 import { useState, useEffect } from "react";
 import { useNotification } from "@/context/NotificationContext";
 import employeeService from "../../services/employeeService";
