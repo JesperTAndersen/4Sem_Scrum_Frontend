@@ -28,7 +28,7 @@
   width: 100%;
 }
 
-.allergenBadge:hover {
+.competenceBadge:hover {
   border-color: var(--color-highlight);
   color: var(--color-highlight);
 }
@@ -59,7 +59,7 @@
   color: var(--color-primary);
 }
 
-.allergenBadge.selected:hover {
+.competenceBadge.selected:hover {
   color: var(--color-bg-surface);
 }
 
