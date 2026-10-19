@@ -101,7 +101,10 @@ const EmployeeDetailPage = () => {
         active: false,
       }));
 
-      notify("success", `${employee.firstName} ${employee.lastName} deaktiveret!`);
+      notify(
+        "success",
+        `${employee.firstName} ${employee.lastName} deaktiveret!`,
+      );
     } catch (error) {
       notify("error", error.message || "Kunne ikke deaktivere medarbejderen.");
     }
@@ -116,7 +119,10 @@ const EmployeeDetailPage = () => {
         active: true,
       }));
 
-      notify("success", `${employee.firstName} ${employee.lastName} aktiveret!`);
+      notify(
+        "success",
+        `${employee.firstName} ${employee.lastName} aktiveret!`,
+      );
     } catch (error) {
       notify("error", error.message || "Kunne ikke aktivere medarbejderen.");
     }

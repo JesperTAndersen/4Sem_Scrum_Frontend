@@ -61,8 +61,8 @@ const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
           <h3 className={styles.title}>Afhængigheder</h3>
 
           <p className={styles.description}>
-            Vælg hvilke opgaver der skal være færdige, før denne opgave kan
-            starte.
+            Vælg hvilke opgaver i samme etape der skal være færdige, før denne
+            opgave kan starte.
           </p>
         </div>
       </div>

@@ -13,6 +13,7 @@ import TaskEditForm from "../TaskEditForm/TaskEditForm";
 const TaskDetail = ({
   task,
   tasks = [],
+  blockedBy = [],
   competences = [],
   onTaskDelete,
   onTaskEdit,
@@ -22,6 +23,8 @@ const TaskDetail = ({
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
+
+  const isBlocked = blockedBy.length > 0;
 
   const handleUpdate = async (updatedTask) => {
     await onTaskEdit(updatedTask);
@@ -131,6 +134,12 @@ const TaskDetail = ({
                 />
               </div>
 
+              {isBlocked && task.status !== "DONE" && (
+                <p className={styles.blockedText}>
+                  Venter på: {blockedBy.join(", ")}
+                </p>
+              )}
+
               <div className={styles.actionsGroup}>
                 <Button
                   variant="danger"
@@ -142,6 +151,7 @@ const TaskDetail = ({
                   <Button
                     variant="primary"
                     name="Sæt i gang"
+                    disabled={isBlocked}
                     onClick={() => onTaskStatusChange(task, "IN_PROGRESS")}
                   />
                 )}
@@ -157,6 +167,7 @@ const TaskDetail = ({
                     <Button
                       variant="primary"
                       name="Markér som færdig"
+                      disabled={isBlocked}
                       onClick={() => onTaskStatusChange(task, "DONE")}
                     />
                   </>

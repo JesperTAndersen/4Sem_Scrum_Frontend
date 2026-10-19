@@ -3,6 +3,11 @@ import { useEffect, useMemo, useRef } from "react";
 import Gantt from "frappe-gantt";
 
 import getTaskProgress from "../../utils/getTaskProgress";
+import { formatDate } from "@/utils/dateHelpers";
+
+const COLUMN_WIDTH = 44;
+const CHAR_WIDTH = 8;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 const getStageProgress = (tasks = []) => {
   if (tasks.length === 0) {
@@ -17,6 +22,17 @@ const getStageProgress = (tasks = []) => {
   return Math.round(totalProgress / tasks.length);
 };
 
+const fitNameToBar = (name, start, end) => {
+  const days = (new Date(end) - new Date(start)) / DAY_MS + 1;
+  const maxChars = Math.floor((days * COLUMN_WIDTH - 16) / CHAR_WIDTH);
+
+  if (name.length <= maxChars) {
+    return name;
+  }
+
+  return `${name.slice(0, Math.max(maxChars - 1, 1))}…`;
+};
+
 const getStatusClass = (status = "") =>
   `task-${status.toLowerCase().replaceAll("_", "-")}`;
 
@@ -28,18 +44,21 @@ const ProjectGantt = ({ project, onTaskClick }) => {
       return [];
     }
 
-    return project.stages.flatMap((stage, index) => {
+    return project.stages.flatMap((stage) => {
       const tasks = stage.tasks ?? [];
       const rows = [];
 
       if (stage.startDate && stage.endDate) {
         rows.push({
           id: `stage-${stage.id}`,
-          name: `Etape ${index + 1}: ${stage.name}`,
+          name: fitNameToBar(stage.name, stage.startDate, stage.endDate),
+          fullName: stage.name,
           start: stage.startDate,
           end: stage.endDate,
           progress: getStageProgress(tasks),
-          dependencies: "",
+          dependencies: (stage.predecessorIds ?? [])
+            .map((predecessorId) => `stage-${predecessorId}`)
+            .join(","),
           custom_class: "stage-row",
         });
       }
@@ -48,7 +67,8 @@ const ProjectGantt = ({ project, onTaskClick }) => {
         .filter((task) => task.startDate && task.endDate)
         .map((task) => ({
           id: `task-${task.id}`,
-          name: `↳ ${task.name}`,
+          name: fitNameToBar(task.name, task.startDate, task.endDate),
+          fullName: task.name,
           start: task.startDate,
           end: task.endDate,
           progress: getTaskProgress(task.status),
@@ -79,11 +99,17 @@ const ProjectGantt = ({ project, onTaskClick }) => {
         readonly: true,
         today_button: true,
         view_mode_select: false,
-        column_width: 44,
+        column_width: COLUMN_WIDTH,
         bar_height: 28,
         padding: 18,
         popup_on: "click",
         infinite_padding: false,
+
+        popup: ({ task, set_title, set_subtitle, set_details }) => {
+          set_title(task.fullName);
+          set_subtitle("");
+          set_details(`${formatDate(task.start)} – ${formatDate(task.end)}`);
+        },
 
         on_click: (ganttTask) => {
           if (!ganttTask.id.startsWith("task-")) {

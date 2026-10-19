@@ -24,6 +24,20 @@ const update = async (id, body) => {
   });
 };
 
+const addPredecessor = async (stageId, predecessorId) => {
+  return await apiClient(
+    `${RESOURCE_URL}/${stageId}/predecessors/${predecessorId}`,
+    { method: "POST" },
+  );
+};
+
+const removePredecessor = async (stageId, predecessorId) => {
+  return await apiClient(
+    `${RESOURCE_URL}/${stageId}/predecessors/${predecessorId}`,
+    { method: "DELETE" },
+  );
+};
+
 const remove = async (id) => {
   return await apiClient(`${RESOURCE_URL}/${id}`, {
     method: "DELETE",
@@ -35,5 +49,7 @@ export default {
   getById,
   create,
   update,
+  addPredecessor,
+  removePredecessor,
   remove,
 };

@@ -29,7 +29,7 @@ const fieldConfig = {
     lastName: { min: 2, max: 100 },
     dailyCapacity: { type: "number", min: 0.5, max: 24 },
     competenceId: { min: 1 },
-  }
+  },
 };
 
 export default fieldConfig;

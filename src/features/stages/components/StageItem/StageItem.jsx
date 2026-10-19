@@ -3,6 +3,7 @@ import { formatDate } from "@/utils/dateHelpers";
 import Button from "@/shared/components/ui/Button/Button";
 import Card from "@/shared/components/ui/Card/Card";
 import TaskCard from "@/features/tasks/components/TaskCard/TaskCard";
+import Badge from "@/shared/components/ui/Badge/Badge";
 import { formatCurrency } from "@/utils/formatters";
 import {
   FiChevronDown,
@@ -17,12 +18,17 @@ import { useState } from "react";
 const StageItem = ({
   stage,
   allTasks = [],
+  stages = [],
   onEdit,
   onDelete,
   onTaskCreate,
   onView,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const predecessorNames = stages
+    .filter((s) => stage.predecessorIds?.includes(s.id))
+    .map((s) => s.name);
 
   const sortedTasks = [...(stage.tasks ?? [])].sort(
     (a, b) => new Date(a.startDate) - new Date(b.startDate),
@@ -35,7 +41,10 @@ const StageItem = ({
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <div className={styles.titleInfo}>
-          <h4 className={styles.title}>{stage.title || stage.name}</h4>
+          <div className={styles.titleRow}>
+            <h4 className={styles.title}>{stage.title || stage.name}</h4>
+            {stage.completed && <Badge status="DONE" />}
+          </div>
 
           <div className={styles.meta}>
             <span>
@@ -44,6 +53,12 @@ const StageItem = ({
             <span>{stage.totalEstimatedHours ?? 0} timer</span>
             <span>{formatCurrency(stage?.totalCost ?? 0)}</span>
           </div>
+
+          {predecessorNames.length > 0 && (
+            <span className={styles.dependsOn}>
+              Afhænger af: {predecessorNames.join(", ")}
+            </span>
+          )}
         </div>
 
         <div className={styles.headerActions}>

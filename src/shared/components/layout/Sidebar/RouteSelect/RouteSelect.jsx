@@ -1,12 +1,6 @@
 import { NavLink } from "react-router";
 import styles from "./RouteSelect.module.css";
-import {
-  FiGrid,
-  FiFolder,
-  FiTool,
-  FiUsers,
-  FiUserCheck,
-} from "react-icons/fi";
+import { FiGrid, FiFolder, FiTool, FiUsers, FiUserCheck } from "react-icons/fi";
 
 const RouteSelect = ({ collapsed }) => {
   return (
