@@ -4,6 +4,7 @@ import BackButton from "@/shared/components/ui/BackButton/BackButton";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import Avatar from "@/shared/components/ui/Avatar/Avatar";
 import { formatDate } from "@/utils/dateHelpers";
+import getFeasibilityStatus from "../../utils/getFeasibilityStatus";
 import { formatUserRole } from "@/utils/formatters";
 
 const ProjectDetailBar = ({ project, users = [], children }) => {
@@ -51,9 +52,7 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
             </span>
 
             {project?.schedule && (
-              <Badge
-                status={project.schedule.feasible ? "FEASIBLE" : "INFEASIBLE"}
-              />
+              <Badge status={getFeasibilityStatus(project.schedule)} />
             )}
           </div>
 

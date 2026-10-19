@@ -30,9 +30,11 @@ const StageItem = ({
     .filter((s) => stage.predecessorIds?.includes(s.id))
     .map((s) => s.name);
 
-  const sortedTasks = [...(stage.tasks ?? [])].sort(
-    (a, b) => new Date(a.startDate) - new Date(b.startDate),
-  );
+  const sortedTasks = [...(stage.tasks ?? [])].sort((a, b) => {
+    if (!a.startDate) return 1;
+    if (!b.startDate) return -1;
+    return new Date(a.startDate) - new Date(b.startDate);
+  });
 
   return (
     <Card variant="flat">
@@ -48,7 +50,8 @@ const StageItem = ({
 
           <div className={styles.meta}>
             <span>
-              {formatDate(stage?.startDate)} – {formatDate(stage?.endDate)}
+              {stage?.startDate ? formatDate(stage.startDate) : "-"} –{" "}
+              {stage?.endDate ? formatDate(stage.endDate) : "Kan ikke beregnes"}
             </span>
             <span>{stage.totalEstimatedHours ?? 0} timer</span>
             <span>{formatCurrency(stage?.totalCost ?? 0)}</span>

@@ -11,6 +11,7 @@ const STATUS_COLORS = {
   DISABLED: styles.neutral,
   INFEASIBLE: styles.warning,
   FEASIBLE: styles.success,
+  UNDETERMINED: styles.neutral,
 };
 
 const STATUS_LABELS = {
@@ -24,6 +25,7 @@ const STATUS_LABELS = {
   DONE: "Færdig",
   INFEASIBLE: "Kan ikke nås",
   FEASIBLE: "Kan nås",
+  UNDETERMINED: "Kan ikke beregnes",
 };
 
 const Badge = ({ status, label }) => {

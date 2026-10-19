@@ -6,6 +6,7 @@ import SeeAllLink from "@/shared/components/ui/SeeAllLink/SeeAllLink";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 
 import { formatDate } from "@/utils/dateHelpers";
+import getFeasibilityStatus from "@/features/projects/utils/getFeasibilityStatus";
 
 const ProjectsCard = ({ cols, projects = [], isLoading, onView }) => {
   return (
@@ -27,7 +28,7 @@ const ProjectsCard = ({ cols, projects = [], isLoading, onView }) => {
 
             const totalTaskCount = taskCount.totalTaskCount ?? 0;
 
-            const isFeasible = project?.schedule?.feasible;
+            const feasibilityStatus = getFeasibilityStatus(project?.schedule);
 
             return (
               <div
@@ -47,11 +48,11 @@ const ProjectsCard = ({ cols, projects = [], isLoading, onView }) => {
                       {taskDone}/{totalTaskCount} færdige
                     </span>
 
-                    {project.schedule && !isFeasible && (
+                    {project.schedule && feasibilityStatus !== "FEASIBLE" && (
                       <>
                         <span className={styles.separator}>·</span>
 
-                        <Badge status="INFEASIBLE" />
+                        <Badge status={feasibilityStatus} />
 
                         <span className={styles.separator}>·</span>
 
