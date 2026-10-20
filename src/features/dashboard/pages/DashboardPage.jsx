@@ -11,7 +11,7 @@ import dashboardService from "../services/dashboardService";
 const DashboardPage = () => {
   const { notify } = useNotification();
   const [projects, setProjects] = useState(null);
-  const { summary, setSummary } = useState(null);
+  const [ summary, setSummary ] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -48,11 +48,13 @@ const DashboardPage = () => {
       }
     };
     fetchSummary();
-  });
+  }, []);
 
   const handleOnView = (id) => {
     navigate(`/projects/${id}`);
   };
+
+  console.log(summary);
 
   return (
     <div className={styles.contentArea}>
