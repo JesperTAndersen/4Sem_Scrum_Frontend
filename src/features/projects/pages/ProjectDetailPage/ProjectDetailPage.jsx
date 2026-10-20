@@ -1,7 +1,7 @@
 import styles from "./ProjectDetailPage.module.css";
 import { useNotification } from "@/context/NotificationContext";
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 import projectService from "../../services/projectService";
 import ProjectEditForm from "../../components/ProjectEditForm/ProjectEditForm";
 import Card from "@/shared/components/ui/Card/Card";
@@ -12,8 +12,7 @@ import StagesList from "@/features/stages/components/StagesList/StagesList";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import competenceService from "@/features/competences/services/competenceService";
 import taskService from "@/features/tasks/services/taskService";
-import { FiList } from "react-icons/fi";
-import { FiCalendar } from "react-icons/fi";
+import { FiList, FiCalendar, FiInfo } from "react-icons/fi";
 import ProjectGantt from "../../components/ProjectGantt/ProjectGantt";
 import TaskDetail from "@/features/tasks/components/TaskDetail/TaskDetail";
 import Modal from "@/shared/components/ui/Modal/Modal";
@@ -22,6 +21,9 @@ import employeeService from "@/features/employees/services/employeeService";
 const ProjectDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab" ?? "overview");
+  const changeTab = (tab) => setSearchParams( {tab} );
   const { notify } = useNotification();
   const [project, setProject] = useState();
   const [users, setUsers] = useState([]);
@@ -31,7 +33,6 @@ const ProjectDetailPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [viewMode, setViewMode] = useState("details");
 
   const allTasks = project?.stages?.flatMap((stage) => stage.tasks ?? []) ?? [];
   const selectedTask = allTasks.find((task) => task.id === selectedTaskId);

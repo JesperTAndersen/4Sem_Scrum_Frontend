@@ -19,6 +19,8 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
   const progressPercent =
     totalTaskCount > 0 ? Math.round((taskDone / totalTaskCount) * 100) : 0;
 
+  const taskAssigned = project?.stages?.tasks?.filter(t => t.staffingStatus == "STAFFING_REQUIRED");
+
   return (
     <div className={styles.container}>
       <div className={styles.group}>
@@ -58,6 +60,14 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
 
             <span className={styles.summaryValue}>
               {(project?.totalCost ?? 0).toLocaleString("da-DK")} kr.
+            </span>
+          </div>
+
+                    <div className={styles.summaryCard}>
+            <span className={styles.label}>{taskAssigned?.length == totalTaskCount ? "Bemanding" : "Mangler bemanding"}</span>
+
+            <span className={styles.summaryValue}>
+                {taskAssigned?.length > 0 ? taskAssigned.length : 0} af {totalTaskCount} opgave bemandet.
             </span>
           </div>
         </div>
