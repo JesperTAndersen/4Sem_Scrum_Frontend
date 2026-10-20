@@ -3,7 +3,6 @@ import Avatar from "@/shared/components/ui/Avatar/Avatar";
 import BackButton from "@/shared/components/ui/BackButton/BackButton";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import { formatDate } from "@/utils/dateHelpers";
-import { formatUserRole } from "@/utils/formatters";
 import { useNavigate } from "react-router";
 
 const CompetenceDetail = ({ competence, employees = [], actions }) => {
@@ -68,9 +67,7 @@ const CompetenceDetail = ({ competence, employees = [], actions }) => {
                   <span className={styles.userName}>
                     {employee.firstName} {employee.lastName}
                   </span>
-                  <span className={styles.userRole}>
-                    {competence.name}
-                  </span>
+                  <span className={styles.userRole}>{competence.name}</span>
                 </div>
               </div>
             ))}

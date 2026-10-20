@@ -27,12 +27,11 @@ const CompetenceDetailPage = () => {
       try {
         setIsLoading(true);
         const competenceData = await competenceService.getById(id);
-        const employeeData = await employeeService.getAll(
-          {
-            competenceId: id
-          });
+        const employeeData = await employeeService.getAll({
+          competenceId: id,
+        });
         setCompetence(competenceData);
-        setEmployees(employeeData)
+        setEmployees(employeeData);
       } catch (error) {
         notify("error", error.message || "Kunne ikke hente kompetence");
       } finally {
