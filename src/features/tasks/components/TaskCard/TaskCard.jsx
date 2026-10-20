@@ -5,7 +5,6 @@ import formatDays from "../../utils/formatDays";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import { FiChevronRight, FiLink, FiUsers } from "react-icons/fi";
 
-
 const TaskCard = ({ task, tasks = [], onClick }) => {
   if (!task) return null;
 
@@ -28,7 +27,6 @@ const TaskCard = ({ task, tasks = [], onClick }) => {
           <h4 className={styles.taskName} title={task.name}>
             {task.name}
           </h4>
-
         </div>
 
         <div className={styles.badges}>

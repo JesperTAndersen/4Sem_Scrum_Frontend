@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router";
 import styles from "./ProjectDetailBar.module.css";
-import BackButton from "@/shared/components/ui/BackButton/BackButton";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import Avatar from "@/shared/components/ui/Avatar/Avatar";
 import { formatDate } from "@/utils/dateHelpers";
@@ -22,26 +21,6 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
 
   return (
     <div className={styles.container}>
-      <BackButton />
-
-      <div className={styles.header}>
-        <div className={styles.headerMain}>
-          <div className={styles.headerContent}>
-            <div className={styles.titleRow}>
-              <h1 className={styles.title}>{project?.title}</h1>
-
-              <Badge status={project?.status} />
-            </div>
-
-            {project?.description && (
-              <p className={styles.description}>{project.description}</p>
-            )}
-          </div>
-
-          {children && <div className={styles.headerActions}>{children}</div>}
-        </div>
-      </div>
-
       <div className={styles.group}>
         <div className={styles.summaryGrid}>
           <div className={styles.summaryCard}>

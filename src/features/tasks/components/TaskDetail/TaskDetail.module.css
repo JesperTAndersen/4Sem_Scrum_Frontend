@@ -38,13 +38,11 @@
   margin: 0;
 }
 
-
 .group {
   border-top: 1px solid var(--color-border);
   padding-top: var(--spacing-md);
   margin-top: var(--spacing-md);
 }
-
 
 .metaGrid {
   display: grid;
@@ -82,13 +80,6 @@
   color: var(--color-text-muted);
 }
 
-
-
-
-
-
-
-
 .actionsGroup {
   display: flex;
   justify-content: space-between;
@@ -99,8 +90,6 @@
   padding-top: var(--spacing-md);
 }
 
-
-
 .blockedText,
 .warningText {
   margin: var(--spacing-xs) 0 0;
@@ -110,7 +99,6 @@
   background-color: var(--color-badge-warning-bg);
   border-radius: var(--radius-md);
 }
-
 
 .warningText {
   margin-top: var(--spacing-md);
