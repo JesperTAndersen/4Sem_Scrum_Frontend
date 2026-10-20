@@ -10,13 +10,14 @@ import Card from "@/shared/components/ui/Card/Card";
 import Button from "@/shared/components/ui/Button/Button";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
+import employeeService from "@/features/employees/services/employeeService";
 
 const CompetenceDetailPage = () => {
   const { id } = useParams();
   const { notify } = useNotification();
   const navigate = useNavigate();
   const [competence, setCompetence] = useState(null);
-  const [users, setUsers] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -26,11 +27,9 @@ const CompetenceDetailPage = () => {
       try {
         setIsLoading(true);
         const competenceData = await competenceService.getById(id);
-        {
-          /* TODO: const usersData = await competenceService.getUsersByCompetence(id);
-          setUsers(usersData); */
-        }
+        const employeeData = await employeeService.getAll(id);
         setCompetence(competenceData);
+        setEmployees(employeeData)
       } catch (error) {
         notify("error", error.message || "Kunne ikke hente kompetence");
       } finally {
@@ -118,7 +117,7 @@ const CompetenceDetailPage = () => {
               ) : (
                 <CompetenceDetail
                   competence={competence}
-                  users={users}
+                  employees={employees}
                   actions={{
                     left: (
                       <Button

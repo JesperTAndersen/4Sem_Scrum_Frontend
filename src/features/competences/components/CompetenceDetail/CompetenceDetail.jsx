@@ -6,7 +6,7 @@ import { formatDate } from "@/utils/dateHelpers";
 import { formatUserRole } from "@/utils/formatters";
 import { useNavigate } from "react-router";
 
-const CompetenceDetail = ({ competence, users = [], actions }) => {
+const CompetenceDetail = ({ competence, employees = [], actions }) => {
   const navigate = useNavigate();
 
   return (
@@ -44,32 +44,32 @@ const CompetenceDetail = ({ competence, users = [], actions }) => {
 
       <div className={styles.group}>
         <h3 className={styles.groupLabel}>
-          Tilknyttede medarbejdere ({users.length})
+          Tilknyttede medarbejdere ({employees.length})
         </h3>
 
-        {users.length === 0 ? (
+        {employees.length === 0 ? (
           <p className={styles.emptyText}>
             Ingen medarbejdere er tilknyttet denne kompetence endnu.
           </p>
         ) : (
           <div className={styles.userList}>
-            {users.map((user) => (
+            {employees.map((employee) => (
               <div
-                key={user.id}
+                key={employee.id}
                 className={styles.userItem}
-                onClick={() => navigate(`/admin/users/${user.id}`)}
+                onClick={() => navigate(`/employees/${employee.id}`)}
               >
                 <Avatar
-                  firstName={user.firstName}
-                  lastName={user.lastName}
+                  firstName={employee.firstName}
+                  lastName={employee.lastName}
                   size="md"
                 />
                 <div className={styles.userInfo}>
                   <span className={styles.userName}>
-                    {user.firstName} {user.lastName}
+                    {employee.firstName} {employee.lastName}
                   </span>
                   <span className={styles.userRole}>
-                    {formatUserRole(user.userRole)}
+                    {competence.name}
                   </span>
                 </div>
               </div>

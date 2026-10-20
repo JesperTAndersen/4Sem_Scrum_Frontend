@@ -2,8 +2,8 @@ import apiClient from "@/api/apiclient";
 
 const RESOURCE_URL = "/employee";
 
-const getAll = async () => {
-  return await apiClient(RESOURCE_URL);
+const getAll = async (params) => {
+  return await apiClient(RESOURCE_URL, params);
 };
 
 const getById = async (id) => {
