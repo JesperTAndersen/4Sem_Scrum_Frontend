@@ -33,7 +33,9 @@ const ProjectDetailPage = () => {
 
   const allTasks = project?.stages?.flatMap((stage) => stage.tasks ?? []) ?? [];
   const selectedTask = allTasks.find((task) => task.id === selectedTaskId);
-  const selectedStage = project?.stages?.find((stage) => stage.tasks?.some((task) => task.id === selectedTaskId),);
+  const selectedStage = project?.stages?.find((stage) =>
+    stage.tasks?.some((task) => task.id === selectedTaskId),
+  );
 
   const blockingTasks = allTasks.filter(
     (task) =>
