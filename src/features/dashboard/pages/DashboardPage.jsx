@@ -6,18 +6,20 @@ import StatCard from "../components/StatCard/StatCard";
 import ProjectsCard from "../components/ProjectsCard/ProjectsCard";
 import projectService from "@/features/projects/services/projectService";
 import { useNavigate } from "react-router";
+import dashboardService from "../services/dashboardService";
 
 const DashboardPage = () => {
   const { notify } = useNotification();
   const [projects, setProjects] = useState(null);
+  const { summary, setSummary } = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const data = await projectService.getAll();
-        setProjects(data);
+        const projectData = await projectService.getAll();
+        setProjects(projectData);
       } catch (error) {
         notify(
           "error",
@@ -30,6 +32,23 @@ const DashboardPage = () => {
 
     fetchProjects();
   }, []);
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const dashboardSummaryData = await dashboardService.getSummary();
+        setSummary(dashboardSummaryData);
+      } catch (error) {
+        notify(
+          "error",
+          error.message || "Noget gik galt ved hentning af statistikken",
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchSummary();
+  });
 
   const handleOnView = (id) => {
     navigate(`/projects/${id}`);

@@ -1,12 +1,11 @@
 import apiClient from "@/api/apiclient";
 
-const RESOURCE_URL = "/summary";
+const RESOURCE_URL = "dashboard";
 
-const getAll = async () => {
-  return await apiClient(RESOURCE_URL);
+const getSummary = async () => {
+  return await apiClient(`${RESOURCE_URL}/summary`);
 };
 
-export default
-{
-    getAll
-}
+export default {
+  getSummary,
+};
