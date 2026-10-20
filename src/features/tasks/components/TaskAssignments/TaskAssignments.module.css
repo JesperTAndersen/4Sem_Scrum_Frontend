@@ -43,9 +43,8 @@
 
 .userList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: var(--spacing-md);
-  margin-top: var(--spacing-sm);
 }
 
 .userItem {
@@ -84,6 +83,9 @@
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
   color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .userRole {

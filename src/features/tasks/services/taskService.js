@@ -51,6 +51,7 @@ const removePredecessor = async (taskId, predecessorId) => {
 const replaceEmployees = async (taskId, employeeIds) => {
   return await apiClient(`${RESOURCE_URL}/${taskId}/employees`, {
     method: "PUT",
+    body: { employeeIds },
   });
 };
 

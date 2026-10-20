@@ -12,7 +12,10 @@ const TaskAssignments = ({ task, employees = [], onAdd, onRemove }) => {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const assignedEmployees = task.assignedEmployees ?? [];
+  const assignedEmployees = useMemo(
+    () => task.assignedEmployees ?? [],
+    [task.assignedEmployees],
+  );
   const isLocked = task.status === "DONE";
   const competenceName = task.competence?.name;
 

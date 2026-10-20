@@ -5,7 +5,8 @@ import styles from "./TaskDependencies.module.css";
 import Button from "@/shared/components/ui/Button/Button";
 import Select from "@/shared/components/filter/Select/Select";
 
-import { FiTrash2 } from "react-icons/fi";
+import Badge from "@/shared/components/ui/Badge/Badge";
+import { FiArrowDown, FiArrowRight, FiTrash2 } from "react-icons/fi";
 
 const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
   const [selectedPredecessorId, setSelectedPredecessorId] = useState("");
@@ -16,6 +17,10 @@ const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
       task.predecessorIds?.includes(candidate.id),
     );
   }, [tasks, task.predecessorIds]);
+
+  const allPredecessorsDone = predecessorTasks.every(
+    (predecessor) => predecessor.status === "DONE",
+  );
 
   const availablePredecessors = useMemo(() => {
     return tasks.filter(
@@ -67,6 +72,52 @@ const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
         </div>
       </div>
 
+      {predecessorTasks.length > 0 ? (
+        <div className={styles.flow}>
+          <div className={styles.predecessors}>
+            {predecessorTasks.map((predecessor) => (
+              <div key={predecessor.id} className={styles.taskCard}>
+                <div className={styles.taskInfo}>
+                  <span className={styles.taskName}>{predecessor.name}</span>
+
+                  <span className={styles.taskMeta}>
+                    {predecessor.estimate ?? 0} timer
+                  </span>
+                </div>
+
+                <div className={styles.taskActions}>
+                  <Badge status={predecessor.status} />
+
+                  <Button
+                    type="button"
+                    variant="ghostDanger"
+                    iconOnly
+                    title="Fjern afhængighed"
+                    icon={<FiTrash2 size={16} />}
+                    disabled={isSubmitting}
+                    onClick={() => handleRemove(predecessor.id)}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div
+            className={`${styles.arrow} ${allPredecessorsDone ? styles.arrowReady : ""}`}
+          >
+            <FiArrowRight className={styles.arrowRight} size={22} />
+            <FiArrowDown className={styles.arrowDown} size={22} />
+          </div>
+
+          <div className={styles.currentTask}>
+            <span className={styles.taskName}>{task.name}</span>
+            <span className={styles.taskMeta}>Denne opgave</span>
+          </div>
+        </div>
+      ) : (
+        <p className={styles.emptyText}>Denne opgave har ingen afhængigheder.</p>
+      )}
+
       <div className={styles.addSection}>
         <Select
           label="Tilføj forgænger"
@@ -83,34 +134,6 @@ const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
           disabled={!selectedPredecessorId || isSubmitting}
           onClick={handleAdd}
         />
-      </div>
-
-      <div className={styles.list}>
-        {predecessorTasks.length > 0 ? (
-          predecessorTasks.map((predecessor) => (
-            <div key={predecessor.id} className={styles.item}>
-              <div className={styles.itemContent}>
-                <span className={styles.itemName}>{predecessor.name}</span>
-
-                <span className={styles.itemMeta}>
-                  {predecessor.estimate ?? 0} timer
-                </span>
-              </div>
-
-              <Button
-                type="button"
-                variant="ghostDanger"
-                iconOnly
-                title="Fjern afhængighed"
-                icon={<FiTrash2 size={16} />}
-                disabled={isSubmitting}
-                onClick={() => handleRemove(predecessor.id)}
-              />
-            </div>
-          ))
-        ) : (
-          <p className={styles.empty}>Denne opgave har ingen afhængigheder.</p>
-        )}
       </div>
     </div>
   );
