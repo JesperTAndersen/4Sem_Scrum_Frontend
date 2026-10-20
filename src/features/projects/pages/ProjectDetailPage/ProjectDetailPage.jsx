@@ -8,6 +8,7 @@ import Card from "@/shared/components/ui/Card/Card";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 import Button from "@/shared/components/ui/Button/Button";
 import ProjectDetailBar from "../../components/ProjectDetailBar/ProjectDetailBar";
+import ProjectHeader from "../../components/ProjectHeader/ProjectHeader";
 import StagesList from "@/features/stages/components/StagesList/StagesList";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import competenceService from "@/features/competences/services/competenceService";
@@ -22,8 +23,8 @@ const ProjectDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeTab = searchParams.get("tab" ?? "overview");
-  const changeTab = (tab) => setSearchParams( {tab} );
+  const activeTab = searchParams.get("tab") ?? "overview";
+  const changeTab = (tab) => setSearchParams({ tab });
   const { notify } = useNotification();
   const [project, setProject] = useState();
   const [users, setUsers] = useState([]);
@@ -267,7 +268,7 @@ const ProjectDetailPage = () => {
             {!isEditing ? (
               <>
                 <Card variant="card">
-                  <ProjectDetailBar project={project} users={users}>
+                  <ProjectHeader project={project}>
                     <Button
                       variant="danger"
                       name="Slet projekt"
@@ -278,45 +279,59 @@ const ProjectDetailPage = () => {
                       name="Rediger projekt"
                       onClick={() => setIsEditing(true)}
                     />
-                  </ProjectDetailBar>
+                  </ProjectHeader>
                 </Card>
 
                 <div className={styles.viewToolbar}>
                   <div className={styles.viewToggle}>
                     <Button
+                      icon={<FiInfo size={18} />}
+                      name="Overblik"
+                      variant={activeTab === "overview" ? "primary" : "ghost"}
+                      title="Vis projektets oplysninger"
+                      onClick={() => changeTab("overview")}
+                    />
+
+                    <Button
                       icon={<FiList size={18} />}
-                      name="Liste"
-                      variant={viewMode === "details" ? "primary" : "ghost"}
+                      name="Etaper & opgaver"
+                      variant={activeTab === "stages" ? "primary" : "ghost"}
                       title="Vis etaper og opgaver"
-                      onClick={() => setViewMode("details")}
+                      onClick={() => changeTab("stages")}
                     />
 
                     <Button
                       icon={<FiCalendar size={18} />}
                       name="Tidsplan"
-                      variant={viewMode === "gantt" ? "primary" : "ghost"}
+                      variant={activeTab === "schedule" ? "primary" : "ghost"}
                       title="Vis projektets tidsplan"
-                      onClick={() => setViewMode("gantt")}
+                      onClick={() => changeTab("schedule")}
                     />
                   </div>
                 </div>
-                {viewMode === "details" ? (
+
+                {activeTab === "overview" && (
+                  <Card variant="card">
+                    <ProjectDetailBar project={project} users={users} />
+                  </Card>
+                )}
+
+                {activeTab === "stages" && (
                   <Card variant="card">
                     <StagesList
                       projectId={project.id}
                       stages={project.stages || []}
                       competences={competences}
-                      employees={employees}
                       onStageCreated={handleStageCreate}
                       onStageEdited={handleStageEdit}
                       onStageDeleted={handleStageDelete}
                       onTaskCreated={handleTaskCreated}
                       onTaskView={handleOpenTask}
-                      onEmployeeAssigned={handleAssignEmployee}
-                      onEmployeeUnassigned={handleUnassignEmployee}
                     />
                   </Card>
-                ) : (
+                )}
+
+                {activeTab === "schedule" && (
                   <Card variant="card">
                     <ProjectGantt
                       project={project}

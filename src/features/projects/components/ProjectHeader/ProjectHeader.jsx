@@ -1,8 +1,8 @@
-import styles from "./ProjectDetailBar.module.css";
+import styles from "./ProjectHeader.module.css";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import BackButton from "@/shared/components/ui/BackButton/BackButton";
 
-const ProjectHeader = ({ project }) => {
+const ProjectHeader = ({ project, children }) => {
   return (
     <div className={styles.container}>
       <BackButton />

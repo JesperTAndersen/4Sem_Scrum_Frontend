@@ -6,7 +6,7 @@ import { formatDate } from "@/utils/dateHelpers";
 import getFeasibilityStatus from "../../utils/getFeasibilityStatus";
 import { formatUserRole } from "@/utils/formatters";
 
-const ProjectDetailBar = ({ project, users = [], children }) => {
+const ProjectDetailBar = ({ project, users = [] }) => {
   const navigate = useNavigate();
 
   const {
@@ -19,7 +19,10 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
   const progressPercent =
     totalTaskCount > 0 ? Math.round((taskDone / totalTaskCount) * 100) : 0;
 
-  const taskAssigned = project?.stages?.tasks?.filter(t => t.staffingStatus == "STAFFING_REQUIRED");
+  const allTasks = project?.stages?.flatMap((stage) => stage.tasks ?? []) ?? [];
+  const staffedTaskCount = allTasks.filter(
+    (task) => task.staffingStatus === "STAFFED",
+  ).length;
 
   return (
     <div className={styles.container}>
@@ -63,11 +66,11 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
             </span>
           </div>
 
-                    <div className={styles.summaryCard}>
-            <span className={styles.label}>{taskAssigned?.length == totalTaskCount ? "Bemanding" : "Mangler bemanding"}</span>
+          <div className={styles.summaryCard}>
+            <span className={styles.label}>Bemanding</span>
 
             <span className={styles.summaryValue}>
-                {taskAssigned?.length > 0 ? taskAssigned.length : 0} af {totalTaskCount} opgave bemandet.
+              {staffedTaskCount} af {allTasks.length} opgaver bemandet
             </span>
           </div>
         </div>
