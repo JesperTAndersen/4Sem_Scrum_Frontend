@@ -54,13 +54,13 @@ const replaceEmployees = async (taskId, employeeIds) => {
   });
 };
 
-const unAssignEmployees = async (taskId, employeeId) => {
+const unAssignEmployee = async (taskId, employeeId) => {
   return await apiClient(`${RESOURCE_URL}/${taskId}/employees`, {
     method: "DELETE",
   });
 };
 
-const assignEmployees = async (taskId, employeeId) => {
+const assignEmployee = async (taskId, employeeId) => {
   return await apiClient(`${RESOURCE_URL}/${taskId}/employees`, {
     method: "POST",
   });
@@ -75,6 +75,6 @@ export default {
   addPredecessor,
   removePredecessor,
   replaceEmployees,
-  unAssignEmployees,
-  assignEmployees
+  unAssignEmployee,
+  assignEmployee,
 };

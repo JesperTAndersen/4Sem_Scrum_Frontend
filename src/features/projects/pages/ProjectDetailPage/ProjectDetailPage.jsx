@@ -17,6 +17,7 @@ import { FiCalendar } from "react-icons/fi";
 import ProjectGantt from "../../components/ProjectGantt/ProjectGantt";
 import TaskDetail from "@/features/tasks/components/TaskDetail/TaskDetail";
 import Modal from "@/shared/components/ui/Modal/Modal";
+import employeeService from "@/features/employees/services/employeeService";
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -25,6 +26,7 @@ const ProjectDetailPage = () => {
   const [project, setProject] = useState();
   const [users, setUsers] = useState([]);
   const [competences, setCompetences] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -85,6 +87,26 @@ const ProjectDetailPage = () => {
     };
 
     fetchCompetences();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      setIsLoading(true);
+      try {
+        const data = await employeeService.getAll();
+        setEmployees(data);
+      } catch (error) {
+        notify(
+          "error",
+          error.message ||
+            "Kunne ikke hente medarbejdere til opgave oprettelse - prøv igen.",
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEmployees();
   }, [id]);
 
   const handleUpdate = async (formData) => {
@@ -207,6 +229,28 @@ const ProjectDetailPage = () => {
     }
   };
 
+  const handleAssignEmployee = (taskId, employeeId) => {
+    try {
+      const data = taskService.assignEmployee(taskId, employeeId);
+      //const employee = data.filter()
+      await refreshProject();
+      notify("success", "Medarbejder tilføjet til projekt.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke tilføje medarbejderen.");
+      throw error;
+  };
+
+  const handleUnassignEmployee = () => {
+        try {
+      const data = taskService.unAssignEmployee(taskId, employeeId);
+      //const employee = data.filter()
+      await refreshProject();
+      notify("success", "Medarbejder fjernet fra projekt.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke fjerne medarbejderen fra projektet.");
+      throw error;
+  };
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
@@ -256,11 +300,14 @@ const ProjectDetailPage = () => {
                       projectId={project.id}
                       stages={project.stages || []}
                       competences={competences}
+                      employees={employees}
                       onStageCreated={handleStageCreate}
                       onStageEdited={handleStageEdit}
                       onStageDeleted={handleStageDelete}
                       onTaskCreated={handleTaskCreated}
                       onTaskView={handleOpenTask}
+                      onEmployeeAssigned={handleAssignEmployee}
+                      onEmployeeUnassigned={handleUnassignEmployee}
                     />
                   </Card>
                 ) : (
