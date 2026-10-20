@@ -97,18 +97,14 @@ const TaskAssignments = ({ task, employees = [], onAdd, onRemove }) => {
                 </span>
 
                 <span className={styles.userRole}>
-                  {[
-                    competenceName,
-                    employee.dailyCapacity != null &&
-                      `${employee.dailyCapacity.toLocaleString("da-DK")} t/dag`,
-                  ]
-                    .filter(Boolean)
-                    .join(" · ")}
+                  {competenceName}
                 </span>
               </div>
 
               <div className={styles.userActions}>
-                {!employee.active && <Badge status="DISABLED" label="Inaktiv" />}
+                {!employee.active && (
+                  <Badge status="DISABLED" label="Inaktiv" />
+                )}
 
                 {!isLocked && (
                   <Button

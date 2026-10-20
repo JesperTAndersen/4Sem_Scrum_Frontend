@@ -231,28 +231,30 @@ const ProjectDetailPage = () => {
 
   const handleAssignEmployee = async (taskId, employeeId) => {
     try {
-      const data = taskService.assignEmployee(taskId, employeeId);
+      const data = await taskService.assignEmployee(taskId, employeeId);
       //const employee = data.filter()
       await refreshProject();
-      notify("success", "Medarbejder tilføjet til projekt.");
+      notify("success", "Medarbejder tildelt til opgaven.");
     } catch (error) {
       notify("error", error.message || "Kunne ikke tilføje medarbejderen.");
       throw error;
+    }
   };
-}
 
   const handleUnassignEmployee = async (taskId, employeeId) => {
-        try {
-      const data = taskService.unAssignEmployee(taskId, employeeId);
+    try {
+      const data = await taskService.unAssignEmployee(taskId, employeeId);
       //const employee = data.filter()
       await refreshProject();
-      notify("success", "Medarbejder fjernet fra projekt.");
+      notify("success", "Medarbejder fjernet fra opgaven.");
     } catch (error) {
-      notify("error", error.message || "Kunne ikke fjerne medarbejderen fra projektet.");
+      notify(
+        "error",
+        error.message || "Kunne ikke fjerne medarbejderen fra projektet.",
+      );
       throw error;
+    }
   };
-
-}
 
   return (
     <div className={styles.pageContainer}>

@@ -55,13 +55,13 @@ const replaceEmployees = async (taskId, employeeIds) => {
 };
 
 const unAssignEmployee = async (taskId, employeeId) => {
-  return await apiClient(`${RESOURCE_URL}/${taskId}/employees`, {
+  return await apiClient(`${RESOURCE_URL}/${taskId}/employees/${employeeId}`, {
     method: "DELETE",
   });
 };
 
 const assignEmployee = async (taskId, employeeId) => {
-  return await apiClient(`${RESOURCE_URL}/${taskId}/employees`, {
+  return await apiClient(`${RESOURCE_URL}/${taskId}/employees/${employeeId}`, {
     method: "POST",
   });
 };

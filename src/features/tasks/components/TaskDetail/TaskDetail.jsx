@@ -7,6 +7,7 @@ import Card from "@/shared/components/ui/Card/Card";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import TaskEditForm from "../TaskEditForm/TaskEditForm";
+import TaskAssignments from "../TaskAssignments/TaskAssignments";
 
 const TaskDetail = ({
   task,
@@ -132,6 +133,15 @@ const TaskDetail = ({
                   tasks={tasks}
                   onAdd={onTaskDependencyAdd}
                   onRemove={onTaskDependencyRemove}
+                />
+              </div>
+
+              <div className={styles.group}>
+                <TaskAssignments
+                  task={task}
+                  employees={employees}
+                  onAdd={onEmployeeAssigned}
+                  onRemove={onEmployeeUnassigned}
                 />
               </div>
 
