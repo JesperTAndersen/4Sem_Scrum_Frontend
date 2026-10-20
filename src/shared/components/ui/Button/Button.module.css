@@ -58,3 +58,28 @@
 .danger:hover:not(:disabled) {
   background-color: var(--color-danger-hover);
 }
+
+.iconOnly {
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-md);
+}
+
+.ghost {
+  background-color: transparent;
+  color: var(--color-text-muted);
+}
+
+.ghost:hover:not(:disabled) {
+  background-color: var(--color-bg-section);
+  color: var(--color-primary);
+}
+
+.ghostDanger {
+  background-color: transparent;
+  color: var(--color-text-muted);
+}
+
+.ghostDanger:hover:not(:disabled) {
+  background-color: var(--color-bg-section);
+  color: var(--color-danger);
+}
