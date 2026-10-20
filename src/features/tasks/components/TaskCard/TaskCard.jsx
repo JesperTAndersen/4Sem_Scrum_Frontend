@@ -1,17 +1,10 @@
 import styles from "./TaskCard.module.css";
 import { formatCurrency } from "@/utils/formatters";
+import { formatShortDate } from "@/utils/dateHelpers";
+import formatDays from "../../utils/formatDays";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import { FiChevronRight, FiLink, FiUsers } from "react-icons/fi";
 
-const formatShortDate = (date) =>
-  new Date(date).toLocaleDateString("da-DK", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-
-const formatDays = (days) =>
-  (days ?? 0).toLocaleString("da-DK", { maximumFractionDigits: 1 });
 
 const TaskCard = ({ task, tasks = [], onClick }) => {
   if (!task) return null;
@@ -78,7 +71,7 @@ const TaskCard = ({ task, tasks = [], onClick }) => {
           <span className={styles.label}>Varighed</span>
           <span className={styles.value}>
             {task.scheduledDurationInDays != null
-              ? `${formatDays(task.scheduledDurationInDays)} dage (min. ${formatDays(task.minimumDurationInDays)})`
+              ? `${formatDays(task.scheduledDurationInDays)} (min. ${task.minimumDurationInDays ?? 0})`
               : "Kan ikke beregnes"}
           </span>
         </div>

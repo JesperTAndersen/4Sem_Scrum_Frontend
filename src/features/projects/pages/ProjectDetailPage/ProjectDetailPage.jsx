@@ -338,8 +338,9 @@ const ProjectDetailPage = () => {
 
         {selectedTask && (
           <Modal onClose={() => setSelectedTaskId(null)}>
-            <Card>
+            <Card variant="flat">
               <TaskDetail
+                onClose={() => setSelectedTaskId(null)}
                 task={selectedTask}
                 tasks={selectedStage?.tasks ?? []}
                 blockedBy={blockedBy}

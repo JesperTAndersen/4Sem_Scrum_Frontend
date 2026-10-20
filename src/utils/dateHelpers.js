@@ -147,3 +147,10 @@ const getMondayOfWeek = (year, weekNumber) => {
 
   return monday;
 };
+
+export const formatShortDate = (date) =>
+  new Date(date).toLocaleDateString("da-DK", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });

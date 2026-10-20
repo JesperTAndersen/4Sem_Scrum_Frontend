@@ -6,7 +6,7 @@ import Button from "@/shared/components/ui/Button/Button";
 import Select from "@/shared/components/filter/Select/Select";
 
 import Badge from "@/shared/components/ui/Badge/Badge";
-import { FiArrowDown, FiArrowRight, FiTrash2 } from "react-icons/fi";
+import { FiArrowRight, FiTrash2 } from "react-icons/fi";
 
 const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
   const [selectedPredecessorId, setSelectedPredecessorId] = useState("");
@@ -74,44 +74,36 @@ const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
 
       {predecessorTasks.length > 0 ? (
         <div className={styles.flow}>
-          <div className={styles.predecessors}>
-            {predecessorTasks.map((predecessor) => (
-              <div key={predecessor.id} className={styles.taskCard}>
-                <div className={styles.taskInfo}>
-                  <span className={styles.taskName}>{predecessor.name}</span>
+          {predecessorTasks.map((predecessor) => (
+            <div key={predecessor.id} className={styles.chipGroup}>
+              <div className={styles.chip} title={predecessor.name}>
+                <span className={styles.chipName}>{predecessor.name}</span>
 
-                  <span className={styles.taskMeta}>
-                    {predecessor.estimate ?? 0} timer
-                  </span>
-                </div>
+                <Badge status={predecessor.status} />
 
-                <div className={styles.taskActions}>
-                  <Badge status={predecessor.status} />
-
-                  <Button
-                    type="button"
-                    variant="ghostDanger"
-                    iconOnly
-                    title="Fjern afhængighed"
-                    icon={<FiTrash2 size={16} />}
-                    disabled={isSubmitting}
-                    onClick={() => handleRemove(predecessor.id)}
-                  />
-                </div>
+                <Button
+                  type="button"
+                  variant="ghostDanger"
+                  iconOnly
+                  title="Fjern afhængighed"
+                  icon={<FiTrash2 size={16} />}
+                  disabled={isSubmitting}
+                  onClick={() => handleRemove(predecessor.id)}
+                />
               </div>
-            ))}
-          </div>
 
-          <div
-            className={`${styles.arrow} ${allPredecessorsDone ? styles.arrowReady : ""}`}
-          >
-            <FiArrowRight className={styles.arrowRight} size={22} />
-            <FiArrowDown className={styles.arrowDown} size={22} />
-          </div>
+              <FiArrowRight
+                size={20}
+                className={
+                  allPredecessorsDone ? styles.arrowReady : styles.arrow
+                }
+              />
+            </div>
+          ))}
 
-          <div className={styles.currentTask}>
-            <span className={styles.taskName}>{task.name}</span>
-            <span className={styles.taskMeta}>Denne opgave</span>
+          <div className={styles.currentChip}>
+            <span className={styles.currentLabel}>Denne opgave</span>
+            <span className={styles.chipName}>{task.name}</span>
           </div>
         </div>
       ) : (

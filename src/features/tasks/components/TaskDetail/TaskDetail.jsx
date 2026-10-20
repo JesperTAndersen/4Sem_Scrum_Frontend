@@ -1,13 +1,15 @@
 import { useState } from "react";
 import styles from "./TaskDetail.module.css";
 import TaskDependencies from "../TaskDependencies/TaskDependencies";
-import BackButton from "@/shared/components/ui/BackButton/BackButton";
 import Button from "@/shared/components/ui/Button/Button";
-import Card from "@/shared/components/ui/Card/Card";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import TaskEditForm from "../TaskEditForm/TaskEditForm";
 import TaskAssignments from "../TaskAssignments/TaskAssignments";
+import { formatCurrency } from "@/utils/formatters";
+import { formatShortDate } from "@/utils/dateHelpers";
+import formatDays from "../../utils/formatDays";
+import { FiX } from "react-icons/fi";
 
 const TaskDetail = ({
   task,
@@ -22,6 +24,7 @@ const TaskDetail = ({
   onTaskDependencyRemove,
   onEmployeeAssigned,
   onEmployeeUnassigned,
+  onClose,
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -35,9 +38,7 @@ const TaskDetail = ({
   return (
     <>
       <div className={styles.container}>
-        <BackButton />
-
-        <Card variant="card">
+        <div>
           {showEditForm ? (
             <TaskEditForm
               task={task}
@@ -55,14 +56,71 @@ const TaskDetail = ({
                     <Badge status={task.staffingStatus} />
                   </div>
 
-                  <p className={styles.description}>
-                    {task.estimate ?? 0} estimerede arbejdstimer
-                  </p>
+                  {isBlocked && task.status !== "DONE" && (
+                    <p className={styles.blockedText}>
+                      Venter på: {blockedBy.join(", ")}
+                    </p>
+                  )}
+                </div>
+
+                <div className={styles.headerActions}>
+                  {task.status === "NOT_STARTED" && (
+                    <Button
+                      variant="primary"
+                      name="Sæt i gang"
+                      disabled={isBlocked}
+                      onClick={() => onTaskStatusChange(task, "IN_PROGRESS")}
+                    />
+                  )}
+
+                  {task.status === "IN_PROGRESS" && (
+                    <>
+                      <Button
+                        variant="secondary"
+                        name="Tilbage til ikke startet"
+                        onClick={() => onTaskStatusChange(task, "NOT_STARTED")}
+                      />
+
+                      <Button
+                        variant="primary"
+                        name="Markér som færdig"
+                        disabled={isBlocked}
+                        onClick={() => onTaskStatusChange(task, "DONE")}
+                      />
+                    </>
+                  )}
+
+                  {task.status === "DONE" && (
+                    <Button
+                      variant="secondary"
+                      name="Genåbn opgave"
+                      onClick={() => onTaskStatusChange(task, "IN_PROGRESS")}
+                    />
+                  )}
+
+                  {onClose && (
+                    <Button
+                      variant="ghost"
+                      iconOnly
+                      title="Luk"
+                      icon={<FiX size={18} />}
+                      onClick={onClose}
+                    />
+                  )}
                 </div>
               </div>
 
               <div className={styles.group}>
                 <div className={styles.metaGrid}>
+                  <div className={`${styles.field} ${styles.fullWidth}`}>
+                    <span className={styles.label}>Periode</span>
+                    <span className={styles.value}>
+                      {task.startDate && task.endDate
+                        ? `${formatShortDate(task.startDate)} – ${formatShortDate(task.endDate)}`
+                        : "Kan ikke beregnes"}
+                    </span>
+                  </div>
+
                   <div className={styles.field}>
                     <span className={styles.label}>Kompetence</span>
                     <span className={styles.value}>
@@ -71,57 +129,30 @@ const TaskDetail = ({
                   </div>
 
                   <div className={styles.field}>
-                    <span className={styles.label}>Estimeret arbejdstid</span>
+                    <span className={styles.label}>Estimat</span>
                     <span className={styles.value}>
                       {task.estimate ?? 0} timer
                     </span>
                   </div>
 
                   <div className={styles.field}>
-                    <span className={styles.label}>Minimum varighed</span>
-                    <span className={styles.value}>
-                      {task.minimumDurationInDays ?? 0} arbejdsdage
-                    </span>
-                  </div>
-
-                  <div className={styles.field}>
-                    <span className={styles.label}>Arbejdsvarighed</span>
-                    <span className={styles.value}>
-                      {task.laborDurationInDays != null
-                        ? `${task.laborDurationInDays.toFixed(2)} arbejdsdage`
-                        : "-"}
-                    </span>
-                  </div>
-
-                  <div className={styles.field}>
-                    <span className={styles.label}>Planlagt varighed</span>
+                    <span className={styles.label}>Varighed</span>
                     <span className={styles.value}>
                       {task.scheduledDurationInDays != null
-                        ? `${task.scheduledDurationInDays.toFixed(2)} arbejdsdage`
-                        : "-"}
+                        ? `${formatDays(task.scheduledDurationInDays)} (min. ${task.minimumDurationInDays ?? 0})`
+                        : "Kan ikke beregnes"}
                     </span>
+                    {task.laborDurationInDays != null && (
+                      <span className={styles.hint}>
+                        Arbejdstid: {formatDays(task.laborDurationInDays)}
+                      </span>
+                    )}
                   </div>
 
                   <div className={styles.field}>
-                    <span className={styles.label}>Afhængighedsstart</span>
+                    <span className={styles.label}>Pris</span>
                     <span className={styles.value}>
-                      {task.dependencyStartOffsetInDays ?? 0} dage
-                    </span>
-                  </div>
-
-                  <div className={styles.field}>
-                    <span className={styles.label}>Afhængighedsslut</span>
-                    <span className={styles.value}>
-                      {task.dependencyFinishOffsetInDays != null
-                        ? `${task.dependencyFinishOffsetInDays.toFixed(2)} dage`
-                        : "-"}
-                    </span>
-                  </div>
-
-                  <div className={styles.field}>
-                    <span className={styles.label}>Antal forgængere</span>
-                    <span className={styles.value}>
-                      {task.predecessorIds?.length ?? 0}
+                      {formatCurrency(task.cost ?? 0)}
                     </span>
                   </div>
                 </div>
@@ -137,33 +168,27 @@ const TaskDetail = ({
               </div>
 
               <div className={styles.group}>
-                {task.staffingStatus === "STAFFING_REQUIRED" && (
-                  <p className={styles.staffingText}>
-                    Ingen medarbejdere tildelt – varigheden er beregnet med én
-                    person á 7,5 timer om dagen.
-                  </p>
-                )}
-
-                {task.staffingStatus === "NO_AVAILABLE_CAPACITY" && (
-                  <p className={styles.staffingText}>
-                    De tildelte medarbejdere er inaktive – tildel en aktiv
-                    medarbejder for at beregne tidsplanen.
-                  </p>
-                )}
-
                 <TaskAssignments
                   task={task}
                   employees={employees}
                   onAdd={onEmployeeAssigned}
                   onRemove={onEmployeeUnassigned}
                 />
-              </div>
 
-              {isBlocked && task.status !== "DONE" && (
-                <p className={styles.blockedText}>
-                  Venter på: {blockedBy.join(", ")}
-                </p>
-              )}
+                {task.staffingStatus === "STAFFING_REQUIRED" && (
+                  <p className={styles.hint}>
+                    Ingen medarbejdere tildelt – varigheden er beregnet med én
+                    person á 7,5 timer om dagen.
+                  </p>
+                )}
+
+                {task.staffingStatus === "NO_AVAILABLE_CAPACITY" && (
+                  <p className={styles.warningText}>
+                    De tildelte medarbejdere er inaktive – tildel en aktiv
+                    medarbejder for at beregne tidsplanen.
+                  </p>
+                )}
+              </div>
 
               <div className={styles.actionsGroup}>
                 <Button
@@ -171,40 +196,6 @@ const TaskDetail = ({
                   name="Slet opgave"
                   onClick={() => setShowConfirm(true)}
                 />
-
-                {task.status === "NOT_STARTED" && (
-                  <Button
-                    variant="primary"
-                    name="Sæt i gang"
-                    disabled={isBlocked}
-                    onClick={() => onTaskStatusChange(task, "IN_PROGRESS")}
-                  />
-                )}
-
-                {task.status === "IN_PROGRESS" && (
-                  <>
-                    <Button
-                      variant="secondary"
-                      name="Tilbage til ikke startet"
-                      onClick={() => onTaskStatusChange(task, "NOT_STARTED")}
-                    />
-
-                    <Button
-                      variant="primary"
-                      name="Markér som færdig"
-                      disabled={isBlocked}
-                      onClick={() => onTaskStatusChange(task, "DONE")}
-                    />
-                  </>
-                )}
-
-                {task.status === "DONE" && (
-                  <Button
-                    variant="secondary"
-                    name="Genåbn opgave"
-                    onClick={() => onTaskStatusChange(task, "IN_PROGRESS")}
-                  />
-                )}
 
                 <Button
                   variant="secondary"
@@ -214,7 +205,7 @@ const TaskDetail = ({
               </div>
             </>
           )}
-        </Card>
+        </div>
       </div>
 
       {showConfirm && (
