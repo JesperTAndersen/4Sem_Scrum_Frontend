@@ -31,8 +31,8 @@ const updateCompetences = async (id, competenceIds) => {
   });
 };
 
-const getCapacity = async () => {
-  return await apiClient(`${RESOURCE_URL}/capacity`);
+const getCapacity = async (params) => {
+  return await apiClient(`${RESOURCE_URL}/capacity`, { params });
 };
 
 const activate = async (id) => {

@@ -5,7 +5,12 @@ import Badge from "@/shared/components/ui/Badge/Badge";
 import { formatDate } from "@/utils/dateHelpers";
 import { useNavigate } from "react-router";
 
-const CompetenceDetail = ({ competence, employees = [], actions }) => {
+const CompetenceDetail = ({
+  competence,
+  employees = [],
+  capacity,
+  actions,
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -46,6 +51,16 @@ const CompetenceDetail = ({ competence, employees = [], actions }) => {
           Tilknyttede medarbejdere ({employees.length})
         </h3>
 
+        {capacity && (
+          <p className={styles.capacityText}>
+            {capacity.employeeCount}{" "}
+            {capacity.employeeCount === 1
+              ? "aktiv medarbejder"
+              : "aktive medarbejdere"}{" "}
+            · {capacity.dailyCapacity.toLocaleString("da-DK")} timer/dag
+          </p>
+        )}
+
         {employees.length === 0 ? (
           <p className={styles.emptyText}>
             Ingen medarbejdere er tilknyttet denne kompetence endnu.
@@ -67,8 +82,14 @@ const CompetenceDetail = ({ competence, employees = [], actions }) => {
                   <span className={styles.userName}>
                     {employee.firstName} {employee.lastName}
                   </span>
-                  <span className={styles.userRole}>{competence.name}</span>
+                  <span className={styles.userRole}>
+                    {employee.dailyCapacity.toLocaleString("da-DK")} t/dag
+                  </span>
                 </div>
+
+                {!employee.active && (
+                  <Badge status="DISABLED" label="Inaktiv" />
+                )}
               </div>
             ))}
           </div>

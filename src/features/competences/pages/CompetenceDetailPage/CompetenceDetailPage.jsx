@@ -18,6 +18,7 @@ const CompetenceDetailPage = () => {
   const navigate = useNavigate();
   const [competence, setCompetence] = useState(null);
   const [employees, setEmployees] = useState([]);
+  const [capacity, setCapacity] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -30,8 +31,12 @@ const CompetenceDetailPage = () => {
         const employeeData = await employeeService.getAll({
           competenceId: id,
         });
+        const capacityData = await employeeService.getCapacity({
+          competenceId: id,
+        });
         setCompetence(competenceData);
         setEmployees(employeeData);
+        setCapacity(capacityData);
       } catch (error) {
         notify("error", error.message || "Kunne ikke hente kompetence");
       } finally {
@@ -120,6 +125,7 @@ const CompetenceDetailPage = () => {
                 <CompetenceDetail
                   competence={competence}
                   employees={employees}
+                  capacity={capacity}
                   actions={{
                     left: (
                       <Button

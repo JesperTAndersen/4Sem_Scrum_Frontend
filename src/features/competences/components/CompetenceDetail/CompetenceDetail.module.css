@@ -150,3 +150,10 @@
   gap: var(--spacing-sm);
   align-items: center;
 }
+
+.capacityText {
+  margin: 0 0 var(--spacing-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+}
