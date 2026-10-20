@@ -18,14 +18,11 @@ const StagesList = ({
   projectId,
   stages = [],
   competences = [],
-  employees = [],
   onStageCreated,
   onStageEdited,
   onStageDeleted,
   onTaskCreated,
   onTaskView,
-  onEmployeeAssigned,
-  onEmployeeUnassigned,
 }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingStageId, setEditingStageId] = useState(null);

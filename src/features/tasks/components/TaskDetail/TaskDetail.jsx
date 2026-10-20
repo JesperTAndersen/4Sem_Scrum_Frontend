@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import styles from "./TaskDetail.module.css";
 import TaskDependencies from "../TaskDependencies/TaskDependencies";
 import BackButton from "@/shared/components/ui/BackButton/BackButton";
@@ -7,7 +6,6 @@ import Button from "@/shared/components/ui/Button/Button";
 import Card from "@/shared/components/ui/Card/Card";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
-
 import TaskEditForm from "../TaskEditForm/TaskEditForm";
 
 const TaskDetail = ({
@@ -15,11 +13,14 @@ const TaskDetail = ({
   tasks = [],
   blockedBy = [],
   competences = [],
+  employees = [],
   onTaskDelete,
   onTaskEdit,
   onTaskStatusChange,
   onTaskDependencyAdd,
   onTaskDependencyRemove,
+  onEmployeeAssigned,
+  onEmployeeUnassigned,
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);

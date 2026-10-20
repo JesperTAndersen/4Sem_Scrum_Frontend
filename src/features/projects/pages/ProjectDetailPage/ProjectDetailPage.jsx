@@ -229,7 +229,7 @@ const ProjectDetailPage = () => {
     }
   };
 
-  const handleAssignEmployee = (taskId, employeeId) => {
+  const handleAssignEmployee = async (taskId, employeeId) => {
     try {
       const data = taskService.assignEmployee(taskId, employeeId);
       //const employee = data.filter()
@@ -239,8 +239,9 @@ const ProjectDetailPage = () => {
       notify("error", error.message || "Kunne ikke tilføje medarbejderen.");
       throw error;
   };
+}
 
-  const handleUnassignEmployee = () => {
+  const handleUnassignEmployee = async (taskId, employeeId) => {
         try {
       const data = taskService.unAssignEmployee(taskId, employeeId);
       //const employee = data.filter()
@@ -250,6 +251,8 @@ const ProjectDetailPage = () => {
       notify("error", error.message || "Kunne ikke fjerne medarbejderen fra projektet.");
       throw error;
   };
+
+}
 
   return (
     <div className={styles.pageContainer}>
@@ -342,8 +345,11 @@ const ProjectDetailPage = () => {
                 onTaskStatusChange={handleChangeStatusTask}
                 onTaskEdit={handleEditTask}
                 competences={competences}
+                employees={employees}
                 onTaskDependencyAdd={handleTaskDependencyAdd}
                 onTaskDependencyRemove={handleTaskDependencyRemove}
+                onEmployeeAssigned={handleAssignEmployee}
+                onEmployeeUnassigned={handleUnassignEmployee}
               />
             </Card>
           </Modal>
