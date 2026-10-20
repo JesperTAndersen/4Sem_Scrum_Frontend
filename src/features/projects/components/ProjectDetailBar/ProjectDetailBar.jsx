@@ -5,6 +5,7 @@ import Avatar from "@/shared/components/ui/Avatar/Avatar";
 import { formatDate } from "@/utils/dateHelpers";
 import getFeasibilityStatus from "../../utils/getFeasibilityStatus";
 import { formatUserRole } from "@/utils/formatters";
+import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 
 const ProjectDetailBar = ({ project, users = [] }) => {
   const navigate = useNavigate();
@@ -26,6 +27,10 @@ const ProjectDetailBar = ({ project, users = [] }) => {
 
   return (
     <div className={styles.container}>
+      <SectionHeader
+        title="Overblik"
+        description="Projektets nøgletal, opgavestatus, bemanding og projektledere."
+      />
       <div className={styles.group}>
         <div className={styles.summaryGrid}>
           <div className={styles.summaryCard}>

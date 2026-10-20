@@ -13,6 +13,7 @@ import StageDependencies from "../StageDependencies/StageDependencies";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import taskService from "@/features/tasks/services/taskService";
 import TaskCreateForm from "@/features/tasks/components/TaskCreateForm/TaskCreateForm";
+import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 
 const StagesList = ({
   projectId,
@@ -105,16 +106,17 @@ const StagesList = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h3>Etaper ({stages.length})</h3>
-
+      <SectionHeader
+        title={`Etaper (${stages.length})`}
+        description="Projektets etaper og opgaver. Klik på en opgave for at se detaljer."
+      >
         <Button
           icon={<FiPlusCircle />}
           name="Opret Etape"
           variant="primary"
           onClick={() => setShowCreateForm(true)}
         />
-      </div>
+      </SectionHeader>
 
       <div className={styles.list}>
         {stages.map((stage) => (

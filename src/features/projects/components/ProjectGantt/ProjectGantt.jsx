@@ -5,6 +5,7 @@ import Gantt from "frappe-gantt";
 import getTaskProgress from "../../utils/getTaskProgress";
 import Button from "@/shared/components/ui/Button/Button";
 import { formatDate } from "@/utils/dateHelpers";
+import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 
 const COLUMN_WIDTH = { Day: 44, Week: 140 };
 const PIXELS_PER_DAY = { Day: 44, Week: 20 };
@@ -153,49 +154,42 @@ const ProjectGantt = ({ project, onTaskClick }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div>
-          <h3 className={styles.title}>Tidsplan</h3>
-
-          <p className={styles.description}>
-            Projektets etaper, opgaver og afhængigheder.
-          </p>
+      <SectionHeader
+        title="Tidsplan"
+        description="Projektets etaper, opgaver og afhængigheder over tid."
+      >
+        <div className={styles.viewToggle}>
+          <Button
+            name="Dag"
+            variant={viewMode === "Day" ? "primary" : "ghost"}
+            onClick={() => setViewMode("Day")}
+          />
+          <Button
+            name="Uge"
+            variant={viewMode === "Week" ? "primary" : "ghost"}
+            onClick={() => setViewMode("Week")}
+          />
         </div>
 
-        <div className={styles.headerRight}>
-          <div className={styles.viewToggle}>
-            <Button
-              name="Dag"
-              variant={viewMode === "Day" ? "primary" : "ghost"}
-              onClick={() => setViewMode("Day")}
-            />
-            <Button
-              name="Uge"
-              variant={viewMode === "Week" ? "primary" : "ghost"}
-              onClick={() => setViewMode("Week")}
-            />
-          </div>
-
-          <ul className={styles.legend}>
-            <li>
-              <span className={`${styles.swatch} ${styles.swatchStage}`} />
-              Etape
-            </li>
-            <li>
-              <span className={`${styles.swatch} ${styles.swatchNotStarted}`} />
-              Ikke startet
-            </li>
-            <li>
-              <span className={`${styles.swatch} ${styles.swatchInProgress}`} />
-              I gang
-            </li>
-            <li>
-              <span className={`${styles.swatch} ${styles.swatchDone}`} />
-              Færdig
-            </li>
-          </ul>
-        </div>
-      </div>
+        <ul className={styles.legend}>
+          <li>
+            <span className={`${styles.swatch} ${styles.swatchStage}`} />
+            Etape
+          </li>
+          <li>
+            <span className={`${styles.swatch} ${styles.swatchNotStarted}`} />
+            Ikke startet
+          </li>
+          <li>
+            <span className={`${styles.swatch} ${styles.swatchInProgress}`} />I
+            gang
+          </li>
+          <li>
+            <span className={`${styles.swatch} ${styles.swatchDone}`} />
+            Færdig
+          </li>
+        </ul>
+      </SectionHeader>
 
       <div className={styles.scroller}>
         <div ref={ganttRef} className={styles.gantt} />
