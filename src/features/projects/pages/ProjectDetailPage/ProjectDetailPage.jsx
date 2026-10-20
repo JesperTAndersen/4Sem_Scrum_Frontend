@@ -52,6 +52,8 @@ const ProjectDetailPage = () => {
 
   const blockedBy = [...blockingStages, ...blockingTasks].map((b) => b.name);
 
+  console.log(project);
+
   useEffect(() => {
     const fetchProject = async () => {
       setIsLoading(true);
@@ -231,8 +233,7 @@ const ProjectDetailPage = () => {
 
   const handleAssignEmployee = async (taskId, employeeId) => {
     try {
-      const data = await taskService.assignEmployee(taskId, employeeId);
-      //const employee = data.filter()
+      await taskService.assignEmployee(taskId, employeeId);
       await refreshProject();
       notify("success", "Medarbejder tildelt til opgaven.");
     } catch (error) {
@@ -243,14 +244,13 @@ const ProjectDetailPage = () => {
 
   const handleUnassignEmployee = async (taskId, employeeId) => {
     try {
-      const data = await taskService.unAssignEmployee(taskId, employeeId);
-      //const employee = data.filter()
+      await taskService.unAssignEmployee(taskId, employeeId);
       await refreshProject();
       notify("success", "Medarbejder fjernet fra opgaven.");
     } catch (error) {
       notify(
         "error",
-        error.message || "Kunne ikke fjerne medarbejderen fra projektet.",
+        error.message || "Kunne ikke fjerne medarbejderen fra opgaven.",
       );
       throw error;
     }

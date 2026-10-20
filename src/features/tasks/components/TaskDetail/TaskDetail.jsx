@@ -25,7 +25,6 @@ const TaskDetail = ({
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-
   const isBlocked = blockedBy.length > 0;
 
   const handleUpdate = async (updatedTask) => {
@@ -53,6 +52,7 @@ const TaskDetail = ({
                   <div className={styles.titleRow}>
                     <h1 className={styles.title}>{task.name}</h1>
                     <Badge status={task.status} />
+                    <Badge status={task.staffingStatus} />
                   </div>
 
                   <p className={styles.description}>
@@ -137,6 +137,20 @@ const TaskDetail = ({
               </div>
 
               <div className={styles.group}>
+                {task.staffingStatus === "STAFFING_REQUIRED" && (
+                  <p className={styles.staffingText}>
+                    Ingen medarbejdere tildelt – varigheden er beregnet med én
+                    person á 7,5 timer om dagen.
+                  </p>
+                )}
+
+                {task.staffingStatus === "NO_AVAILABLE_CAPACITY" && (
+                  <p className={styles.staffingText}>
+                    De tildelte medarbejdere er inaktive – tildel en aktiv
+                    medarbejder for at beregne tidsplanen.
+                  </p>
+                )}
+
                 <TaskAssignments
                   task={task}
                   employees={employees}

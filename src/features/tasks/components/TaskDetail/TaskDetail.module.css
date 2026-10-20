@@ -162,3 +162,12 @@
   background-color: var(--color-badge-warning-bg);
   border-radius: var(--radius-md);
 }
+
+.staffingText {
+  margin: 0 0 var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--text-sm);
+  color: var(--color-badge-warning-text);
+  background-color: var(--color-badge-warning-bg);
+  border-radius: var(--radius-md);
+}
