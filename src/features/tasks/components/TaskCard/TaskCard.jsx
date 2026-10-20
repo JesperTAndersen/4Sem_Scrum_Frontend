@@ -1,11 +1,9 @@
 import styles from "./TaskCard.module.css";
 import { formatCurrency } from "@/utils/formatters";
-import { formatDate } from "@/utils/dateHelpers";
+import { formatShortDate } from "@/utils/dateHelpers";
+import formatDays from "../../utils/formatDays";
 import Badge from "@/shared/components/ui/Badge/Badge";
-import { FiChevronRight } from "react-icons/fi";
-
-const formatDays = (days) =>
-  (days ?? 0).toLocaleString("da-DK", { maximumFractionDigits: 1 });
+import { FiChevronRight, FiLink, FiUsers } from "react-icons/fi";
 
 const TaskCard = ({ task, tasks = [], onClick }) => {
   if (!task) return null;
@@ -13,6 +11,10 @@ const TaskCard = ({ task, tasks = [], onClick }) => {
   const predecessorNames = (task.predecessorIds ?? [])
     .map((id) => tasks.find((t) => t.id === id)?.name)
     .filter(Boolean);
+
+  const employeeNames = (task.assignedEmployees ?? []).map(
+    (employee) => `${employee.firstName} ${employee.lastName}`,
+  );
 
   return (
     <button
@@ -22,19 +24,30 @@ const TaskCard = ({ task, tasks = [], onClick }) => {
     >
       <div className={styles.header}>
         <div className={styles.titleInfo}>
-          <h4 className={styles.taskName}>{task.name}</h4>
-
-          {task.startDate && task.endDate && (
-            <span className={styles.period}>
-              {formatDate(task.startDate)} – {formatDate(task.endDate)}
-            </span>
-          )}
+          <h4 className={styles.taskName} title={task.name}>
+            {task.name}
+          </h4>
         </div>
 
-        <Badge status={task.status || "NOT_STARTED"} />
+        <div className={styles.badges}>
+          <Badge status={task.status || "NOT_STARTED"} />
+
+          {task.staffingStatus && task.staffingStatus !== "STAFFED" && (
+            <Badge status={task.staffingStatus} />
+          )}
+        </div>
       </div>
 
       <div className={styles.meta}>
+        <div className={styles.field}>
+          <span className={styles.label}>Periode</span>
+          <span className={`${styles.value} ${styles.period}`}>
+            {task.startDate && task.endDate
+              ? `${formatShortDate(task.startDate)} – ${formatShortDate(task.endDate)}`
+              : "Kan ikke beregnes"}
+          </span>
+        </div>
+
         <div className={styles.field}>
           <span className={styles.label}>Kompetence</span>
           <span className={styles.value}>
@@ -56,22 +69,41 @@ const TaskCard = ({ task, tasks = [], onClick }) => {
           <span className={styles.label}>Varighed</span>
           <span className={styles.value}>
             {task.scheduledDurationInDays != null
-              ? `${formatDays(task.scheduledDurationInDays)} dage (min. ${formatDays(task.minimumDurationInDays)})`
+              ? `${formatDays(task.scheduledDurationInDays)} (min. ${task.minimumDurationInDays ?? 0})`
               : "Kan ikke beregnes"}
           </span>
         </div>
-
-        {predecessorNames.length > 0 && (
-          <div className={styles.field}>
-            <span className={styles.label}>Afhænger af</span>
-            <span className={styles.value}>{predecessorNames.join(", ")}</span>
-          </div>
-        )}
       </div>
 
       <div className={styles.footer}>
-        <span className={styles.openText}>Se detaljer</span>
-        <FiChevronRight size={18} />
+        <div className={styles.counters}>
+          <span
+            className={styles.counter}
+            title={
+              employeeNames.length > 0
+                ? `Medarbejdere: ${employeeNames.join(", ")}`
+                : "Ingen medarbejdere tildelt"
+            }
+          >
+            <FiUsers size={14} />
+            {employeeNames.length}
+          </span>
+
+          {predecessorNames.length > 0 && (
+            <span
+              className={styles.counter}
+              title={`Afhænger af: ${predecessorNames.join(", ")}`}
+            >
+              <FiLink size={14} />
+              {predecessorNames.length}
+            </span>
+          )}
+        </div>
+
+        <span className={styles.openLink}>
+          <span className={styles.openText}>Se detaljer</span>
+          <FiChevronRight size={18} />
+        </span>
       </div>
     </button>
   );

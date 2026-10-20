@@ -1,11 +1,14 @@
 import styles from "./ProjectGantt.module.css";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Gantt from "frappe-gantt";
 
 import getTaskProgress from "../../utils/getTaskProgress";
+import Button from "@/shared/components/ui/Button/Button";
 import { formatDate } from "@/utils/dateHelpers";
+import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 
-const COLUMN_WIDTH = 44;
+const COLUMN_WIDTH = { Day: 44, Week: 140 };
+const PIXELS_PER_DAY = { Day: 44, Week: 20 };
 const CHAR_WIDTH = 8;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -22,9 +25,9 @@ const getStageProgress = (tasks = []) => {
   return Math.round(totalProgress / tasks.length);
 };
 
-const fitNameToBar = (name, start, end) => {
+const fitNameToBar = (name, start, end, pixelsPerDay) => {
   const days = (new Date(end) - new Date(start)) / DAY_MS + 1;
-  const maxChars = Math.floor((days * COLUMN_WIDTH - 16) / CHAR_WIDTH);
+  const maxChars = Math.floor((days * pixelsPerDay - 16) / CHAR_WIDTH);
 
   if (name.length <= maxChars) {
     return name;
@@ -38,6 +41,7 @@ const getStatusClass = (status = "") =>
 
 const ProjectGantt = ({ project, onTaskClick }) => {
   const ganttRef = useRef(null);
+  const [viewMode, setViewMode] = useState("Day");
 
   const ganttTasks = useMemo(() => {
     if (!project?.stages?.length) {
@@ -51,7 +55,12 @@ const ProjectGantt = ({ project, onTaskClick }) => {
       if (stage.startDate && stage.endDate) {
         rows.push({
           id: `stage-${stage.id}`,
-          name: fitNameToBar(stage.name, stage.startDate, stage.endDate),
+          name: fitNameToBar(
+            stage.name,
+            stage.startDate,
+            stage.endDate,
+            PIXELS_PER_DAY[viewMode],
+          ),
           fullName: stage.name,
           start: stage.startDate,
           end: stage.endDate,
@@ -67,7 +76,12 @@ const ProjectGantt = ({ project, onTaskClick }) => {
         .filter((task) => task.startDate && task.endDate)
         .map((task) => ({
           id: `task-${task.id}`,
-          name: fitNameToBar(task.name, task.startDate, task.endDate),
+          name: fitNameToBar(
+            task.name,
+            task.startDate,
+            task.endDate,
+            PIXELS_PER_DAY[viewMode],
+          ),
           fullName: task.name,
           start: task.startDate,
           end: task.endDate,
@@ -80,7 +94,7 @@ const ProjectGantt = ({ project, onTaskClick }) => {
 
       return [...rows, ...taskRows];
     });
-  }, [project]);
+  }, [project, viewMode]);
 
   useEffect(() => {
     const container = ganttRef.current;
@@ -95,11 +109,11 @@ const ProjectGantt = ({ project, onTaskClick }) => {
       container,
       ganttTasks.map((task) => ({ ...task })),
       {
-        view_mode: "Day",
+        view_mode: viewMode,
         readonly: true,
         today_button: true,
         view_mode_select: false,
-        column_width: COLUMN_WIDTH,
+        column_width: COLUMN_WIDTH[viewMode],
         bar_height: 28,
         padding: 18,
         popup_on: "click",
@@ -132,7 +146,7 @@ const ProjectGantt = ({ project, onTaskClick }) => {
     return () => {
       container.innerHTML = "";
     };
-  }, [ganttTasks, project, onTaskClick]);
+  }, [ganttTasks, project, onTaskClick, viewMode]);
 
   if (ganttTasks.length === 0) {
     return <div className={styles.empty}>Ingen planlagte opgaver at vise.</div>;
@@ -140,13 +154,21 @@ const ProjectGantt = ({ project, onTaskClick }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div>
-          <h3 className={styles.title}>Tidsplan</h3>
-
-          <p className={styles.description}>
-            Projektets etaper, opgaver og afhængigheder.
-          </p>
+      <SectionHeader
+        title="Tidsplan"
+        description="Projektets etaper, opgaver og afhængigheder over tid."
+      >
+        <div className={styles.viewToggle}>
+          <Button
+            name="Dag"
+            variant={viewMode === "Day" ? "primary" : "ghost"}
+            onClick={() => setViewMode("Day")}
+          />
+          <Button
+            name="Uge"
+            variant={viewMode === "Week" ? "primary" : "ghost"}
+            onClick={() => setViewMode("Week")}
+          />
         </div>
 
         <ul className={styles.legend}>
@@ -167,7 +189,7 @@ const ProjectGantt = ({ project, onTaskClick }) => {
             Færdig
           </li>
         </ul>
-      </div>
+      </SectionHeader>
 
       <div className={styles.scroller}>
         <div ref={ganttRef} className={styles.gantt} />

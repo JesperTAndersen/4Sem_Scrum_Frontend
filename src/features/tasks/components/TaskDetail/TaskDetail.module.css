@@ -1,14 +1,21 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
   padding: var(--spacing-md);
 }
 
 .header {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: var(--spacing-md);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--spacing-sm);
 }
 
 .titleWrapper {
@@ -20,6 +27,7 @@
 .titleRow {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--spacing-sm);
 }
 
@@ -30,23 +38,10 @@
   margin: 0;
 }
 
-.roleBadge {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
 .group {
   border-top: 1px solid var(--color-border);
   padding-top: var(--spacing-md);
-}
-
-.groupLabel {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text-muted);
-  margin-bottom: var(--spacing-md);
+  margin-top: var(--spacing-md);
 }
 
 .metaGrid {
@@ -75,59 +70,14 @@
   color: var(--color-text-primary);
 }
 
-.description {
-  font-size: var(--text-base);
-  color: var(--color-text-secondary);
-  margin-top: var(--spacing-xs);
-  line-height: 1.5;
+.fullWidth {
+  grid-column: 1 / -1;
 }
 
-.emptyText {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  font-style: italic;
-}
-
-.userList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-sm);
-}
-
-.userItem {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  background-color: var(--color-bg-surface);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    background-color 0.15s ease;
-}
-
-.userItem:hover {
-  transform: translateY(-1px);
-  background-color: var(--color-bg-section);
-}
-
-.userInfo {
-  display: flex;
-  flex-direction: column;
-}
-
-.userName {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-  color: var(--color-text-primary);
-}
-
-.userRole {
+.hint {
+  margin: 0;
   font-size: var(--text-xs);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
 }
 
 .actionsGroup {
@@ -135,29 +85,35 @@
   justify-content: space-between;
   align-items: center;
   gap: var(--spacing-md);
-
   border-top: 1px solid var(--color-border);
-
-  margin-top: var(--spacing-sm);
-  padding-top: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
 }
 
-.actionsLeft {
-  display: flex;
-  gap: var(--spacing-sm);
-}
-
-.actionsRight {
-  display: flex;
-  gap: var(--spacing-sm);
-  align-items: center;
-}
-
-.blockedText {
-  margin: var(--spacing-sm) 0 0;
+.blockedText,
+.warningText {
+  margin: var(--spacing-xs) 0 0;
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--text-sm);
   color: var(--color-badge-warning-text);
   background-color: var(--color-badge-warning-bg);
   border-radius: var(--radius-md);
+}
+
+.warningText {
+  margin-top: var(--spacing-md);
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column-reverse;
+  }
+
+  .headerActions {
+    align-self: flex-end;
+  }
+
+  .metaGrid {
+    grid-template-columns: 1fr;
+  }
 }
