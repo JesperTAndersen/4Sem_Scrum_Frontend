@@ -99,9 +99,7 @@ const TaskAssignments = ({ task, employees = [], onAdd, onRemove }) => {
                   {employee.firstName} {employee.lastName}
                 </span>
 
-                <span className={styles.userRole}>
-                  {competenceName}
-                </span>
+                <span className={styles.userRole}>{competenceName}</span>
               </div>
 
               <div className={styles.userActions}>

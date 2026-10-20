@@ -115,7 +115,9 @@ const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
           </div>
         </div>
       ) : (
-        <p className={styles.emptyText}>Denne opgave har ingen afhængigheder.</p>
+        <p className={styles.emptyText}>
+          Denne opgave har ingen afhængigheder.
+        </p>
       )}
 
       <div className={styles.addSection}>
