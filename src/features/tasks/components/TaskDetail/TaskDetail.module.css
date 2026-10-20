@@ -152,3 +152,12 @@
   gap: var(--spacing-sm);
   align-items: center;
 }
+
+.blockedText {
+  margin: var(--spacing-sm) 0 0;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--text-sm);
+  color: var(--color-badge-warning-text);
+  background-color: var(--color-badge-warning-bg);
+  border-radius: var(--radius-md);
+}

@@ -48,7 +48,7 @@ const CompetenceEditForm = ({ competence, onSubmit, onCancel }) => {
     <>
       <FormLayout onSubmit={handleSubmit}>
         <FormHeader
-          title="Rediger station"
+          title="Rediger kompentence"
           subtitle="Opdater navn og beskrivelse"
         />
 

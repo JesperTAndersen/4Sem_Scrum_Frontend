@@ -13,6 +13,17 @@
   min-width: 0;
 }
 
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.dependsOn {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
 .title {
   margin: 0;
   font-size: var(--text-lg);

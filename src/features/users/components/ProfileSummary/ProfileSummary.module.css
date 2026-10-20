@@ -23,11 +23,6 @@
   font-weight: var(--weight-medium);
 }
 
-.stationText {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
-
 .emailText {
   font-size: var(--text-sm);
   color: var(--color-text-secondary);

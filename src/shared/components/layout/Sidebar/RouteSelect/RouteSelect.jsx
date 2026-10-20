@@ -1,15 +1,6 @@
 import { NavLink } from "react-router";
 import styles from "./RouteSelect.module.css";
-import {
-  FiGrid,
-  FiFolder,
-  FiLayers,
-  FiCheckSquare,
-  FiTool,
-  FiDollarSign,
-  FiUsers,
-  FiUserCheck,
-} from "react-icons/fi";
+import { FiGrid, FiFolder, FiTool, FiUsers, FiUserCheck } from "react-icons/fi";
 
 const RouteSelect = ({ collapsed }) => {
   return (
@@ -32,34 +23,22 @@ const RouteSelect = ({ collapsed }) => {
         Icon={FiFolder}
         collapsed={collapsed}
       />
-      <Route
-        to="/stages"
-        title="Etaper"
-        Icon={FiLayers}
-        collapsed={collapsed}
-      />
-      <Route
-        to="/tasks"
-        title="Opgaver"
-        Icon={FiCheckSquare}
-        collapsed={collapsed}
-      />
 
       {!collapsed && (
         <div className={styles.routesHeader}>
-          <h4>Estimering</h4>
+          <h4>Ressourcer</h4>
         </div>
       )}
+      <Route
+        to="/employees"
+        title="Medarbejdere"
+        Icon={FiUserCheck}
+        collapsed={collapsed}
+      />
       <Route
         to="/competences"
         title="Kompetencer"
         Icon={FiTool}
-        collapsed={collapsed}
-      />
-      <Route
-        to="/costs"
-        title="Omkostninger"
-        Icon={FiDollarSign}
         collapsed={collapsed}
       />
 
@@ -69,12 +48,6 @@ const RouteSelect = ({ collapsed }) => {
         </div>
       )}
       <Route to="/users" title="Brugere" Icon={FiUsers} collapsed={collapsed} />
-      <Route
-        to="/employees"
-        title="Medarbejdere"
-        Icon={FiUserCheck}
-        collapsed={collapsed}
-      />
     </div>
   );
 };

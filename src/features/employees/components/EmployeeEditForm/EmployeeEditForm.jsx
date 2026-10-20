@@ -1,0 +1,135 @@
+import styles from "./EmployeeEditForm.module.css";
+import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
+import Input from "@/shared/components/ui/Input/Input";
+import Button from "@/shared/components/ui/Button/Button";
+import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
+import { validateEmployee } from "../../utils/validateEmployee";
+import { useState } from "react";
+
+const EmployeeEditForm = ({ employee, onSubmit, onCancel }) => {
+  const [formData, setFormData] = useState({
+    firstName: employee.firstName,
+    lastName: employee.lastName,
+    standardCapacity: employee.standardCapacity,
+    dailyCapacity: employee.dailyCapacity,
+  });
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    dailyCapacity: "",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const handleToggleStandardCapacity = (e) => {
+    setFormData((prev) => ({ ...prev, standardCapacity: e.target.checked }));
+    setErrors((prev) => ({ ...prev, dailyCapacity: "" }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { errors: validationErrors, hasErrors } = validateEmployee(formData);
+
+    if (hasErrors) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      await onSubmit({
+        ...formData,
+        dailyCapacity: formData.standardCapacity
+          ? null
+          : Number(formData.dailyCapacity),
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <FormLayout onSubmit={handleSubmit}>
+      <FormHeader
+        title="Rediger medarbejder"
+        subtitle="Opdater navn og daglig kapacitet"
+      />
+
+      <Input
+        label="Medarbejders fornavn"
+        type="text"
+        name="firstName"
+        value={formData.firstName}
+        onChange={handleChange}
+        placeholder="Fx. Hans eller Lise"
+        hasError={!!errors.firstName}
+        errorMessage={errors.firstName}
+        required
+      />
+
+      <Input
+        label="Medarbejders efternavn"
+        type="text"
+        name="lastName"
+        value={formData.lastName}
+        onChange={handleChange}
+        placeholder="Fx. Hansen eller Lisesen"
+        hasError={!!errors.lastName}
+        errorMessage={errors.lastName}
+        required
+      />
+
+      <label className={styles.checkbox}>
+        <input
+          type="checkbox"
+          checked={formData.standardCapacity}
+          onChange={handleToggleStandardCapacity}
+        />
+        Brug virksomhedens standardkapacitet
+      </label>
+
+      {!formData.standardCapacity && (
+        <Input
+          label="Daglig kapacitet (timer)"
+          type="number"
+          name="dailyCapacity"
+          value={formData.dailyCapacity}
+          onChange={handleChange}
+          placeholder="Fx. 7.5"
+          hasError={!!errors.dailyCapacity}
+          errorMessage={errors.dailyCapacity}
+          min="0"
+          step="0.01"
+          required
+        />
+      )}
+
+      <div className={styles.actions}>
+        <Button
+          type="button"
+          variant="secondary"
+          name="Fortryd"
+          onClick={onCancel}
+        />
+        <Button
+          type="submit"
+          variant="primary"
+          name={isSubmitting ? "Opdaterer..." : "Opdater medarbejder"}
+          disabled={isSubmitting}
+        />
+      </div>
+    </FormLayout>
+  );
+};
+
+export default EmployeeEditForm;

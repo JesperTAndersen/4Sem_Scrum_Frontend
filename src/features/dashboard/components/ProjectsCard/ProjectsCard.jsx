@@ -6,13 +6,9 @@ import SeeAllLink from "@/shared/components/ui/SeeAllLink/SeeAllLink";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 
 import { formatDate } from "@/utils/dateHelpers";
+import getFeasibilityStatus from "@/features/projects/utils/getFeasibilityStatus";
 
-const ProjectsCard = ({
-  cols,
-  projects = [],
-  isLoading,
-  onView,
-}) => {
+const ProjectsCard = ({ cols, projects = [], isLoading, onView }) => {
   return (
     <Card cols={cols}>
       <div className={styles.cardHeader}>
@@ -20,14 +16,9 @@ const ProjectsCard = ({
       </div>
 
       {isLoading ? (
-        <LoadingSpinner
-          text="Henter projekter..."
-          inline
-        />
+        <LoadingSpinner text="Henter projekter..." inline />
       ) : projects.length === 0 ? (
-        <p className={styles.emptyText}>
-          Ingen projekter
-        </p>
+        <p className={styles.emptyText}>Ingen projekter</p>
       ) : (
         <div className={styles.listContainer}>
           {projects.map((project) => {
@@ -35,11 +26,9 @@ const ProjectsCard = ({
 
             const taskDone = taskCount.taskDone ?? 0;
 
-            const totalTaskCount =
-              taskCount.totalTaskCount ?? 0;
+            const totalTaskCount = taskCount.totalTaskCount ?? 0;
 
-            const isFeasible =
-              project?.schedule?.feasible;
+            const feasibilityStatus = getFeasibilityStatus(project?.schedule);
 
             return (
               <div
@@ -49,9 +38,7 @@ const ProjectsCard = ({
               >
                 <div className={styles.itemInfo}>
                   <div className={styles.itemHeader}>
-                    <h4 className={styles.itemName}>
-                      {project.title}
-                    </h4>
+                    <h4 className={styles.itemName}>{project.title}</h4>
 
                     <Badge status={project.status} />
                   </div>
@@ -61,25 +48,18 @@ const ProjectsCard = ({
                       {taskDone}/{totalTaskCount} færdige
                     </span>
 
-                    {project.schedule && !isFeasible && (
+                    {project.schedule && feasibilityStatus !== "FEASIBLE" && (
                       <>
-                        <span className={styles.separator}>
-                          ·
-                        </span>
+                        <span className={styles.separator}>·</span>
 
-                        <Badge status="INFEASIBLE" />
+                        <Badge status={feasibilityStatus} />
 
-                        <span className={styles.separator}>
-                          ·
-                        </span>
+                        <span className={styles.separator}>·</span>
 
                         <span>
                           Forventet{" "}
                           {project.schedule.calculatedFinishDate
-                            ? formatDate(
-                                project.schedule
-                                  .calculatedFinishDate,
-                              )
+                            ? formatDate(project.schedule.calculatedFinishDate)
                             : "-"}
                         </span>
                       </>
@@ -93,10 +73,7 @@ const ProjectsCard = ({
       )}
 
       <div className={styles.footer}>
-        <SeeAllLink
-          text="Gå til projekter"
-          to="/projects"
-        />
+        <SeeAllLink text="Gå til projekter" to="/projects" />
       </div>
     </Card>
   );

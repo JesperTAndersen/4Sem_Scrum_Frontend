@@ -33,6 +33,20 @@ const ProjectDetailPage = () => {
 
   const allTasks = project?.stages?.flatMap((stage) => stage.tasks ?? []) ?? [];
   const selectedTask = allTasks.find((task) => task.id === selectedTaskId);
+  const selectedStage = project?.stages?.find((stage) => stage.tasks?.some((task) => task.id === selectedTaskId),);
+
+  const blockingTasks = allTasks.filter(
+    (task) =>
+      selectedTask?.predecessorIds?.includes(task.id) && task.status !== "DONE",
+  );
+
+  const blockingStages =
+    project?.stages?.filter(
+      (stage) =>
+        selectedStage?.predecessorIds?.includes(stage.id) && !stage.completed,
+    ) ?? [];
+
+  const blockedBy = [...blockingStages, ...blockingTasks].map((b) => b.name);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -118,7 +132,7 @@ const ProjectDetailPage = () => {
   };
 
   const handleStageEdit = () => {
-    refreshProject();
+    return refreshProject();
   };
 
   const handleStageDelete = () => {
@@ -273,7 +287,8 @@ const ProjectDetailPage = () => {
             <Card>
               <TaskDetail
                 task={selectedTask}
-                tasks={allTasks}
+                tasks={selectedStage?.tasks ?? []}
+                blockedBy={blockedBy}
                 onTaskDelete={handleDeleteTask}
                 onTaskStatusChange={handleChangeStatusTask}
                 onTaskEdit={handleEditTask}

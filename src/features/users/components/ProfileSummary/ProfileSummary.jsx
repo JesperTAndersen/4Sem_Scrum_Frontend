@@ -20,11 +20,6 @@ const ProfileSummary = ({ profileData }) => {
             {formatUserRole(profileData.role)}
           </span>
           <span className={styles.emailText}>{profileData.email}</span>
-          {profileData.station && (
-            <span className={styles.stationText}>
-              Station: {profileData.station.name}
-            </span>
-          )}
         </div>
       </div>
     </Card>

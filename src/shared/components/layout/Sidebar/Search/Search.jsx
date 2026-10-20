@@ -4,17 +4,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 const COMMANDS = [
-  { label: "Dashboard", path: "/admin/dashboard" },
-  { label: "Ret-forslag", path: "/admin/dish-suggestions" },
-  { label: "Inspiration", path: "/admin/menu-inspirations" },
-  { label: "Retter", path: "/admin/dishes" },
-  { label: "Ugemenuer", path: "/admin/menus" },
-  { label: "Vareanmodninger", path: "/admin/ingredient-requests" },
-  { label: "Indkøbsliste", path: "/admin/shopping-lists" },
-  { label: "Brugere", path: "/admin/users" },
-  { label: "Stationer", path: "/admin/stations" },
-  { label: "Allergener", path: "/admin/allergens" },
-  { label: "Profil", path: "/admin/profile" },
+  { label: "Dashboard", path: "/dashboard" },
+  { label: "Projekter", path: "/projects" },
+  { label: "Medarbejdere", path: "/employees" },
+  { label: "Kompetencer", path: "/competences" },
+  { label: "Brugere", path: "/users" },
+  { label: "Profil", path: "/profile" },
 ];
 
 const Search = ({ collapsed }) => {

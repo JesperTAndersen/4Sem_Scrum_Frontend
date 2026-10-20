@@ -55,8 +55,9 @@ const TaskCard = ({ task, tasks = [], onClick }) => {
         <div className={styles.field}>
           <span className={styles.label}>Varighed</span>
           <span className={styles.value}>
-            {formatDays(task.scheduledDurationInDays)} dage (min.{" "}
-            {formatDays(task.minimumDurationInDays)})
+            {task.scheduledDurationInDays != null
+              ? `${formatDays(task.scheduledDurationInDays)} dage (min. ${formatDays(task.minimumDurationInDays)})`
+              : "Kan ikke beregnes"}
           </span>
         </div>
 
