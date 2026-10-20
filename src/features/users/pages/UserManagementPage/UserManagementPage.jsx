@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNotification } from "@/context/NotificationContext";
-import { useLocation, useNavigate, useOutletContext } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import styles from "./UserManagementPage.module.css";
 import TableSearch from "@/shared/components/filter/TableSearch/TableSearch";
 import TableEmptyState from "@/shared/components/ui/TableEmptyState/TableEmptyState";
