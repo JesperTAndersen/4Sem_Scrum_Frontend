@@ -3,7 +3,7 @@ import apiClient from "@/api/apiclient";
 const RESOURCE_URL = "/employee";
 
 const getAll = async (params) => {
-  return await apiClient(RESOURCE_URL, params);
+  return await apiClient(RESOURCE_URL, {params});
 };
 
 const getById = async (id) => {

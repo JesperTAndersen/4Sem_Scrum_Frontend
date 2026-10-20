@@ -27,7 +27,10 @@ const CompetenceDetailPage = () => {
       try {
         setIsLoading(true);
         const competenceData = await competenceService.getById(id);
-        const employeeData = await employeeService.getAll(id);
+        const employeeData = await employeeService.getAll(
+          {
+            competenceId: id
+          });
         setCompetence(competenceData);
         setEmployees(employeeData)
       } catch (error) {
