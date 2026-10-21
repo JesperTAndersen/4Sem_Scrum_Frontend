@@ -85,6 +85,40 @@
   color: var(--color-text-muted);
 }
 
+.undetermined {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.undeterminedTitle {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.undeterminedItem {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) 0;
+  font-size: var(--text-sm);
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.undeterminedItem:last-child {
+  border-bottom: none;
+}
+
+.undeterminedItem:hover {
+  background-color: var(--color-bg-section);
+}
+
+.undeterminedText {
+  color: var(--color-badge-warning-text);
+}
+
 .container :global(svg.gantt) {
   max-width: none;
 }

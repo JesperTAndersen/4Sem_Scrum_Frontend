@@ -120,6 +120,12 @@ const TaskDetail = ({
                         ? `${formatShortDate(task.startDate)} – ${formatShortDate(task.endDate)}`
                         : "Kan ikke beregnes"}
                     </span>
+                    {task.status === "DONE" && (
+                      <span className={styles.hint}>
+                        Planlagte værdier fra da opgaven blev afsluttet, ikke
+                        faktisk tidsforbrug.
+                      </span>
+                    )}
                   </div>
 
                   <div className={styles.field}>
