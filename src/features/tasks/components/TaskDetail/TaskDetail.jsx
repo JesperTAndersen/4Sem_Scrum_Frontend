@@ -9,6 +9,7 @@ import TaskAssignments from "../TaskAssignments/TaskAssignments";
 import { formatCurrency } from "@/utils/formatters";
 import { formatShortDate } from "@/utils/dateHelpers";
 import formatDays from "../../utils/formatDays";
+import getStaffingWarnings from "../../utils/getStaffingWarningText";
 import { FiX } from "react-icons/fi";
 
 const TaskDetail = ({
@@ -182,10 +183,16 @@ const TaskDetail = ({
                   </p>
                 )}
 
+                {getStaffingWarnings(task).map((text) => (
+                  <p key={text} className={styles.warningText}>
+                    {text}
+                  </p>
+                ))}
+
                 {task.staffingStatus === "NO_AVAILABLE_CAPACITY" && (
-                  <p className={styles.warningText}>
-                    De tildelte medarbejdere er inaktive – tildel en aktiv
-                    medarbejder for at beregne tidsplanen.
+                  <p className={styles.hint}>
+                    Varigheden kan ikke beregnes, før en aktiv medarbejder med
+                    kompetencen er tildelt.
                   </p>
                 )}
               </div>
