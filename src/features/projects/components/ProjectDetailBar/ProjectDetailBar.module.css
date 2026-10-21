@@ -30,21 +30,16 @@
 
 .title {
   margin: 0;
-
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
-
   color: var(--color-text-primary);
 }
 
 .description {
   margin: var(--spacing-xs) 0 0;
-
   max-width: 760px;
-
   font-size: var(--text-base);
   line-height: 1.5;
-
   color: var(--color-text-secondary);
 }
 
@@ -53,7 +48,6 @@
   align-items: center;
   justify-content: flex-end;
   gap: var(--spacing-sm);
-
   flex-shrink: 0;
 }
 
@@ -114,7 +108,6 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-
   min-width: 0;
 }
 

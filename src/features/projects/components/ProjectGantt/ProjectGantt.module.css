@@ -7,7 +7,6 @@
   --gantt-in-progress-bg: var(--color-badge-warning-bg);
   --gantt-done: var(--color-success);
   --gantt-done-bg: var(--color-badge-success-bg);
-
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
