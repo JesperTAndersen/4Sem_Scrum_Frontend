@@ -58,12 +58,12 @@ const UserDetailPage = () => {
 
     try {
       const data = await userService.assignRole(user.id, {
-        userRole: selectedValue,
+        role: selectedValue,
       });
       setUser(data);
       notify(
         "success",
-        `${data.firstName} ${data.lastName} blev tildelt rollen: ${formatUserRole(data.userRole)}`,
+        `${data.firstName} ${data.lastName} blev tildelt rollen: ${formatUserRole(data.role)}`,
       );
     } catch (error) {
       notify(
@@ -99,7 +99,7 @@ const UserDetailPage = () => {
                     variant="secondary"
                     name="Skift rolle"
                     onClick={() => {
-                      setSelectedValue(user.userRole);
+                      setSelectedValue(user.role);
                       setActiveAction("ROLE");
                     }}
                     disabled={activeAction === "ROLE"}

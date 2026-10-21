@@ -5,4 +5,5 @@
 .wrapper > button {
   width: 100%;
   justify-content: center;
+  border-radius: var(--radius-md);
 }

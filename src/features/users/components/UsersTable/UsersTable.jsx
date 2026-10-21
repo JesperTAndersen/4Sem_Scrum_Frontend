@@ -30,7 +30,7 @@ const UsersTable = ({ users, onView }) => {
                   </span>
                 </div>
               </td>
-              <td>{formatUserRole(u.userRole)}</td>
+              <td>{formatUserRole(u.role)}</td>
               <td>{u.email}</td>
               <td>
                 <FiChevronRight className={styles.chevron} />
