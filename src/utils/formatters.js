@@ -15,3 +15,6 @@ export const formatCurrency = (value) =>
     currency: "DKK",
     maximumFractionDigits: 0,
   }).format(value);
+
+export const formatNumber = (value) =>
+  new Intl.NumberFormat("da-DK", { maximumFractionDigits: 1 }).format(value);

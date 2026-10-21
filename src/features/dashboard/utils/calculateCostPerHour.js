@@ -1,9 +1,9 @@
-const calculateCostPerHour = (totalCost, remaningHours) => {
-  if (totalCost && remaningHours) {
-    return Math.ceil(totalCost / remaningHours);
+const calculateCostPerHour = (totalCost, totalHours) => {
+  if (!totalHours) {
+    return null;
   }
 
-  return "Kan ikke udregne da nogen af værdier er 0";
+  return Math.round(totalCost / totalHours);
 };
 
 export default calculateCostPerHour;

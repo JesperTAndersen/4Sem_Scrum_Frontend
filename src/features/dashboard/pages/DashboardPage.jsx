@@ -1,15 +1,14 @@
 import styles from "./DashboardPage.module.css";
 import { useEffect, useState } from "react";
 import { useNotification } from "../../../context/NotificationContext";
-import { formatCurrency } from "@/utils/formatters";
+import { formatCurrency, formatNumber } from "@/utils/formatters";
 import StatCard from "../components/StatCard/StatCard";
-import ProjectsCard from "../components/ProjectsCard/ProjectsCard";
 import AtRisksCard from "../components/AtRisksCard/AtRisksCard";
+import UpcomingDeadlinesCard from "../components/UpcomingDeadlinesCard/UpcomingDeadlinesCard";
 import calculateEstimatedDays from "../utils/calculatedEstimatedDays";
 import { useNavigate } from "react-router";
 import dashboardService from "../services/dashboardService";
 import calculateCostPerHour from "../utils/calculateCostPerHour";
-import { is } from "react-day-picker/locale";
 
 const DashboardPage = () => {
   const { notify } = useNotification();
@@ -38,42 +37,68 @@ const DashboardPage = () => {
     navigate(`/projects/${id}`);
   };
 
-  console.log(summary);
+  const activeProjects = summary
+    ? summary.projects.total - summary.projects.byStatus.COMPLETED
+    : "-";
+  const atRiskCount = summary?.atRisk.length ?? 0;
+  const estimatedDays = summary
+    ? calculateEstimatedDays(
+        summary.remainingHours,
+        summary.capacity.dailyCapacity,
+      )
+    : null;
+  const costPerHour = summary
+    ? calculateCostPerHour(summary.totalCost, summary.totalEstimatedHours)
+    : null;
 
   return (
     <div className={styles.contentArea}>
       <StatCard
         title="Aktive projekter"
-        value={summary?.projects?.byStatus?.IN_PROGRESS}
-        subtext={
-          summary?.atRisk.length
-            ? `${summary?.atRisk.length} i risko`
-            : "Ingen projekter i risko"
-        }
+        value={activeProjects}
+        subtext={atRiskCount > 0 ? `${atRiskCount} i risiko` : "Ingen i risiko"}
         cols={3}
         isLoading={isLoading}
       />
 
       <StatCard
         title="Resterende arbejde"
-        value={`${summary?.remainingHours} timer`}
-        subtext={`af ${summary?.totalEstimatedHours} timer estimeret ca: ${calculateEstimatedDays(summary?.remainingHours)} dage`}
+        value={summary ? `${formatNumber(summary.remainingHours)} t` : "-"}
+        subtext={
+          summary &&
+          `af ${formatNumber(summary.totalEstimatedHours)} t estimeret · ${
+            estimatedDays !== null
+              ? `≈ ${estimatedDays} arbejdsdage`
+              : "ingen aktive medarbejdere"
+          }`
+        }
         cols={3}
         isLoading={isLoading}
       />
 
       <StatCard
         title="Aktiv projektværdi"
-        value={formatCurrency(summary?.totalCost)}
-        subtext={`ca: ${formatCurrency(calculateCostPerHour(summary?.totalCost, summary?.remainingHours))} /timen`}
+        value={summary ? formatCurrency(summary.totalCost) : "-"}
+        subtext={
+          summary &&
+          (costPerHour !== null
+            ? `≈ ${formatCurrency(costPerHour)} pr. time`
+            : "Ingen estimerede timer")
+        }
         cols={3}
         isLoading={isLoading}
       />
 
       <StatCard
         title="Kapacitet"
-        value={`${summary?.capacity.dailyCapacity} t/ dag`}
-        subtext={`${summary?.capacity?.activeEmployees} aktive medarbejdere`}
+        value={
+          summary
+            ? `${formatNumber(summary.capacity.dailyCapacity)} t/dag`
+            : "-"
+        }
+        subtext={
+          summary && `${summary.capacity.activeEmployees} aktive medarbejdere`
+        }
         cols={3}
         isLoading={isLoading}
       />
@@ -85,9 +110,9 @@ const DashboardPage = () => {
         onView={handleOnView}
       />
 
-      <ProjectsCard
+      <UpcomingDeadlinesCard
         cols={6}
-        projects={[]}
+        projects={summary?.upcomingDeadlines}
         isLoading={isLoading}
         onView={handleOnView}
       />

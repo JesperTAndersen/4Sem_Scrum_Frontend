@@ -1,8 +1,9 @@
-const calculateEstimatedDays = (hours) => {
-  if (hours) {
-    return Math.ceil(hours / 7.5);
+const calculateEstimatedDays = (hours, dailyCapacity) => {
+  if (!dailyCapacity) {
+    return null;
   }
-  return "Kan ikke udregne, da der er ikke timer";
+
+  return Math.ceil(hours / dailyCapacity);
 };
 
 export default calculateEstimatedDays;
