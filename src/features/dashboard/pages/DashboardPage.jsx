@@ -4,34 +4,16 @@ import { useNotification } from "../../../context/NotificationContext";
 import { formatCurrency } from "@/utils/formatters";
 import StatCard from "../components/StatCard/StatCard";
 import ProjectsCard from "../components/ProjectsCard/ProjectsCard";
-import projectService from "@/features/projects/services/projectService";
+import calculateEstimatedDays from "../utils/calculatedEstimatedDays";
 import { useNavigate } from "react-router";
 import dashboardService from "../services/dashboardService";
+import calculateCostPerHour from "../utils/calculateCostPerHour";
 
 const DashboardPage = () => {
   const { notify } = useNotification();
-  const [projects, setProjects] = useState(null);
   const [ summary, setSummary ] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const projectData = await projectService.getAll();
-        setProjects(projectData);
-      } catch (error) {
-        notify(
-          "error",
-          error.message || "Noget gik galt ved hentning af projekter.",
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
 
   useEffect(() => {
     const fetchSummary = async () => {
@@ -54,37 +36,39 @@ const DashboardPage = () => {
     navigate(`/projects/${id}`);
   };
 
+  
   console.log(summary);
 
   return (
     <div className={styles.contentArea}>
       <StatCard
         title="Aktive projekter"
-        value={3}
-        subtext="1 kladde, 1 planlagt"
-        cols={4}
-        isLoading={false}
+        value={summary?.projects?.byStatus?.IN_PROGRESS}
+        subtext={summary?.atRisk.length ? `${summary?.atRisk.length} i risko` : "Ingen projekter i risko"}
+        cols={3}
+        isLoading={isLoading}
       />
 
       <StatCard
-        title="Estimerede timer"
-        subtext="På tværs af alle projekter"
-        value={1240}
-        cols={4}
-        isLoading={false}
+        title="Resterende arbejde"
+        value={`${summary?.remainingHours} timer`}
+        subtext={`af ${summary?.totalEstimatedHours} timer estimeret ca: ${calculateEstimatedDays(summary?.remainingHours)} dage`}
+        cols={3}
+        isLoading={isLoading}
       />
 
       <StatCard
-        title="Estimeret lønomkostning"
-        subtext={"Baseret på 5 kompetencer"}
-        value={formatCurrency(800123)}
-        cols={4}
+        title="Aktiv projektværdi"
+        value={formatCurrency(summary?.totalCost)}
+        subtext={`ca: ${formatCurrency(calculateCostPerHour(summary?.totalCost, summary?.remainingHours))} /timen`}
+
+        cols={3}
         isLoading={false}
       />
 
       <ProjectsCard
         cols={6}
-        projects={projects}
+        projects={[]}
         isLoading={isLoading}
         onView={handleOnView}
       />
