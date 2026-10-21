@@ -8,6 +8,7 @@ import RegisterPage from "./features/auth/pages/RegisterPage/RegisterPage";
 import DashboardPage from "./features/dashboard/pages/DashboardPage";
 import UserManagementPage from "./features/users/pages/UserManagementPage/UserManagementPage";
 import UserProfilePage from "./features/users/pages/UserProfilePage/UserProfilePage";
+import UserDetailPage from "./features/users/pages/UserDetailPage/UserDetailPage";
 import ProjectManagementPage from "./features/projects/pages/ProjectManagnementPage/ProjectManagementPage";
 import ProjectDetailPage from "./features/projects/pages/ProjectDetailPage/ProjectDetailPage";
 import ProtectedRoute from "./shared/components/ProtectedRoute/ProtectedRoute";
@@ -32,6 +33,7 @@ const AppRoutes = () => (
         <Route path="/competences" element={<CompetenceManagementPage />} />
         <Route path="/competences/:id" element={<CompetenceDetailPage />} />
         <Route path="/users" element={<UserManagementPage />} />
+        <Route path="/users/:id" element={<UserDetailPage />} />
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/employees" element={<EmployeeManagementPage />} />
         <Route path="/employees/:id" element={<EmployeeDetailPage />} />

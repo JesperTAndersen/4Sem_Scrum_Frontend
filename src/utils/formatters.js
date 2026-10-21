@@ -4,6 +4,7 @@ export const formatUserRole = (userRole) => {
   const roleTranslations = {
     ADMIN: "Administrator",
     PROJECT_MANAGER: "Projektleder",
+    EMPLOYEE: "Medarbejder",
   };
 
   return roleTranslations[userRole] || userRole;

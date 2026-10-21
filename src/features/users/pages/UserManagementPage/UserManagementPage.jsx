@@ -48,7 +48,7 @@ const UserManagementPage = () => {
   }, []);
 
   const handleOnView = (id) => {
-    navigate(`/admin/users/${id}`);
+    navigate(`/users/${id}`);
   };
 
   const handleFilterChange = (key, value) => {

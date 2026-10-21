@@ -30,7 +30,8 @@ const TopBar = ({ snapshot }) => {
   const [showBell, setShowBell] = useState(false);
   const greeting = getGreetingWelcomeMessage();
   const todaysDate = getTodaysFormattedDate();
-  const pageTitle = routeLabels.find((r) => matchPath(r.route, pathname))?.label ?? "Estimo";
+  const pageTitle =
+    routeLabels.find((r) => matchPath(r.route, pathname))?.label ?? "Estimo";
 
   return (
     <div className={styles.topBarContainer}>
