@@ -4,6 +4,7 @@ import { useNotification } from "../../../context/NotificationContext";
 import { formatCurrency } from "@/utils/formatters";
 import StatCard from "../components/StatCard/StatCard";
 import ProjectsCard from "../components/ProjectsCard/ProjectsCard";
+import AtRisksCard from "../components/AtRisksCard/AtRisksCard";
 import calculateEstimatedDays from "../utils/calculatedEstimatedDays";
 import { useNavigate } from "react-router";
 import dashboardService from "../services/dashboardService";
@@ -12,7 +13,7 @@ import { is } from "react-day-picker/locale";
 
 const DashboardPage = () => {
   const { notify } = useNotification();
-  const [ summary, setSummary ] = useState(null);
+  const [summary, setSummary] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -37,7 +38,6 @@ const DashboardPage = () => {
     navigate(`/projects/${id}`);
   };
 
-  
   console.log(summary);
 
   return (
@@ -45,7 +45,11 @@ const DashboardPage = () => {
       <StatCard
         title="Aktive projekter"
         value={summary?.projects?.byStatus?.IN_PROGRESS}
-        subtext={summary?.atRisk.length ? `${summary?.atRisk.length} i risko` : "Ingen projekter i risko"}
+        subtext={
+          summary?.atRisk.length
+            ? `${summary?.atRisk.length} i risko`
+            : "Ingen projekter i risko"
+        }
         cols={3}
         isLoading={isLoading}
       />
@@ -72,6 +76,13 @@ const DashboardPage = () => {
         subtext={`${summary?.capacity?.activeEmployees} aktive medarbejdere`}
         cols={3}
         isLoading={isLoading}
+      />
+
+      <AtRisksCard
+        cols={6}
+        projects={summary?.atRisk}
+        isLoading={isLoading}
+        onView={handleOnView}
       />
 
       <ProjectsCard
