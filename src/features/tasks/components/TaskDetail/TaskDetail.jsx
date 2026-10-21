@@ -9,7 +9,7 @@ import TaskAssignments from "../TaskAssignments/TaskAssignments";
 import { formatCurrency } from "@/utils/formatters";
 import { formatShortDate } from "@/utils/dateHelpers";
 import formatDays from "../../utils/formatDays";
-import getStaffingWarnings from "../../utils/getStaffingWarningText";
+import getStaffingWarnings from "../../utils/getStaffingWarnings";
 import { FiX } from "react-icons/fi";
 
 const TaskDetail = ({
