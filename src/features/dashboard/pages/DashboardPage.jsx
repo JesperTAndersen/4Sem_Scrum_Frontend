@@ -8,6 +8,7 @@ import calculateEstimatedDays from "../utils/calculatedEstimatedDays";
 import { useNavigate } from "react-router";
 import dashboardService from "../services/dashboardService";
 import calculateCostPerHour from "../utils/calculateCostPerHour";
+import { is } from "react-day-picker/locale";
 
 const DashboardPage = () => {
   const { notify } = useNotification();
@@ -61,9 +62,16 @@ const DashboardPage = () => {
         title="Aktiv projektværdi"
         value={formatCurrency(summary?.totalCost)}
         subtext={`ca: ${formatCurrency(calculateCostPerHour(summary?.totalCost, summary?.remainingHours))} /timen`}
-
         cols={3}
-        isLoading={false}
+        isLoading={isLoading}
+      />
+
+      <StatCard
+        title="Kapacitet"
+        value={`${summary?.capacity.dailyCapacity} t/ dag`}
+        subtext={`${summary?.capacity?.activeEmployees} aktive medarbejdere`}
+        cols={3}
+        isLoading={isLoading}
       />
 
       <ProjectsCard
