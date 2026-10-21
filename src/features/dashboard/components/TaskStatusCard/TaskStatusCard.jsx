@@ -10,7 +10,12 @@ const TaskStatusCard = ({ cols, tasks, isLoading }) => {
   return (
     <Card cols={cols}>
       <div className={styles.cardHeader}>
-        <h3 className={styles.cardTitle}>Opgavestatus</h3>
+        <div>
+          <h3 className={styles.cardTitle}>Opgavestatus</h3>
+          <span className={styles.cardSubtitle}>
+            Opgaver i aktive projekter
+          </span>
+        </div>
       </div>
 
       {isLoading ? (

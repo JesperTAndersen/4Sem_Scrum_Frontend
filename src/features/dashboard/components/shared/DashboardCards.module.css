@@ -14,6 +14,13 @@
   color: var(--color-text-primary);
 }
 
+.cardSubtitle {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
 .listContainer {
   display: flex;
   flex-direction: column;

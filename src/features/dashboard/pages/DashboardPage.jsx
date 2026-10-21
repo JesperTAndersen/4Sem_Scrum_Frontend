@@ -6,6 +6,7 @@ import StatCard from "../components/StatCard/StatCard";
 import AtRisksCard from "../components/AtRisksCard/AtRisksCard";
 import UpcomingDeadlinesCard from "../components/UpcomingDeadlinesCard/UpcomingDeadlinesCard";
 import TaskStatusCard from "../components/TaskStatusCard/TaskStatusCard";
+import ProjectStatusCard from "../components/ProjectStatusCard/ProjectStatusCard";
 import calculateEstimatedDays from "../utils/calculatedEstimatedDays";
 import { useNavigate } from "react-router";
 import dashboardService from "../services/dashboardService";
@@ -36,6 +37,10 @@ const DashboardPage = () => {
 
   const handleOnView = (id) => {
     navigate(`/projects/${id}`);
+  };
+
+  const handleOnSelectStatus = (status) => {
+    navigate("/projects", { state: { status } });
   };
 
   const activeProjects = summary
@@ -121,6 +126,13 @@ const DashboardPage = () => {
       />
 
       <TaskStatusCard cols={6} tasks={summary?.tasks} isLoading={isLoading} />
+
+      <ProjectStatusCard
+        cols={6}
+        projects={summary?.projects}
+        isLoading={isLoading}
+        onSelectStatus={handleOnSelectStatus}
+      />
     </div>
   );
 };
