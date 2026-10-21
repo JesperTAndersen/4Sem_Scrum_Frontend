@@ -56,9 +56,7 @@ const DashboardPage = () => {
   const costPerHour = summary
     ? calculateCostPerHour(summary.totalCost, summary.totalEstimatedHours)
     : null;
-
-  console.log(summary);
-
+    
   return (
     <div className={styles.contentArea}>
       <StatCard
