@@ -1,7 +1,7 @@
 import styles from "./TopBar.module.css";
 import { FiBell } from "react-icons/fi";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, matchPath } from "react-router";
 import { useAuth } from "@/context/AuthContext";
 import LogOut from "../LogOut/LogOut";
 import Avatar from "../../ui/Avatar/Avatar";
@@ -11,7 +11,17 @@ import {
 } from "@/utils/dateHelpers";
 import { formatUserRole } from "@/utils/formatters";
 
-const routeLabels = [{ route: "/dashboard", label: "Hjem" }];
+const routeLabels = [
+  { route: "/dashboard", label: "Hjem" },
+  { route: "/projects/:id", label: "Projektdetaljer" },
+  { route: "/projects", label: "Projekter" },
+  { route: "/employees/:id", label: "Medarbejderdetaljer" },
+  { route: "/employees", label: "Medarbejdere" },
+  { route: "/competences/:id", label: "Kompetencedetaljer" },
+  { route: "/competences", label: "Kompetencer" },
+  { route: "/users", label: "Brugere" },
+  { route: "/profile", label: "Profil" },
+];
 
 const TopBar = ({ snapshot }) => {
   const navigate = useNavigate();
@@ -20,8 +30,7 @@ const TopBar = ({ snapshot }) => {
   const [showBell, setShowBell] = useState(false);
   const greeting = getGreetingWelcomeMessage();
   const todaysDate = getTodaysFormattedDate();
-  const pageTitle =
-    routeLabels.find((r) => pathname.startsWith(r.route))?.label ?? "Estimo";
+  const pageTitle = routeLabels.find((r) => matchPath(r.route, pathname))?.label ?? "Estimo";
 
   return (
     <div className={styles.topBarContainer}>

@@ -10,6 +10,7 @@ const QuickCreate = ({ collapsed }) => {
     <div className={styles.wrapper}>
       <Button
         name="Nyt projekt"
+        variant="secondary"
         icon={<FiPlus />}
         iconOnly={collapsed}
         onClick={() =>
