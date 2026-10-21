@@ -5,6 +5,7 @@ import { formatCurrency, formatNumber } from "@/utils/formatters";
 import StatCard from "../components/StatCard/StatCard";
 import AtRisksCard from "../components/AtRisksCard/AtRisksCard";
 import UpcomingDeadlinesCard from "../components/UpcomingDeadlinesCard/UpcomingDeadlinesCard";
+import TaskStatusCard from "../components/TaskStatusCard/TaskStatusCard";
 import calculateEstimatedDays from "../utils/calculatedEstimatedDays";
 import { useNavigate } from "react-router";
 import dashboardService from "../services/dashboardService";
@@ -50,6 +51,8 @@ const DashboardPage = () => {
   const costPerHour = summary
     ? calculateCostPerHour(summary.totalCost, summary.totalEstimatedHours)
     : null;
+
+  console.log(summary);
 
   return (
     <div className={styles.contentArea}>
@@ -116,6 +119,8 @@ const DashboardPage = () => {
         isLoading={isLoading}
         onView={handleOnView}
       />
+
+      <TaskStatusCard cols={6} tasks={summary?.tasks} isLoading={isLoading} />
     </div>
   );
 };
