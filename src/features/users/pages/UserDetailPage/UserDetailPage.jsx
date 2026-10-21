@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useNotification } from "../../../../context/NotificationContext";
 import userService from "../../services/userService";
 import UserDetail from "../../components/UserDetail/UserDetail";
-import Card from "../../../../components/ui/Card/Card";
+import Card from "@/shared/components/ui/Card/Card";
 import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
 import Button from "@/shared/components/ui/Button/Button";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
-import { formatUserRole } from "@/shared/utils/formatters";
-import RoleSelect from "../../components/RoleSelect/RoleSelect";
+import { formatUserRole } from "@/utils/formatters";
+import RoleSelect from "@/shared/components/filter/RoleSelect/RoleSelect";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 
 const UserDetailPage = () => {
@@ -35,12 +35,12 @@ const UserDetailPage = () => {
       }
     };
     fetchUser();
-  }, [id, notify]);
+  }, [id]);
 
   const handleDelete = async () => {
     try {
       await userService.remove(user.id);
-      navigate("/admin/users", {
+      navigate("/users", {
         state: {
           successMessage: `${user.firstName} ${user.lastName} blev slettet`,
         },
@@ -58,12 +58,12 @@ const UserDetailPage = () => {
 
     try {
       const data = await userService.assignRole(user.id, {
-        userRole: selectedValue,
+        role: selectedValue,
       });
       setUser(data);
       notify(
         "success",
-        `${data.firstName} ${data.lastName} blev tildelt rollen: ${formatUserRole(data.userRole)}`,
+        `${data.firstName} ${data.lastName} blev tildelt rollen: ${formatUserRole(data.role)}`,
       );
     } catch (error) {
       notify(
@@ -99,7 +99,7 @@ const UserDetailPage = () => {
                     variant="secondary"
                     name="Skift rolle"
                     onClick={() => {
-                      setSelectedValue(user.userRole);
+                      setSelectedValue(user.role);
                       setActiveAction("ROLE");
                     }}
                     disabled={activeAction === "ROLE"}

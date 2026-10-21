@@ -25,8 +25,17 @@ const ProjectManagementPage = () => {
   const { notify } = useNotification();
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState(DEFAULT_FILTER);
+  const [filter, setFilter] = useState({
+    ...DEFAULT_FILTER,
+    status: location.state?.status ?? DEFAULT_FILTER.status,
+  });
   const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    if (location.state?.openCreateForm) {
+      setShowForm(true);
+    }
+  }, [location.key]);
 
   useEffect(() => {
     if (location.state?.successMessage) {

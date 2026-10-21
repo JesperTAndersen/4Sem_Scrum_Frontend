@@ -12,7 +12,7 @@ const DashboardLayout = () => {
     <main className={styles.container}>
       <Sidebar />
       <div className={styles.mainArea}>
-        <TopBar snapshot={3} />
+        <TopBar />
         <div className={styles.pageContent}>
           <Notification
             type={notification?.type}

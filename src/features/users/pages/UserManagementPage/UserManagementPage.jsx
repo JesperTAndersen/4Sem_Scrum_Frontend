@@ -48,7 +48,7 @@ const UserManagementPage = () => {
   }, []);
 
   const handleOnView = (id) => {
-    navigate(`/admin/users/${id}`);
+    navigate(`/users/${id}`);
   };
 
   const handleFilterChange = (key, value) => {
@@ -67,7 +67,7 @@ const UserManagementPage = () => {
         fullName.includes(search) || u.email.toLowerCase().includes(search)
       );
     })
-    .filter((u) => filter.role === "ALL" || u.userRole === filter.role);
+    .filter((u) => filter.role === "ALL" || u.role === filter.role);
 
   return (
     <div className={styles.pageContainer}>

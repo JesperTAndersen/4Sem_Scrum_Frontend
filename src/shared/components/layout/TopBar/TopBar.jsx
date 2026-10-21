@@ -1,7 +1,7 @@
 import styles from "./TopBar.module.css";
 import { FiBell } from "react-icons/fi";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, matchPath } from "react-router";
 import { useAuth } from "@/context/AuthContext";
 import LogOut from "../LogOut/LogOut";
 import Avatar from "../../ui/Avatar/Avatar";
@@ -11,9 +11,19 @@ import {
 } from "@/utils/dateHelpers";
 import { formatUserRole } from "@/utils/formatters";
 
-const routeLabels = [{ route: "/dashboard", label: "Hjem" }];
+const routeLabels = [
+  { route: "/dashboard", label: "Hjem" },
+  { route: "/projects/:id", label: "Projektdetaljer" },
+  { route: "/projects", label: "Projekter" },
+  { route: "/employees/:id", label: "Medarbejderdetaljer" },
+  { route: "/employees", label: "Medarbejdere" },
+  { route: "/competences/:id", label: "Kompetencedetaljer" },
+  { route: "/competences", label: "Kompetencer" },
+  { route: "/users", label: "Brugere" },
+  { route: "/profile", label: "Profil" },
+];
 
-const TopBar = ({ snapshot }) => {
+const TopBar = () => {
   const navigate = useNavigate();
   const { user, logOut } = useAuth();
   const { pathname } = useLocation();
@@ -21,7 +31,7 @@ const TopBar = ({ snapshot }) => {
   const greeting = getGreetingWelcomeMessage();
   const todaysDate = getTodaysFormattedDate();
   const pageTitle =
-    routeLabels.find((r) => pathname.startsWith(r.route))?.label ?? "Estimo";
+    routeLabels.find((r) => matchPath(r.route, pathname))?.label ?? "Estimo";
 
   return (
     <div className={styles.topBarContainer}>
@@ -41,11 +51,6 @@ const TopBar = ({ snapshot }) => {
             onClick={() => setShowBell((p) => !p)}
           >
             <FiBell className={styles.bell} />
-            {snapshot?.totalPending > 0 && (
-              <span className={styles.badge}>
-                {snapshot.totalPending > 99 ? "99+" : snapshot.totalPending}
-              </span>
-            )}
           </button>
 
           {showBell && (
@@ -55,40 +60,7 @@ const TopBar = ({ snapshot }) => {
                 onClick={() => setShowBell(false)}
               />
               <div className={styles.bellDropdown}>
-                {!snapshot?.totalPending ? (
-                  <p className={styles.bellEmpty}>Ingen afventende opgaver</p>
-                ) : (
-                  <>
-                    {snapshot?.pendingIngredientRequests > 0 && (
-                      <button
-                        className={styles.bellItem}
-                        onClick={() => {
-                          navigate("/admin/ingredient-requests");
-                          setShowBell(false);
-                        }}
-                      >
-                        <span className={styles.bellCount}>
-                          {snapshot.pendingIngredientRequests}
-                        </span>
-                        Vareanmodninger afventer
-                      </button>
-                    )}
-                    {snapshot?.pendingDishSuggestions > 0 && (
-                      <button
-                        className={styles.bellItem}
-                        onClick={() => {
-                          navigate("/admin/dish-suggestions");
-                          setShowBell(false);
-                        }}
-                      >
-                        <span className={styles.bellCount}>
-                          {snapshot.pendingDishSuggestions}
-                        </span>
-                        Ret-forslag afventer
-                      </button>
-                    )}
-                  </>
-                )}
+                <p className={styles.bellEmpty}>Ingen notifikationer</p>
               </div>
             </>
           )}

@@ -13,7 +13,6 @@
 
 .title {
   margin: 0;
-
   font-size: var(--text-base);
   font-weight: var(--weight-bold);
   color: var(--color-text-primary);
@@ -21,7 +20,6 @@
 
 .description {
   margin: var(--spacing-xs) 0 0;
-
   font-size: var(--text-sm);
   line-height: 1.5;
   color: var(--color-text-secondary);
@@ -96,14 +94,11 @@
 .empty {
   margin: 0;
   padding: var(--spacing-md);
-
   text-align: center;
   font-size: var(--text-sm);
   font-style: italic;
-
   color: var(--color-text-muted);
   background: var(--color-bg-surface);
-
   border-radius: var(--radius-md);
 }
 

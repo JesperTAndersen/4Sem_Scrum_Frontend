@@ -30,21 +30,16 @@
 
 .title {
   margin: 0;
-
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
-
   color: var(--color-text-primary);
 }
 
 .description {
   margin: var(--spacing-xs) 0 0;
-
   max-width: 760px;
-
   font-size: var(--text-base);
   line-height: 1.5;
-
   color: var(--color-text-secondary);
 }
 
@@ -53,34 +48,20 @@
   align-items: center;
   justify-content: flex-end;
   gap: var(--spacing-sm);
-
   flex-shrink: 0;
 }
 
 .group {
   padding-top: var(--spacing-md);
-
   border-top: 1px solid var(--color-border);
-}
-
-.groupTitle {
-  margin: 0;
-
-  font-size: var(--text-base);
-  font-weight: var(--weight-bold);
-
-  color: var(--color-text-primary);
 }
 
 .groupLabel {
   margin: 0 0 var(--spacing-sm);
-
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
-
   text-transform: uppercase;
   letter-spacing: 0.08em;
-
   color: var(--color-text-muted);
 }
 
@@ -95,13 +76,9 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
-
   min-width: 0;
-
   padding: var(--spacing-sm) var(--spacing-md);
-
   background-color: var(--color-bg-section);
-
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 }
@@ -110,109 +87,14 @@
   font-size: var(--text-base);
   font-weight: var(--weight-bold);
   line-height: 1.25;
-
   color: var(--color-text-primary);
 }
 
 .label {
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
-
   text-transform: uppercase;
   letter-spacing: 0.06em;
-
-  color: var(--color-text-muted);
-}
-
-.progressHeader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--spacing-md);
-}
-
-.progressText {
-  display: block;
-
-  margin-top: 4px;
-
-  font-size: var(--text-sm);
-
-  color: var(--color-text-secondary);
-}
-
-.progressPercent {
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  line-height: 1;
-
-  color: var(--color-text-primary);
-}
-
-.progress {
-  display: block;
-
-  width: 100%;
-  height: 10px;
-
-  margin-top: var(--spacing-md);
-
-  appearance: none;
-  -webkit-appearance: none;
-
-  border: none;
-  border-radius: 999px;
-
-  overflow: hidden;
-  background: transparent;
-}
-
-.progress::-webkit-progress-bar {
-  background-color: var(--color-bg-section);
-  border-radius: 999px;
-}
-
-.progress::-webkit-progress-value {
-  background-color: var(--color-primary);
-  border-radius: 999px;
-
-  transition: width 0.25s ease;
-}
-
-.progress::-moz-progress-bar {
-  background-color: var(--color-primary);
-  border-radius: 999px;
-
-  transition: width 0.25s ease;
-}
-
-.taskStats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-xl);
-
-  margin-top: var(--spacing-md);
-}
-
-.taskStat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-
-  min-width: 90px;
-}
-
-.taskStatValue {
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-  line-height: 1.2;
-
-  color: var(--color-text-primary);
-}
-
-.taskStatLabel {
-  font-size: var(--text-xs);
-
   color: var(--color-text-muted);
 }
 
@@ -226,23 +108,19 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-
   min-width: 0;
 }
 
 .value {
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
-
   color: var(--color-text-primary);
 }
 
 .emptyText {
   margin: 0;
-
   font-size: var(--text-sm);
   font-style: italic;
-
   color: var(--color-text-muted);
 }
 
@@ -256,18 +134,12 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-
   min-width: 220px;
-
   padding: var(--spacing-sm) var(--spacing-md);
-
   background-color: var(--color-bg-surface);
-
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-
   cursor: pointer;
-
   transition:
     transform 0.15s ease,
     background-color 0.15s ease,
@@ -276,7 +148,6 @@
 
 .userItem:hover {
   transform: translateY(-1px);
-
   background-color: var(--color-bg-section);
   border-color: var(--color-primary);
 }
@@ -284,16 +155,13 @@
 .userInfo {
   display: flex;
   flex-direction: column;
-
   min-width: 0;
 }
 
 .userName {
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
-
   color: var(--color-text-primary);
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -301,11 +169,8 @@
 
 .userRole {
   font-size: var(--text-xs);
-
   color: var(--color-text-secondary);
 }
-
-/* Responsive */
 
 @media (max-width: 1000px) {
   .summaryGrid {
@@ -327,11 +192,6 @@
   .detailsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .taskStats {
-    justify-content: space-between;
-    gap: var(--spacing-md);
-  }
 }
 
 @media (max-width: 480px) {
@@ -342,23 +202,6 @@
   .summaryGrid,
   .detailsGrid {
     grid-template-columns: 1fr;
-  }
-
-  .progressHeader {
-    align-items: flex-start;
-  }
-
-  .progressPercent {
-    font-size: var(--text-lg);
-  }
-
-  .taskStats {
-    width: 100%;
-  }
-
-  .taskStat {
-    flex: 1;
-    min-width: 0;
   }
 
   .userItem {

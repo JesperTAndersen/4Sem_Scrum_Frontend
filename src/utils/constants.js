@@ -1,13 +1,4 @@
 export const ROLE_OPTIONS = [
-  { value: "HEAD_CHEF", label: "Køkkenchef" },
-  { value: "SOUS_CHEF", label: "Souschef" },
-  { value: "LINE_COOK", label: "Kok" },
-  { value: "CUSTOMER", label: "Kunde" },
+  { value: "PROJECT_MANAGER", label: "Projektleder" },
+  { value: "EMPLOYEE", label: "Medarbejder" },
 ];
-
-export const roleRoutes = {
-  HEAD_CHEF: "/admin/dashboard",
-  SOUS_CHEF: "/admin/dashboard",
-  LINE_COOK: "/kitchen",
-  CUSTOMER: "/",
-};
