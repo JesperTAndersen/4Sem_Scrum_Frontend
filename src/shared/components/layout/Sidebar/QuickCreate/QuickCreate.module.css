@@ -1,0 +1,8 @@
+.wrapper {
+  margin: var(--spacing-sm) 0;
+}
+
+.wrapper > button {
+  width: 100%;
+  justify-content: center;
+}

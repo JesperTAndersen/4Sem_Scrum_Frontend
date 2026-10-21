@@ -12,7 +12,9 @@ const QuickCreate = ({ collapsed }) => {
         name="Nyt projekt"
         icon={<FiPlus />}
         iconOnly={collapsed}
-        onClick={() => navigate("/projects", { state: { openCreateForm: true } })}
+        onClick={() =>
+          navigate("/projects", { state: { openCreateForm: true } })
+        }
       />
     </div>
   );

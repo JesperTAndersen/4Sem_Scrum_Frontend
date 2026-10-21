@@ -32,6 +32,12 @@ const ProjectManagementPage = () => {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
+    if (location.state?.openCreateForm) {
+      setShowForm(true);
+    }
+  }, [location.key]);
+
+  useEffect(() => {
     if (location.state?.successMessage) {
       notify("success", location.state.successMessage);
     }
