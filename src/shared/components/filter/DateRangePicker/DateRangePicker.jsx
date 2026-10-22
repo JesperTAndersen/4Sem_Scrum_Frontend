@@ -2,12 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import styles from "./DateRangePicker.module.css";
+import {
+  formatShortDate,
+  parseDateString,
+  toDateString,
+} from "@/utils/dateHelpers";
 
 const DateRangePicker = ({
   startDate,
   endDate,
   onChange,
   label = "Projektperiode",
+  startLabel = "Startdato",
+  endLabel = "Deadline",
   hasError = false,
   errorMessage = "",
 }) => {
@@ -29,14 +36,14 @@ const DateRangePicker = ({
   }, []);
 
   const selectedRange = {
-    from: startDate ? new Date(startDate) : undefined,
-    to: endDate ? new Date(endDate) : undefined,
+    from: startDate ? parseDateString(startDate) : undefined,
+    to: endDate ? parseDateString(endDate) : undefined,
   };
 
   const handleSelect = (range) => {
     onChange({
-      startDate: range?.from ? range.from.toISOString().split("T")[0] : "",
-      endDate: range?.to ? range.to.toISOString().split("T")[0] : "",
+      startDate: range?.from ? toDateString(range.from) : "",
+      endDate: range?.to ? toDateString(range.to) : "",
     });
   };
 
@@ -50,20 +57,22 @@ const DateRangePicker = ({
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <div className={styles.dateField}>
-          <span className={styles.dateLabel}>Startdato</span>
+          <span className={styles.dateLabel}>{startLabel}</span>
 
           <span className={startDate ? styles.dateValue : styles.placeholder}>
-            {startDate || "Vælg dato"}
+            {startDate
+              ? formatShortDate(parseDateString(startDate))
+              : "Vælg dato"}
           </span>
         </div>
 
         <span className={styles.arrow}>→</span>
 
         <div className={styles.dateField}>
-          <span className={styles.dateLabel}>Deadline</span>
+          <span className={styles.dateLabel}>{endLabel}</span>
 
           <span className={endDate ? styles.dateValue : styles.placeholder}>
-            {endDate || "Vælg dato"}
+            {endDate ? formatShortDate(parseDateString(endDate)) : "Vælg dato"}
           </span>
         </div>
       </button>

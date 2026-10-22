@@ -9,8 +9,11 @@ import Select from "@/shared/components/filter/Select/Select";
 import competenceService from "@/features/competences/services/competenceService";
 import workloadService from "../services/workloadService";
 import AvailabilityTable from "../components/AvailabilityTable/AvailabilityTable";
-// import ConflictTable from "../components/ConflictTable/ConflictTable";
-import { addDays, nextWorkingDay, toDateString } from "../utils/dateUtils";
+import ConflictTable from "../components/ConflictTable/ConflictTable";
+import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
+import Input from "@/shared/components/ui/Input/Input";
+import { toDateString } from "@/utils/dateHelpers";
+import { addDays, nextWorkingDay } from "../utils/dateUtils";
 
 const FOUR_WEEKS_IN_DAYS = 27;
 
@@ -36,6 +39,11 @@ const RessourcePlanningPage = () => {
   const [availabilityError, setAvailabilityError] = useState(null);
 
   useEffect(() => {
+    // Wait until both dates are chosen, so an unfinished range is never sent.
+    if (!period.startDate || !period.endDate) {
+      return;
+    }
+
     const fetchConflicts = async () => {
       try {
         const data = await workloadService.getOverAllocations(
@@ -76,10 +84,12 @@ const RessourcePlanningPage = () => {
     fetchAvailability();
   }, [availabilityFilter]);
 
-  // A new object also triggers a reload, so calling these with {} works as "try again".
   const changePeriod = (changes) => {
-    setConflictsLoading(true);
-    setPeriod((prev) => ({ ...prev, ...changes }));
+    const next = { ...period, ...changes };
+    if (next.startDate && next.endDate) {
+      setConflictsLoading(true);
+    }
+    setPeriod(next);
   };
 
   const changeAvailabilityFilter = (changes) => {
@@ -116,27 +126,26 @@ const RessourcePlanningPage = () => {
 
       <Card variant="table">
         <div className={styles.cardHeader}>
-          <h3>Overbelastning</h3>
+          <SectionHeader
+            title="Overbelastning"
+            description="Medarbejdere med flere timer end deres kapacitet"
+          />
 
           <div className={styles.filterGroup}>
-            <label>
-              Fra{" "}
-              <input
-                type="date"
-                value={period.startDate}
-                onChange={(e) => changePeriod({ startDate: e.target.value })}
-              />
-            </label>
+            <Input
+              label="Fra"
+              type="date"
+              value={period.startDate}
+              onChange={(e) => changePeriod({ startDate: e.target.value })}
+            />
 
-            <label>
-              Til{" "}
-              <input
-                type="date"
-                value={period.endDate}
-                min={period.startDate}
-                onChange={(e) => changePeriod({ endDate: e.target.value })}
-              />
-            </label>
+            <Input
+              label="Til"
+              type="date"
+              value={period.endDate}
+              min={period.startDate}
+              onChange={(e) => changePeriod({ endDate: e.target.value })}
+            />
           </div>
         </div>
 
@@ -164,19 +173,22 @@ const RessourcePlanningPage = () => {
 
       <Card variant="table">
         <div className={styles.cardHeader}>
-          <h3>Ledig kapacitet</h3>
+          <div className={styles.header}>
+            <SectionHeader
+              title="Ledig kapacitet"
+              description="Hvem har timer tilbage på den valgte dag"
+            />
+          </div>
 
           <div className={styles.filterGroup}>
-            <label>
-              Dato{" "}
-              <input
-                type="date"
-                value={availabilityFilter.date}
-                onChange={(e) =>
-                  changeAvailabilityFilter({ date: e.target.value })
-                }
-              />
-            </label>
+            <Input
+              label="Dato"
+              type="date"
+              value={availabilityFilter.date}
+              onChange={(e) =>
+                changeAvailabilityFilter({ date: e.target.value })
+              }
+            />
 
             <Select
               value={availabilityFilter.competenceId}

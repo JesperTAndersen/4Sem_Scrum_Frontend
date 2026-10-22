@@ -18,9 +18,8 @@
 
 .filterGroup {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: var(--spacing-md);
-  flex-wrap: wrap;
 }
 
 .tableCount {
