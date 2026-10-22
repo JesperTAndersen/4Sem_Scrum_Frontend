@@ -1,5 +1,6 @@
-import styles from "./AvailabilityTable.module.css";
+import styles from "./ConflictTable.module.css";
 import { formatShortDate } from "@/utils/dateHelpers";
+import formatHours from "../../utils/formatHours";
 import { FiChevronRight } from "react-icons/fi";
 
 const ConflictTable = ({ conflicts = [], onView }) => {
@@ -29,11 +30,11 @@ const ConflictTable = ({ conflicts = [], onView }) => {
 
               <td>${formatShortDate(c?.date)}</td>
 
-              <td>{`${c?.allocatedHours} t`}</td>
+              <td>{formatHours(c?.allocatedHours)}</td>
 
-              <td>{`${c?.availableHours} t`}</td>
+              <td>{formatHours(c?.availableHours)}</td>
 
-              <td>{`${c?.excessHours} t`}</td>
+              <td>{formatHours(c?.excessHours)}</td>
             </tr>
           ))}
         </tbody>

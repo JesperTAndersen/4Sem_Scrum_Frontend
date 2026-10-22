@@ -1,4 +1,5 @@
 import styles from "./AvailabilityTable.module.css";
+import formatHours from "../../utils/formatHours";
 import { FiChevronRight } from "react-icons/fi";
 
 const AvailabilityTable = ({ employees = [], onView }) => {
@@ -26,11 +27,11 @@ const AvailabilityTable = ({ employees = [], onView }) => {
                 {e.firstName} {e.lastName}
               </td>
 
-              <td>{`${e?.dailyCapacity} t/dag`}</td>
+              <td>{formatHours(e?.dailyCapacity)}</td>
 
-              <td>{`${e?.allocatedHours} t`}</td>
+              <td>{formatHours(e?.allocatedHours)}</td>
 
-              <td>{`${e?.remainingHours} t`}</td>
+              <td>{formatHours(e?.remainingHours)}</td>
 
               <td>
                 <FiChevronRight className={styles.chevron} />
