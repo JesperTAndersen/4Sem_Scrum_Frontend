@@ -34,7 +34,6 @@ const ConflictTable = ({ conflicts = [], onView }) => {
               <td>{`${c?.availableHours} t`}</td>
 
               <td>{`${c?.excessHours} t`}</td>
-
             </tr>
           ))}
         </tbody>
