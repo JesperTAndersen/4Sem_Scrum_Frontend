@@ -24,7 +24,10 @@ const routeLabels = [
   { route: "/profile", label: "Profil" },
 ];
 
-const TopBar = () => {
+const TopBar = ({ workloadWarnings }) => {
+  const conflictCount = workloadWarnings?.conflicts.length ?? 0;
+  const unassessedCount = workloadWarnings?.unassessedTasks?.length ?? 0;
+  const total = conflictCount + unassessedCount;
   const navigate = useNavigate();
   const { user, logOut } = useAuth();
   const { pathname } = useLocation();
@@ -33,6 +36,10 @@ const TopBar = () => {
   const todaysDate = getTodaysFormattedDate();
   const pageTitle =
     routeLabels.find((r) => matchPath(r.route, pathname))?.label ?? "Estimo";
+  const goTo = (path) => {
+    navigate(path);
+    setShowBell(false);
+  };
 
   return (
     <div className={styles.topBarContainer}>
@@ -52,6 +59,9 @@ const TopBar = () => {
             onClick={() => setShowBell((p) => !p)}
           >
             <FiBell className={styles.bell} />
+            {total > 0 && (
+              <span className={styles.badge}>{total > 99 ? "99+" : total}</span>
+            )}
           </button>
 
           {showBell && (
@@ -61,7 +71,34 @@ const TopBar = () => {
                 onClick={() => setShowBell(false)}
               />
               <div className={styles.bellDropdown}>
-                <p className={styles.bellEmpty}>Ingen notifikationer</p>
+                {total === 0 ? (
+                  <p className={styles.bellEmpty}>Ingen notifikationer</p>
+                ) : (
+                  <>
+                    {conflictCount > 0 && (
+                      <button
+                        className={styles.bellItem}
+                        onClick={() => goTo("/capacity")}
+                      >
+                        <span className={styles.bellCount}>
+                          {conflictCount}
+                        </span>
+                        overbelastninger de næste 4 uger
+                      </button>
+                    )}
+                    {unassessedCount > 0 && (
+                      <button
+                        className={styles.bellItem}
+                        onClick={() => goTo("/capacity")}
+                      >
+                        <span className={styles.bellCount}>
+                          {unassessedCount}
+                        </span>
+                        opgaver kunne ikke vurderes
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
             </>
           )}

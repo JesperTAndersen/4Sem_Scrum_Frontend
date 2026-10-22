@@ -168,3 +168,18 @@ export const parseDateString = (value) => {
   const [year, month, day] = value.split("-").map(Number);
   return new Date(year, month - 1, day);
 };
+
+// Today plus 27 days is four weeks when both dates are included.
+const FOUR_WEEKS_IN_DAYS = 27;
+
+// The next four weeks from today as "YYYY-MM-DD" strings, ready to send to the API.
+export const getNextFourWeeks = () => {
+  const today = new Date();
+  const end = new Date(today);
+  end.setDate(today.getDate() + FOUR_WEEKS_IN_DAYS);
+
+  return {
+    startDate: toDateString(today),
+    endDate: toDateString(end),
+  };
+};

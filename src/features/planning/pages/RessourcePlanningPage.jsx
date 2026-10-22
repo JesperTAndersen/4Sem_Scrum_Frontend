@@ -13,25 +13,19 @@ import ConflictTable from "../components/ConflictTable/ConflictTable";
 import UnassessedNotice from "../components/UnassessedNotice/UnassessedNotice";
 import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 import Input from "@/shared/components/ui/Input/Input";
-import { toDateString } from "@/utils/dateHelpers";
-import { addDays, nextWorkingDay } from "../utils/dateUtils";
-
-const FOUR_WEEKS_IN_DAYS = 27;
+import { getNextFourWeeks } from "@/utils/dateHelpers";
+import { getNextWorkingDay } from "../utils/dateUtils";
 
 const RessourcePlanningPage = () => {
   const navigate = useNavigate();
-  const today = new Date();
 
-  const [period, setPeriod] = useState({
-    startDate: toDateString(today),
-    endDate: toDateString(addDays(today, FOUR_WEEKS_IN_DAYS)),
-  });
+  const [period, setPeriod] = useState(getNextFourWeeks);
   const [conflicts, setConflicts] = useState(null);
   const [conflictsLoading, setConflictsLoading] = useState(true);
   const [conflictsError, setConflictsError] = useState(null);
 
   const [availabilityFilter, setAvailabilityFilter] = useState({
-    date: toDateString(nextWorkingDay(today)),
+    date: getNextWorkingDay(),
     competenceId: "",
   });
   const [competences, setCompetences] = useState([]);

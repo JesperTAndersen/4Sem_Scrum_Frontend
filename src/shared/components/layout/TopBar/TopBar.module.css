@@ -84,6 +84,53 @@
   margin: 0;
 }
 
+.bellItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  text-align: left;
+  transition: background-color 0.15s;
+}
+
+.bellItem:last-child {
+  border-bottom: none;
+}
+
+.bellItem:hover {
+  background-color: var(--color-bg-section);
+}
+
+.bellCount {
+  font-weight: var(--weight-bold);
+  color: var(--color-primary);
+  min-width: 24px;
+}
+
+.badge {
+  position: absolute;
+  top: -2px;
+  right: -1px;
+  background: var(--color-danger);
+  color: white;
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  min-width: 18px;
+  height: 18px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
 .profileContainer {
   display: flex;
   align-items: center;
