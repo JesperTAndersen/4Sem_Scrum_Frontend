@@ -1,7 +1,7 @@
-import styles from "./ProjectsTable.module.css";
+import styles from "./AvailabilityTable.module.css";
 import { FiChevronRight } from "react-icons/fi";
 
-const AvailabilityTable = ({ employees, onView }) => {
+const AvailabilityTable = ({ employees = [], onView }) => {
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>
@@ -17,7 +17,11 @@ const AvailabilityTable = ({ employees, onView }) => {
 
         <tbody>
           {employees.map((e) => (
-            <tr key={e.id} className={styles.row} onClick={() => onView(e.id)}>
+            <tr
+              key={e.employeeId}
+              className={styles.row}
+              onClick={() => onView(e.employeeId)}
+            >
               <td>
                 {e.firstName} {e.lastName}
               </td>

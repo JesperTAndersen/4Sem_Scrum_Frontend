@@ -1,59 +1,52 @@
 import { useEffect, useState } from "react";
-import { useNotification } from "@/context/NotificationContext";
 import { useNavigate } from "react-router";
-import styles from "./UserManagementPage.module.css";
-import TableSearch from "@/shared/components/filter/TableSearch/TableSearch";
-import TableEmptyState from "@/shared/components/ui/TableEmptyState/TableEmptyState";
+import styles from "./RessourcePlanningPage.module.css";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
 import Card from "@/shared/components/ui/Card/Card";
+import Button from "@/shared/components/ui/Button/Button";
+import Select from "@/shared/components/filter/Select/Select";
+import competenceService from "@/features/competences/services/competenceService";
 import workloadService from "../services/workloadService";
 import AvailabilityTable from "../components/AvailabilityTable/AvailabilityTable";
+// import ConflictTable from "../components/ConflictTable/ConflictTable";
+import { addDays, nextWorkingDay, toDateString } from "../utils/dateUtils";
 
-const daysUntilLastWeekDayInMonth = 27;
+const FOUR_WEEKS_IN_DAYS = 27;
 
 const RessourcePlanningPage = () => {
   const navigate = useNavigate();
-  const { notify } = useNotification();
   const today = new Date();
-  const inFourWeeks = new Date();
-  inFourWeeks.setDate(today.getDate() + daysUntilLastWeekDayInMonth);
 
   const [period, setPeriod] = useState({
-    startDate: today,
-    endDate: inFourWeeks,
+    startDate: toDateString(today),
+    endDate: toDateString(addDays(today, FOUR_WEEKS_IN_DAYS)),
   });
   const [conflicts, setConflicts] = useState(null);
   const [conflictsLoading, setConflictsLoading] = useState(true);
   const [conflictsError, setConflictsError] = useState(null);
 
-  const [date, setDate] = useState(today);
-  const [competenceId, setCompetenceId] = "";
-  const [availibility, setAvailibility] = useState(null);
-  const [availibilityLoading, setAvailibilityLoading] = useState(true);
-  const [availibilityError, setAvailibilityError] = useState(null);
-
-  const [filterConflict, setFilterConflict] = useState({
-    search: "",
+  const [availabilityFilter, setAvailabilityFilter] = useState({
+    date: toDateString(nextWorkingDay(today)),
+    competenceId: "",
   });
-
-  const [filterAvailibility, setFilterAvailibility] = useState({
-    search: "",
-  });
+  const [competences, setCompetences] = useState([]);
+  const [availability, setAvailability] = useState(null);
+  const [availabilityLoading, setAvailabilityLoading] = useState(true);
+  const [availabilityError, setAvailabilityError] = useState(null);
 
   useEffect(() => {
     const fetchConflicts = async () => {
       try {
-        setConflictsLoading(true);
         const data = await workloadService.getOverAllocations(
           period.startDate,
           period.endDate,
         );
         setConflicts(data);
+        setConflictsError(null);
       } catch (error) {
-        notify(
-          "error",
-          error.message || "Noget gik galt ved henting af overlokering",
+        setConflictsError(
+          error.message || "Noget gik galt ved hentning af overbelastning.",
         );
       } finally {
         setConflictsLoading(false);
@@ -63,51 +56,56 @@ const RessourcePlanningPage = () => {
   }, [period]);
 
   useEffect(() => {
-    const fetchAvailibility = async () => {
+    const fetchAvailability = async () => {
       try {
-        setAvailibilityLoading(true);
         const data = await workloadService.getAvailability(
-          date.getDay,
-          competenceId,
+          availabilityFilter.date,
+          availabilityFilter.competenceId,
         );
-        setAvailibility(data);
+        setAvailability(data);
+        setAvailabilityError(null);
       } catch (error) {
-        notify(
-          "error",
-          error.message || "Noget gik galt ved henting af ledige medarbejdere",
+        setAvailabilityError(
+          error.message ||
+            "Noget gik galt ved hentning af ledige medarbejdere.",
         );
       } finally {
-        setAvailibilityLoading(false);
+        setAvailabilityLoading(false);
       }
     };
-    fetchAvailibility();
-  }, [date]);
+    fetchAvailability();
+  }, [availabilityFilter]);
 
-  const handleOnConflictView = (id) => {
-    navigate(`/users/${id}`);
+  // A new object also triggers a reload, so calling these with {} works as "try again".
+  const changePeriod = (changes) => {
+    setConflictsLoading(true);
+    setPeriod((prev) => ({ ...prev, ...changes }));
   };
 
-  const handleOnAvailibilityView = (id) => {
+  const changeAvailabilityFilter = (changes) => {
+    setAvailabilityLoading(true);
+    setAvailabilityFilter((prev) => ({ ...prev, ...changes }));
+  };
+
+  useEffect(() => {
+    const fetchCompetences = async () => {
+      try {
+        setCompetences(await competenceService.getAll());
+      } catch {
+        setCompetences([]);
+      }
+    };
+    fetchCompetences();
+  }, []);
+
+  const handleOnEmployeeView = (id) => {
     navigate(`/employees/${id}`);
   };
 
-  const handleFilterChange = (key, value) => {
-    setFilter((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const resetSearch = () => handleFilterChange("search", "");
-
-  const filteredAvailibilityEmployees = availibility?.employees.filter((e) => {
-    const search = filter.search.toLowerCase();
-    const fullName = `${e.firstName} ${e.lastName}`.toLowerCase();
-    return fullName.includes(search);
-  });
-
-  const filteredConflictEmployees = availibility?.conflicts.filter((e) => {
-    const search = filter.search.toLowerCase();
-    const fullName = `${e.firstName} ${e.lastName}`.toLowerCase();
-    return fullName.includes(search);
-  });
+  const competenceOptions = competences.map((c) => ({
+    value: c.id,
+    label: c.name,
+  }));
 
   return (
     <div className={styles.pageContainer}>
@@ -118,72 +116,99 @@ const RessourcePlanningPage = () => {
 
       <Card variant="table">
         <div className={styles.cardHeader}>
-          <TableSearch
-            value={filter.search}
-            onChange={(value) => handleFilterChange("search", value)}
-            placeholder="Søg efter navn"
-          />
+          <h3>Overbelastning</h3>
 
-          <div className={styles.filterGroup}></div>
-        </div>
-
-        <div className={styles.tableCount}>
-          Viser {filteredUsers.length}{" "}
-          {filteredUsers.length === 1 ? "medarbejder" : "medarbejdere"}
-          {filteredUsers.length !== users.length && ` (ud af ${users.length})`}
-        </div>
-
-        {isLoading ? (
-          <LoadingSpinner text="Henter brugere..." inline />
-        ) : (
-          <>
-            <AvailabilityTable
-              employees={filteredConflictEmployees}
-              onView={handleOnConflictView}
-            />
-            {filteredConflictEmployees.length === 0 && (
-              <TableEmptyState
-                text="Ingen medarbejdere matcher din søgning."
-                onReset={resetSearch}
+          <div className={styles.filterGroup}>
+            <label>
+              Fra{" "}
+              <input
+                type="date"
+                value={period.startDate}
+                onChange={(e) => changePeriod({ startDate: e.target.value })}
               />
-            )}
-          </>
+            </label>
+
+            <label>
+              Til{" "}
+              <input
+                type="date"
+                value={period.endDate}
+                min={period.startDate}
+                onChange={(e) => changePeriod({ endDate: e.target.value })}
+              />
+            </label>
+          </div>
+        </div>
+
+        {conflictsLoading ? (
+          <LoadingSpinner text="Henter overbelastning..." inline />
+        ) : conflictsError ? (
+          <div className={styles.cardHeader}>
+            <span>{conflictsError}</span>
+            <Button
+              variant="secondary"
+              name="Prøv igen"
+              onClick={() => changePeriod({})}
+            />
+          </div>
+        ) : (
+          <div className={styles.tableCount}>
+            {conflicts?.conflicts.length ?? 0} konflikter i perioden
+          </div>
+          // <ConflictTable
+          //   conflicts={conflicts?.conflicts}
+          //   onView={handleOnEmployeeView}
+          // />
         )}
       </Card>
 
       <Card variant="table">
         <div className={styles.cardHeader}>
-          <TableSearch
-            value={filter.search}
-            onChange={(value) => handleFilterChange("search", value)}
-            placeholder="Søg efter navn"
-          />
+          <h3>Ledig kapacitet</h3>
 
-          <div className={styles.filterGroup}></div>
-        </div>
-
-        <div className={styles.tableCount}>
-          Viser {filteredUsers.length}{" "}
-          {filteredUsers.length === 1 ? "medarbejder" : "medarbejdere"}
-          {filteredUsers.length !== users.length && ` (ud af ${users.length})`}
-        </div>
-
-        {isLoading ? (
-          <LoadingSpinner text="Henter medarbejdere..." inline />
-        ) : (
-          <>
-            <AvailabilityTable
-              employees={filteredAvailibilityEmployees}
-              onView={handleOnAvailibilityView}
-            />
-
-            {filteredAvailibilityEmployees.length === 0 && (
-              <TableEmptyState
-                text="Ingen medarbejdere matcher din søgning."
-                onReset={resetSearch}
+          <div className={styles.filterGroup}>
+            <label>
+              Dato{" "}
+              <input
+                type="date"
+                value={availabilityFilter.date}
+                onChange={(e) =>
+                  changeAvailabilityFilter({ date: e.target.value })
+                }
               />
-            )}
-          </>
+            </label>
+
+            <Select
+              value={availabilityFilter.competenceId}
+              onChange={(e) =>
+                changeAvailabilityFilter({ competenceId: e.target.value })
+              }
+              placeholder="Alle kompetencer"
+              options={competenceOptions}
+            />
+          </div>
+        </div>
+
+        {availabilityLoading ? (
+          <LoadingSpinner text="Henter medarbejdere..." inline />
+        ) : availabilityError ? (
+          <div className={styles.cardHeader}>
+            <span>{availabilityError}</span>
+            <Button
+              variant="secondary"
+              name="Prøv igen"
+              onClick={() => changeAvailabilityFilter({})}
+            />
+          </div>
+        ) : availability?.employees.length === 0 ? (
+          <div className={styles.tableCount}>
+            Ingen aktive medarbejdere matcher den valgte dag
+          </div>
+        ) : (
+          <AvailabilityTable
+            employees={availability?.employees}
+            onView={handleOnEmployeeView}
+          />
         )}
       </Card>
     </div>

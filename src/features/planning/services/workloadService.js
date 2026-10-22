@@ -16,7 +16,7 @@ const getAvailability = async (date, competenceId) => {
   if (competenceId) {
     params.competenceId = competenceId;
   }
-  return await apiClient(`${RESOURCE_URL}/avaliability`, {
+  return await apiClient(`${RESOURCE_URL}/availability`, {
     params,
   });
 };

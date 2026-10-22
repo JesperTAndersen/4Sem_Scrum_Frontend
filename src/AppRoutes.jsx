@@ -16,6 +16,7 @@ import CompetenceManagementPage from "./features/competences/pages/CompetenceMan
 import CompetenceDetailPage from "./features/competences/pages/CompetenceDetailPage/CompetenceDetailPage";
 import EmployeeDetailPage from "./features/employees/pages/EmployeeDetailPage/EmployeeDetailPage";
 import EmployeeManagementPage from "./features/employees/pages/EmployeeManagementPage/EmployeeManagementPage";
+import RessourcePlanningPage from "./features/planning/pages/RessourcePlanningPage";
 
 const AppRoutes = () => (
   <Routes>
@@ -37,6 +38,7 @@ const AppRoutes = () => (
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/employees" element={<EmployeeManagementPage />} />
         <Route path="/employees/:id" element={<EmployeeDetailPage />} />
+        <Route path="/capacity" element={<RessourcePlanningPage />} />
       </Route>
     </Route>
 

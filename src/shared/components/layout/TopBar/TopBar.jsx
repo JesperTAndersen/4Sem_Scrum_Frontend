@@ -20,6 +20,7 @@ const routeLabels = [
   { route: "/competences/:id", label: "Kompetencedetaljer" },
   { route: "/competences", label: "Kompetencer" },
   { route: "/users", label: "Brugere" },
+  { route: "/capacity", label: "Kapacitet" },
   { route: "/profile", label: "Profil" },
 ];
 
