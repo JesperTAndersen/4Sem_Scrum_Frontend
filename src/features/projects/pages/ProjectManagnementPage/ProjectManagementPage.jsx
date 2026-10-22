@@ -30,12 +30,12 @@ const ProjectManagementPage = () => {
     status: location.state?.status ?? DEFAULT_FILTER.status,
   });
   const [showForm, setShowForm] = useState(false);
+  const [handledKey, setHandledKey] = useState(null);
 
-  useEffect(() => {
-    if (location.state?.openCreateForm) {
-      setShowForm(true);
-    }
-  }, [location.key]);
+  if (location.state?.openCreateForm && handledKey !== location.key) {
+    setHandledKey(location.key);
+    setShowForm(true);
+  }
 
   useEffect(() => {
     if (location.state?.successMessage) {

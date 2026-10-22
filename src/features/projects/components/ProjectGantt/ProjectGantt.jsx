@@ -96,6 +96,10 @@ const ProjectGantt = ({ project, onTaskClick }) => {
     });
   }, [project, viewMode]);
 
+  const undeterminedTasks = (project?.stages ?? [])
+    .flatMap((stage) => stage.tasks ?? [])
+    .filter((task) => !task.startDate || !task.endDate);
+
   useEffect(() => {
     const container = ganttRef.current;
 
@@ -148,7 +152,7 @@ const ProjectGantt = ({ project, onTaskClick }) => {
     };
   }, [ganttTasks, project, onTaskClick, viewMode]);
 
-  if (ganttTasks.length === 0) {
+  if (ganttTasks.length === 0 && undeterminedTasks.length === 0) {
     return <div className={styles.empty}>Ingen planlagte opgaver at vise.</div>;
   }
 
@@ -191,9 +195,32 @@ const ProjectGantt = ({ project, onTaskClick }) => {
         </ul>
       </SectionHeader>
 
-      <div className={styles.scroller}>
-        <div ref={ganttRef} className={styles.gantt} />
-      </div>
+      {ganttTasks.length > 0 && (
+        <div className={styles.scroller}>
+          <div ref={ganttRef} className={styles.gantt} />
+        </div>
+      )}
+
+      {undeterminedTasks.length > 0 && (
+        <div className={styles.undetermined}>
+          <h4 className={styles.undeterminedTitle}>
+            Ikke med i tidsplanen ({undeterminedTasks.length})
+          </h4>
+
+          {undeterminedTasks.map((task) => (
+            <div
+              key={task.id}
+              className={styles.undeterminedItem}
+              onClick={() => onTaskClick?.(task)}
+            >
+              <span>{task.name}</span>
+              <span className={styles.undeterminedText}>
+                Varighed kan ikke beregnes
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
