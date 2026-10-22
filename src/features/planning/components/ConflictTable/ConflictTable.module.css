@@ -56,18 +56,43 @@
   text-align: center;
 }
 
-.chevron {
-  color: var(--color-text-muted);
+.chevronToggle {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  transition:
-    transform 0.15s ease,
-    color 0.15s ease;
+  color: var(--color-text-muted);
+  transition: color 0.15s ease;
 }
 
-.row:hover .chevron {
-  transform: translateX(2px);
+.row:hover .chevronToggle {
   color: var(--color-primary);
+}
+
+.table td.excess {
+  font-weight: var(--weight-bold);
+  color: var(--color-danger);
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.detailRow td {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-section);
+}
+
+.detailRow td:first-child {
+  padding-left: var(--spacing-xl);
+}
+
+.detailRow td:last-child {
+  text-align: left;
 }

@@ -161,13 +161,15 @@ const RessourcePlanningPage = () => {
             />
           </div>
         ) : (
-          <div className={styles.tableCount}>
-            {conflicts?.conflicts.length ?? 0} konflikter i perioden
-          </div>
-          // <ConflictTable
-          //   conflicts={conflicts?.conflicts}
-          //   onView={handleOnEmployeeView}
-          // />
+          <>
+            <div className={styles.tableCount}>
+              {conflicts?.conflicts.length ?? 0} konflikter i perioden
+            </div>
+
+            <ConflictTable 
+            conflicts={conflicts?.conflicts}
+            onOpen={(conflict) => setAvailabilityFilter({date: conflict.date})} />
+          </>
         )}
       </Card>
 
