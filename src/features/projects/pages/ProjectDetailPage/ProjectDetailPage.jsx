@@ -54,8 +54,6 @@ const ProjectDetailPage = () => {
 
   const blockedBy = [...blockingStages, ...blockingTasks].map((b) => b.name);
 
-  console.log(project);
-
   useEffect(() => {
     const fetchProject = async () => {
       setIsLoading(true);
