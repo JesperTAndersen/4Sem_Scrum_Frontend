@@ -1,19 +1,20 @@
 import styles from "./ConflictTable.module.css";
 import { Fragment, useState } from "react";
 import { Link } from "react-router";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp, FiSearch } from "react-icons/fi";
 import { formatShortDate } from "@/utils/dateHelpers";
 import formatHours from "../../utils/formatHours";
+import Button from "@/shared/components/ui/Button/Button";
 
-const ConflictTable = ({ conflicts = [], onOpen }) => {
+const ConflictTable = ({ conflicts = [], onOpen, onFindAvailable }) => {
   const [expandedKey, setExpandedKey] = useState(null);
 
   const handleToggle = (conflict, key) => {
-    if(expandedKey === key){
-    setExpandedKey(null);
+    if (expandedKey === key) {
+      setExpandedKey(null);
     } else {
-        setExpandedKey(key);
-        onOpen?.(conflict)
+      setExpandedKey(key);
+      onOpen?.(conflict);
     }
   };
 
@@ -73,17 +74,31 @@ const ConflictTable = ({ conflicts = [], onOpen }) => {
                 {isOpen &&
                   c.taskHours.map((task) => (
                     <tr key={task.taskId} className={styles.detailRow}>
-                      <td colSpan={2}>{task.taskName}</td>
+                      <td colSpan={1}>{task.taskName}</td>
 
                       <td>{formatHours(task.allocatedHours)}</td>
 
-                      <td colSpan={3}>
+                      <td colSpan={2}>
                         <Link
                           to={`/projects/${task.projectId}`}
                           className={styles.link}
                         >
                           {task.projectTitle}
                         </Link>
+                      </td>
+
+                      <td colSpan={2}>
+                        {task.competenceId && (
+                          <Button
+                            variant="ghost"
+                            iconOnly
+                            icon={<FiSearch />}
+                            title={`Find ledige med ${task.competenceName}`}
+                            onClick={() =>
+                              onFindAvailable?.(c.date, task.competenceId)
+                            }
+                          />
+                        )}
                       </td>
                     </tr>
                   ))}

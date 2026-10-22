@@ -10,6 +10,7 @@ import competenceService from "@/features/competences/services/competenceService
 import workloadService from "../services/workloadService";
 import AvailabilityTable from "../components/AvailabilityTable/AvailabilityTable";
 import ConflictTable from "../components/ConflictTable/ConflictTable";
+import UnassessedNotice from "../components/UnassessedNotice/UnassessedNotice";
 import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 import Input from "@/shared/components/ui/Input/Input";
 import { toDateString } from "@/utils/dateHelpers";
@@ -38,8 +39,9 @@ const RessourcePlanningPage = () => {
   const [availabilityLoading, setAvailabilityLoading] = useState(true);
   const [availabilityError, setAvailabilityError] = useState(null);
 
+  console.log(conflicts);
+
   useEffect(() => {
-    // Wait until both dates are chosen, so an unfinished range is never sent.
     if (!period.startDate || !period.endDate) {
       return;
     }
@@ -162,13 +164,38 @@ const RessourcePlanningPage = () => {
           </div>
         ) : (
           <>
-            <div className={styles.tableCount}>
-              {conflicts?.conflicts.length ?? 0} konflikter i perioden
-            </div>
+            <UnassessedNotice
+              tasks={conflicts?.unassessedTasks}
+              scope="i perioden"
+              consequence="Der kan være overbelastning, som ikke vises her."
+            />
 
-            <ConflictTable 
-            conflicts={conflicts?.conflicts}
-            onOpen={(conflict) => setAvailabilityFilter({date: conflict.date})} />
+            {conflicts?.conflicts.length === 0 ? (
+              <div className={styles.tableCount}>
+                {conflicts?.unassessedTasks?.length > 0
+                  ? "Ingen overbelastning fundet, men nogle opgaver kunne ikke vurderes"
+                  : "Ingen overbelastning i perioden"}
+              </div>
+            ) : (
+              <>
+                <div className={styles.tableCount}>
+                  {conflicts?.conflicts.length} konflikter i perioden
+                </div>
+
+                <ConflictTable
+                  conflicts={conflicts?.conflicts}
+                  onOpen={(conflict) =>
+                    changeAvailabilityFilter({ date: conflict.date })
+                  }
+                  onFindAvailable={(date, competenceId) =>
+                    changeAvailabilityFilter({
+                      date,
+                      competenceId: String(competenceId),
+                    })
+                  }
+                />
+              </>
+            )}
           </>
         )}
       </Card>
@@ -214,15 +241,25 @@ const RessourcePlanningPage = () => {
               onClick={() => changeAvailabilityFilter({})}
             />
           </div>
-        ) : availability?.employees.length === 0 ? (
-          <div className={styles.tableCount}>
-            Ingen aktive medarbejdere matcher den valgte dag
-          </div>
         ) : (
-          <AvailabilityTable
-            employees={availability?.employees}
-            onView={handleOnEmployeeView}
-          />
+          <>
+            <UnassessedNotice
+              tasks={availability?.unassessedTasks}
+              scope="på den valgte dag"
+              consequence="Timerne under Tilbage kan være for høje."
+            />
+
+            {availability?.employees.length === 0 ? (
+              <div className={styles.tableCount}>
+                Ingen aktive medarbejdere matcher den valgte dag
+              </div>
+            ) : (
+              <AvailabilityTable
+                employees={availability?.employees}
+                onView={handleOnEmployeeView}
+              />
+            )}
+          </>
         )}
       </Card>
     </div>
