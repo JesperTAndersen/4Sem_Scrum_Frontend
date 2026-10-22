@@ -8,6 +8,7 @@ import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner
 import PageHeader from "@/shared/components/layout/PageHeader/PageHeader";
 import Card from "@/shared/components/ui/Card/Card";
 import workloadService from "../services/workloadService";
+import AvailabilityTable from "../components/AvailabilityTable/AvailabilityTable";
 
 const daysUntilLastWeekDayInMonth = 27;
 
@@ -87,7 +88,7 @@ const RessourcePlanningPage = () => {
   };
 
   const handleOnAvailibilityView = (id) => {
-    navigate(`/users/${id}`);
+    navigate(`/employees/${id}`);
   };
 
   const handleFilterChange = (key, value) => {
@@ -136,9 +137,9 @@ const RessourcePlanningPage = () => {
           <LoadingSpinner text="Henter brugere..." inline />
         ) : (
           <>
-            <UsersTable
-              users={filteredConflictEmployees}
-              onView={handleOnView}
+            <AvailabilityTable
+              employees={filteredConflictEmployees}
+              onView={handleOnConflictView}
             />
             {filteredConflictEmployees.length === 0 && (
               <TableEmptyState
@@ -171,9 +172,9 @@ const RessourcePlanningPage = () => {
           <LoadingSpinner text="Henter medarbejdere..." inline />
         ) : (
           <>
-            <UsersTable
-              users={filteredAvailibilityEmployees}
-              onView={handleOnView}
+            <AvailabilityTable
+              employees={filteredAvailibilityEmployees}
+              onView={handleOnAvailibilityView}
             />
 
             {filteredAvailibilityEmployees.length === 0 && (

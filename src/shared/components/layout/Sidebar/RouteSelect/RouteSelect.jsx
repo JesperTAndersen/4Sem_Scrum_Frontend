@@ -1,6 +1,13 @@
 import { NavLink } from "react-router";
 import styles from "./RouteSelect.module.css";
-import { FiGrid, FiFolder, FiTool, FiUsers, FiUserCheck } from "react-icons/fi";
+import {
+  FiGrid,
+  FiFolder,
+  FiTool,
+  FiUsers,
+  FiUserCheck,
+  FiCalendar,
+} from "react-icons/fi";
 
 const RouteSelect = ({ collapsed }) => {
   return (
@@ -42,11 +49,19 @@ const RouteSelect = ({ collapsed }) => {
         collapsed={collapsed}
       />
 
+      <Route
+        to="/capacity"
+        title="Kapacitet"
+        Icon={FiCalendar}
+        collapsed={collapsed}
+      />
+
       {!collapsed && (
         <div className={styles.routesHeader}>
           <h4>System</h4>
         </div>
       )}
+
       <Route to="/users" title="Brugere" Icon={FiUsers} collapsed={collapsed} />
     </div>
   );
