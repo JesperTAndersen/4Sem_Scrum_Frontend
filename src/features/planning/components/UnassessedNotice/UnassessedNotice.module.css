@@ -1,0 +1,30 @@
+.notice {
+  margin: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--text-sm);
+  color: var(--color-badge-warning-text);
+  background-color: var(--color-badge-warning-bg);
+  border-radius: var(--radius-md);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.text {
+  flex: 1;
+  margin: 0;
+}
+
+.table {
+  width: 100%;
+  margin-top: var(--spacing-xs);
+  border-collapse: collapse;
+  text-align: left;
+}

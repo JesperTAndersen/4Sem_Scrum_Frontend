@@ -10,6 +10,7 @@ const COMMANDS = [
   { label: "Kompetencer", path: "/competences" },
   { label: "Brugere", path: "/users" },
   { label: "Profil", path: "/profile" },
+  { label: "Kapacitet", path: "/capacity" }
 ];
 
 const Search = ({ collapsed }) => {
