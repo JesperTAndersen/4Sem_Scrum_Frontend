@@ -36,6 +36,13 @@ const fitNameToBar = (name, start, end, pixelsPerDay) => {
   return `${name.slice(0, Math.max(maxChars - 1, 1))}…`;
 };
 
+// Backend returns stages and tasks in no particular order
+const byStartDate = (a, b) => {
+  if (!a.startDate) return 1;
+  if (!b.startDate) return -1;
+  return new Date(a.startDate) - new Date(b.startDate) || a.id - b.id;
+};
+
 const getStatusClass = (status = "") =>
   `task-${status.toLowerCase().replaceAll("_", "-")}`;
 
@@ -48,8 +55,8 @@ const ProjectGantt = ({ project, onTaskClick }) => {
       return [];
     }
 
-    return project.stages.flatMap((stage) => {
-      const tasks = stage.tasks ?? [];
+    return [...project.stages].sort(byStartDate).flatMap((stage) => {
+      const tasks = [...(stage.tasks ?? [])].sort(byStartDate);
       const rows = [];
 
       if (stage.startDate && stage.endDate) {
