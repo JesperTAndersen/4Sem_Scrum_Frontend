@@ -35,16 +35,20 @@
 }
 
 .taskName {
+  display: -webkit-box;
   margin: 0;
+  overflow: hidden;
   font-size: var(--text-base);
   font-weight: var(--weight-bold);
   line-height: 1.35;
   color: var(--color-text-primary);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .period {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
+  white-space: nowrap;
 }
 
 .meta {
@@ -73,9 +77,38 @@
   text-align: right;
 }
 
+.badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  gap: var(--spacing-xxs);
+}
+
+.counters {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+}
+
+.openLink {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  margin-left: auto;
+}
+
 .footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   gap: var(--spacing-xxs);
   margin-top: auto;

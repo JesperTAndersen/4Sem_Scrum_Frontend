@@ -147,3 +147,39 @@ const getMondayOfWeek = (year, weekNumber) => {
 
   return monday;
 };
+
+export const formatShortDate = (date) =>
+  new Date(date).toLocaleDateString("da-DK", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
+// Local date as "YYYY-MM-DD". toISOString() is not used because it converts to UTC and can return the previous day.
+export const toDateString = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+// Reads "YYYY-MM-DD" as a local date instead of UTC midnight.
+export const parseDateString = (value) => {
+  const [year, month, day] = value.split("-").map(Number);
+  return new Date(year, month - 1, day);
+};
+
+// Today plus 27 days is four weeks when both dates are included.
+const FOUR_WEEKS_IN_DAYS = 27;
+
+// The next four weeks from today as "YYYY-MM-DD" strings, ready to send to the API.
+export const getNextFourWeeks = () => {
+  const today = new Date();
+  const end = new Date(today);
+  end.setDate(today.getDate() + FOUR_WEEKS_IN_DAYS);
+
+  return {
+    startDate: toDateString(today),
+    endDate: toDateString(end),
+  };
+};

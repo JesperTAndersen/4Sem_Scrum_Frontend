@@ -5,7 +5,8 @@ import styles from "./TaskDependencies.module.css";
 import Button from "@/shared/components/ui/Button/Button";
 import Select from "@/shared/components/filter/Select/Select";
 
-import { FiTrash2 } from "react-icons/fi";
+import Badge from "@/shared/components/ui/Badge/Badge";
+import { FiArrowRight, FiTrash2 } from "react-icons/fi";
 
 const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
   const [selectedPredecessorId, setSelectedPredecessorId] = useState("");
@@ -16,6 +17,10 @@ const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
       task.predecessorIds?.includes(candidate.id),
     );
   }, [tasks, task.predecessorIds]);
+
+  const allPredecessorsDone = predecessorTasks.every(
+    (predecessor) => predecessor.status === "DONE",
+  );
 
   const availablePredecessors = useMemo(() => {
     return tasks.filter(
@@ -61,11 +66,51 @@ const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
           <h3 className={styles.title}>Afhængigheder</h3>
 
           <p className={styles.description}>
-            Vælg hvilke opgaver der skal være færdige, før denne opgave kan
-            starte.
+            Vælg hvilke opgaver i samme etape der skal være færdige, før denne
+            opgave kan starte.
           </p>
         </div>
       </div>
+
+      {predecessorTasks.length > 0 ? (
+        <div className={styles.flow}>
+          {predecessorTasks.map((predecessor) => (
+            <div key={predecessor.id} className={styles.chipGroup}>
+              <div className={styles.chip} title={predecessor.name}>
+                <span className={styles.chipName}>{predecessor.name}</span>
+
+                <Badge status={predecessor.status} />
+
+                <Button
+                  type="button"
+                  variant="ghostDanger"
+                  iconOnly
+                  title="Fjern afhængighed"
+                  icon={<FiTrash2 size={16} />}
+                  disabled={isSubmitting}
+                  onClick={() => handleRemove(predecessor.id)}
+                />
+              </div>
+
+              <FiArrowRight
+                size={20}
+                className={
+                  allPredecessorsDone ? styles.arrowReady : styles.arrow
+                }
+              />
+            </div>
+          ))}
+
+          <div className={styles.currentChip}>
+            <span className={styles.currentLabel}>Denne opgave</span>
+            <span className={styles.chipName}>{task.name}</span>
+          </div>
+        </div>
+      ) : (
+        <p className={styles.emptyText}>
+          Denne opgave har ingen afhængigheder.
+        </p>
+      )}
 
       <div className={styles.addSection}>
         <Select
@@ -83,34 +128,6 @@ const TaskDependencies = ({ task, tasks = [], onAdd, onRemove }) => {
           disabled={!selectedPredecessorId || isSubmitting}
           onClick={handleAdd}
         />
-      </div>
-
-      <div className={styles.list}>
-        {predecessorTasks.length > 0 ? (
-          predecessorTasks.map((predecessor) => (
-            <div key={predecessor.id} className={styles.item}>
-              <div className={styles.itemContent}>
-                <span className={styles.itemName}>{predecessor.name}</span>
-
-                <span className={styles.itemMeta}>
-                  {predecessor.estimate ?? 0} timer
-                </span>
-              </div>
-
-              <Button
-                type="button"
-                variant="ghostDanger"
-                iconOnly
-                title="Fjern afhængighed"
-                icon={<FiTrash2 size={16} />}
-                disabled={isSubmitting}
-                onClick={() => handleRemove(predecessor.id)}
-              />
-            </div>
-          ))
-        ) : (
-          <p className={styles.empty}>Denne opgave har ingen afhængigheder.</p>
-        )}
       </div>
     </div>
   );

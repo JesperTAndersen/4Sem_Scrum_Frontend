@@ -11,6 +11,10 @@ const STATUS_COLORS = {
   DISABLED: styles.neutral,
   INFEASIBLE: styles.warning,
   FEASIBLE: styles.success,
+  UNDETERMINED: styles.neutral,
+  STAFFED: styles.success,
+  STAFFING_REQUIRED: styles.warning,
+  NO_AVAILABLE_CAPACITY: styles.danger,
 };
 
 const STATUS_LABELS = {
@@ -24,6 +28,10 @@ const STATUS_LABELS = {
   DONE: "Færdig",
   INFEASIBLE: "Kan ikke nås",
   FEASIBLE: "Kan nås",
+  UNDETERMINED: "Kan ikke beregnes",
+  STAFFED: "Bemandet",
+  STAFFING_REQUIRED: "Mangler bemanding",
+  NO_AVAILABLE_CAPACITY: "Ingen kapacitet",
 };
 
 const Badge = ({ status, label }) => {

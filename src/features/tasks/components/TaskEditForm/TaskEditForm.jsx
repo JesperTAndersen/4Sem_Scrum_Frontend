@@ -1,25 +1,29 @@
 import styles from "./TaskEditForm.module.css";
 import { useState } from "react";
-
 import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 import Input from "@/shared/components/ui/Input/Input";
 import Button from "@/shared/components/ui/Button/Button";
 import Select from "@/shared/components/filter/Select/Select";
 import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
-
+import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 import { validateTask } from "../../utils/validateTask";
 
 const TaskEditForm = ({ task, onSubmit, onCancel, competences = [] }) => {
   const [formData, setFormData] = useState({
     name: task.name ?? "",
     estimate: task.estimate ?? "",
+    bestEstimate: task.bestEstimate ?? "",
+    likelyEstimate: task.likelyEstimate ?? "",
+    worstEstimate: task.worstEstimate ?? "",
     minimumDurationInDays: task.minimumDurationInDays ?? "",
     competenceId: task.competence?.id ?? "",
   });
 
   const [errors, setErrors] = useState({
     name: "",
-    estimate: "",
+    bestEstimate: "",
+    likelyEstimate: "",
+    worstEstimate: "",
     minimumDurationInDays: "",
     competenceId: "",
   });
@@ -63,7 +67,9 @@ const TaskEditForm = ({ task, onSubmit, onCancel, competences = [] }) => {
       const payload = {
         name: formData.name.trim(),
         competenceId: Number(formData.competenceId),
-        estimate: Number(formData.estimate),
+        bestEstimate: Number(formData.bestEstimate),
+        likelyEstimate: Number(formData.likelyEstimate),
+        worstEstimate: Number(formData.worstEstimate),
         minimumDurationInDays: Number(formData.minimumDurationInDays),
       };
 
@@ -103,17 +109,47 @@ const TaskEditForm = ({ task, onSubmit, onCancel, competences = [] }) => {
         required
       />
 
+      <SectionHeader title={"Estimering sker vha. PERT"} />
+
       <Input
-        label="Tidsestimering"
+        label="Bedste Tidsestimering"
         type="number"
-        name="estimate"
-        value={formData.estimate}
+        name="bestEstimate"
+        value={formData.bestEstimate}
         onChange={handleChange}
         placeholder="8"
         min="0"
         step="0.5"
-        hasError={!!errors.estimate}
-        errorMessage={errors.estimate}
+        hasError={!!errors.bestEstimate}
+        errorMessage={errors.bestEstimate}
+        required
+      />
+
+      <Input
+        label="Sandsynligt Tidsestimering"
+        type="number"
+        name="likelyEstimate"
+        value={formData.likelyEstimate}
+        onChange={handleChange}
+        placeholder="8"
+        min="0"
+        step="0.5"
+        hasError={!!errors.likelyEstimate}
+        errorMessage={errors.likelyEstimate}
+        required
+      />
+
+      <Input
+        label="Værste Tidsestimering"
+        type="number"
+        name="worstEstimate"
+        value={formData.worstEstimate}
+        onChange={handleChange}
+        placeholder="8"
+        min="0"
+        step="0.5"
+        hasError={!!errors.worstEstimate}
+        errorMessage={errors.worstEstimate}
         required
       />
 

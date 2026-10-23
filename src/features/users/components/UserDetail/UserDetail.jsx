@@ -19,9 +19,7 @@ const UserDetail = ({ user, children }) => {
           <h1 className={styles.title}>
             {user.firstName} {user.lastName}
           </h1>
-          <span className={styles.roleBadge}>
-            {formatUserRole(user.userRole)}
-          </span>
+          <span className={styles.roleBadge}>{formatUserRole(user.role)}</span>
         </div>
       </div>
 

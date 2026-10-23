@@ -2,6 +2,7 @@ import styles from "./ProjectsTable.module.css";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import { FiChevronRight } from "react-icons/fi";
 import { formatDate } from "@/utils/dateHelpers";
+import getFeasibilityStatus from "../../utils/getFeasibilityStatus";
 
 const ProjectsTable = ({ projects, onView }) => {
   return (
@@ -50,12 +51,13 @@ const ProjectsTable = ({ projects, onView }) => {
               <td>
                 {p.schedule ? (
                   <div className={styles.infoCell}>
-                    <Badge
-                      status={p.schedule.feasible ? "FEASIBLE" : "INFEASIBLE"}
-                    />
+                    <Badge status={getFeasibilityStatus(p.schedule)} />
 
                     <span className={styles.date}>
-                      Forventet: {formatDate(p.schedule.calculatedFinishDate)}
+                      Forventet:{" "}
+                      {p.schedule.calculatedFinishDate
+                        ? formatDate(p.schedule.calculatedFinishDate)
+                        : "-"}
                     </span>
                   </div>
                 ) : (

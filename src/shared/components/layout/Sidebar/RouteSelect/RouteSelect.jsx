@@ -3,12 +3,10 @@ import styles from "./RouteSelect.module.css";
 import {
   FiGrid,
   FiFolder,
-  FiLayers,
-  FiCheckSquare,
   FiTool,
-  FiDollarSign,
   FiUsers,
   FiUserCheck,
+  FiCalendar,
 } from "react-icons/fi";
 
 const RouteSelect = ({ collapsed }) => {
@@ -32,34 +30,29 @@ const RouteSelect = ({ collapsed }) => {
         Icon={FiFolder}
         collapsed={collapsed}
       />
-      <Route
-        to="/stages"
-        title="Etaper"
-        Icon={FiLayers}
-        collapsed={collapsed}
-      />
-      <Route
-        to="/tasks"
-        title="Opgaver"
-        Icon={FiCheckSquare}
-        collapsed={collapsed}
-      />
 
       {!collapsed && (
         <div className={styles.routesHeader}>
-          <h4>Estimering</h4>
+          <h4>Ressourcer</h4>
         </div>
       )}
+      <Route
+        to="/employees"
+        title="Medarbejdere"
+        Icon={FiUserCheck}
+        collapsed={collapsed}
+      />
       <Route
         to="/competences"
         title="Kompetencer"
         Icon={FiTool}
         collapsed={collapsed}
       />
+
       <Route
-        to="/costs"
-        title="Omkostninger"
-        Icon={FiDollarSign}
+        to="/capacity"
+        title="Kapacitet"
+        Icon={FiCalendar}
         collapsed={collapsed}
       />
 
@@ -68,13 +61,8 @@ const RouteSelect = ({ collapsed }) => {
           <h4>System</h4>
         </div>
       )}
+
       <Route to="/users" title="Brugere" Icon={FiUsers} collapsed={collapsed} />
-      <Route
-        to="/employees"
-        title="Medarbejdere"
-        Icon={FiUserCheck}
-        collapsed={collapsed}
-      />
     </div>
   );
 };

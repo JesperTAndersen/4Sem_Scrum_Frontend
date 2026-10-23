@@ -1,46 +1,33 @@
 import { useNavigate } from "react-router";
 import styles from "./ProjectDetailBar.module.css";
-import BackButton from "@/shared/components/ui/BackButton/BackButton";
 import Badge from "@/shared/components/ui/Badge/Badge";
 import Avatar from "@/shared/components/ui/Avatar/Avatar";
 import { formatDate } from "@/utils/dateHelpers";
+import getFeasibilityStatus from "../../utils/getFeasibilityStatus";
 import { formatUserRole } from "@/utils/formatters";
+import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
+import TaskProgress from "@/features/tasks/components/TaskProgress/TaskProgress";
 
-const ProjectDetailBar = ({ project, users = [], children }) => {
+const ProjectDetailBar = ({ project, users = [] }) => {
   const navigate = useNavigate();
 
   const {
-    totalTaskCount = 0,
     taskDone = 0,
     tasksInProgress = 0,
     tasksNotStarted = 0,
   } = project?.tasks ?? {};
 
-  const progressPercent =
-    totalTaskCount > 0 ? Math.round((taskDone / totalTaskCount) * 100) : 0;
+  const allTasks = project?.stages?.flatMap((stage) => stage.tasks ?? []) ?? [];
+  const staffedTaskCount = allTasks.filter(
+    (task) => task.staffingStatus === "STAFFED",
+  ).length;
 
   return (
     <div className={styles.container}>
-      <BackButton />
-
-      <div className={styles.header}>
-        <div className={styles.headerMain}>
-          <div className={styles.headerContent}>
-            <div className={styles.titleRow}>
-              <h1 className={styles.title}>{project?.title}</h1>
-
-              <Badge status={project?.status} />
-            </div>
-
-            {project?.description && (
-              <p className={styles.description}>{project.description}</p>
-            )}
-          </div>
-
-          {children && <div className={styles.headerActions}>{children}</div>}
-        </div>
-      </div>
-
+      <SectionHeader
+        title="Overblik"
+        description="Projektets nøgletal, opgavestatus, bemanding og projektledere."
+      />
       <div className={styles.group}>
         <div className={styles.summaryGrid}>
           <div className={styles.summaryCard}>
@@ -51,9 +38,7 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
             </span>
 
             {project?.schedule && (
-              <Badge
-                status={project.schedule.feasible ? "FEASIBLE" : "INFEASIBLE"}
-              />
+              <Badge status={getFeasibilityStatus(project.schedule)} />
             )}
           </div>
 
@@ -82,48 +67,24 @@ const ProjectDetailBar = ({ project, users = [], children }) => {
               {(project?.totalCost ?? 0).toLocaleString("da-DK")} kr.
             </span>
           </div>
+
+          <div className={styles.summaryCard}>
+            <span className={styles.label}>Bemanding</span>
+
+            <span className={styles.summaryValue}>
+              {staffedTaskCount} af {allTasks.length} opgaver bemandet
+            </span>
+          </div>
         </div>
       </div>
 
       <div className={styles.group}>
-        <div className={styles.progressHeader}>
-          <div>
-            <h3 className={styles.groupTitle}>Fremdrift</h3>
-
-            <span className={styles.progressText}>
-              {taskDone} ud af {totalTaskCount} opgaver færdige
-            </span>
-          </div>
-
-          <span className={styles.progressPercent}>{progressPercent}%</span>
-        </div>
-
-        <progress
-          className={styles.progress}
-          value={taskDone}
-          max={totalTaskCount || 1}
-          aria-label={`${taskDone} ud af ${totalTaskCount} opgaver færdige`}
+        <TaskProgress
+          title="Fremdrift"
+          done={taskDone}
+          inProgress={tasksInProgress}
+          notStarted={tasksNotStarted}
         />
-
-        <div className={styles.taskStats}>
-          <div className={styles.taskStat}>
-            <span className={styles.taskStatValue}>{taskDone}</span>
-
-            <span className={styles.taskStatLabel}>Færdige</span>
-          </div>
-
-          <div className={styles.taskStat}>
-            <span className={styles.taskStatValue}>{tasksInProgress}</span>
-
-            <span className={styles.taskStatLabel}>I gang</span>
-          </div>
-
-          <div className={styles.taskStat}>
-            <span className={styles.taskStatValue}>{tasksNotStarted}</span>
-
-            <span className={styles.taskStatLabel}>Ikke startet</span>
-          </div>
-        </div>
       </div>
 
       <div className={styles.group}>

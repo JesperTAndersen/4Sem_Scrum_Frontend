@@ -3,6 +3,7 @@ import LogoContainer from "./LogoContainer/LogoContainer";
 import Search from "./Search/Search";
 import RouteSelect from "./RouteSelect/RouteSelect";
 import SidebarFooter from "./SidebarFooter/SidebarFooter";
+import QuickCreate from "./QuickCreate/QuickCreate";
 import { useState } from "react";
 
 const Sidebar = () => {
@@ -13,6 +14,7 @@ const Sidebar = () => {
       <div className={styles.sidebarContainer}>
         <LogoContainer collapsed={collapsed} />
         <Search collapsed={collapsed} />
+        <QuickCreate collapsed={collapsed} />
         <RouteSelect collapsed={collapsed} />
         <SidebarFooter
           collapsed={collapsed}

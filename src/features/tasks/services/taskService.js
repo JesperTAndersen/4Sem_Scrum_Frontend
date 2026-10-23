@@ -48,6 +48,25 @@ const removePredecessor = async (taskId, predecessorId) => {
   );
 };
 
+const replaceEmployees = async (taskId, employeeIds) => {
+  return await apiClient(`${RESOURCE_URL}/${taskId}/employees`, {
+    method: "PUT",
+    body: { employeeIds },
+  });
+};
+
+const unAssignEmployee = async (taskId, employeeId) => {
+  return await apiClient(`${RESOURCE_URL}/${taskId}/employees/${employeeId}`, {
+    method: "DELETE",
+  });
+};
+
+const assignEmployee = async (taskId, employeeId) => {
+  return await apiClient(`${RESOURCE_URL}/${taskId}/employees/${employeeId}`, {
+    method: "POST",
+  });
+};
+
 export default {
   getAll,
   getById,
@@ -56,4 +75,7 @@ export default {
   remove,
   addPredecessor,
   removePredecessor,
+  replaceEmployees,
+  unAssignEmployee,
+  assignEmployee,
 };

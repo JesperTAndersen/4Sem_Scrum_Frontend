@@ -1,5 +1,5 @@
 import styles from "../shared/selectStyles.module.css";
-import { ROLE_OPTIONS } from "../../../utils/constants";
+import { ROLE_OPTIONS } from "@/utils/constants";
 
 const RoleSelect = ({ value, onChange }) => {
   return (

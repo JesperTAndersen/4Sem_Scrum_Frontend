@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNotification } from "@/context/NotificationContext";
-import { useLocation, useNavigate, useOutletContext } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import styles from "./UserManagementPage.module.css";
 import TableSearch from "@/shared/components/filter/TableSearch/TableSearch";
 import TableEmptyState from "@/shared/components/ui/TableEmptyState/TableEmptyState";
@@ -48,7 +48,7 @@ const UserManagementPage = () => {
   }, []);
 
   const handleOnView = (id) => {
-    navigate(`/admin/users/${id}`);
+    navigate(`/users/${id}`);
   };
 
   const handleFilterChange = (key, value) => {
@@ -67,7 +67,7 @@ const UserManagementPage = () => {
         fullName.includes(search) || u.email.toLowerCase().includes(search)
       );
     })
-    .filter((u) => filter.role === "ALL" || u.userRole === filter.role);
+    .filter((u) => filter.role === "ALL" || u.role === filter.role);
 
   return (
     <div className={styles.pageContainer}>

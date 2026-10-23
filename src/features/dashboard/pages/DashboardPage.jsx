@@ -1,68 +1,136 @@
 import styles from "./DashboardPage.module.css";
 import { useEffect, useState } from "react";
 import { useNotification } from "../../../context/NotificationContext";
-import { formatCurrency } from "@/utils/formatters";
+import { formatCurrency, formatNumber } from "@/utils/formatters";
 import StatCard from "../components/StatCard/StatCard";
-import ProjectsCard from "../components/ProjectsCard/ProjectsCard";
-import projectService from "@/features/projects/services/projectService";
+import AtRisksCard from "../components/AtRisksCard/AtRisksCard";
+import UpcomingDeadlinesCard from "../components/UpcomingDeadlinesCard/UpcomingDeadlinesCard";
+import TaskStatusCard from "../components/TaskStatusCard/TaskStatusCard";
+import ProjectStatusCard from "../components/ProjectStatusCard/ProjectStatusCard";
+import calculateEstimatedDays from "../utils/calculatedEstimatedDays";
 import { useNavigate } from "react-router";
+import dashboardService from "../services/dashboardService";
+import calculateCostPerHour from "../utils/calculateCostPerHour";
 
 const DashboardPage = () => {
   const { notify } = useNotification();
-  const [projects, setProjects] = useState(null);
+  const [summary, setSummary] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    const fetchProjects = async () => {
+    const fetchSummary = async () => {
       try {
-        const data = await projectService.getAll();
-        setProjects(data);
+        const dashboardSummaryData = await dashboardService.getSummary();
+        setSummary(dashboardSummaryData);
       } catch (error) {
         notify(
           "error",
-          error.message || "Noget gik galt ved hentning af projekter.",
+          error.message || "Noget gik galt ved hentning af statistikken",
         );
       } finally {
         setIsLoading(false);
       }
     };
-
-    fetchProjects();
+    fetchSummary();
   }, []);
 
   const handleOnView = (id) => {
     navigate(`/projects/${id}`);
-  }
+  };
+
+  const handleOnSelectStatus = (status) => {
+    navigate("/projects", { state: { status } });
+  };
+
+  const activeProjects = summary
+    ? summary.projects.total - summary.projects.byStatus.COMPLETED
+    : "-";
+  const atRiskCount = summary?.atRisk.length ?? 0;
+  const estimatedDays = summary
+    ? calculateEstimatedDays(
+        summary.remainingHours,
+        summary.capacity.dailyCapacity,
+      )
+    : null;
+  const costPerHour = summary
+    ? calculateCostPerHour(summary.totalCost, summary.totalEstimatedHours)
+    : null;
 
   return (
     <div className={styles.contentArea}>
       <StatCard
         title="Aktive projekter"
-        value={3}
-        subtext="1 kladde, 1 planlagt"
-        cols={4}
-        isLoading={false}
+        value={activeProjects}
+        subtext={atRiskCount > 0 ? `${atRiskCount} i risiko` : "Ingen i risiko"}
+        cols={3}
+        isLoading={isLoading}
       />
 
       <StatCard
-        title="Estimerede timer"
-        subtext="På tværs af alle projekter"
-        value={1240}
-        cols={4}
-        isLoading={false}
+        title="Resterende arbejde"
+        value={summary ? `${formatNumber(summary.remainingHours)} t` : "-"}
+        subtext={
+          summary &&
+          `af ${formatNumber(summary.totalEstimatedHours)} t estimeret · ${
+            estimatedDays !== null
+              ? `≈ ${estimatedDays} arbejdsdage`
+              : "ingen aktive medarbejdere"
+          }`
+        }
+        cols={3}
+        isLoading={isLoading}
       />
 
       <StatCard
-        title="Estimeret lønomkostning"
-        subtext={"Baseret på 5 kompetencer"}
-        value={formatCurrency(800123)}
-        cols={4}
-        isLoading={false}
+        title="Aktiv projektværdi"
+        value={summary ? formatCurrency(summary.totalCost) : "-"}
+        subtext={
+          summary &&
+          (costPerHour !== null
+            ? `≈ ${formatCurrency(costPerHour)} pr. time`
+            : "Ingen estimerede timer")
+        }
+        cols={3}
+        isLoading={isLoading}
       />
 
-      <ProjectsCard cols={6} projects={projects} isLoading={isLoading} onView={handleOnView} />
+      <StatCard
+        title="Kapacitet"
+        value={
+          summary
+            ? `${formatNumber(summary.capacity.dailyCapacity)} t/dag`
+            : "-"
+        }
+        subtext={
+          summary && `${summary.capacity.activeEmployees} aktive medarbejdere`
+        }
+        cols={3}
+        isLoading={isLoading}
+      />
+
+      <AtRisksCard
+        cols={6}
+        projects={summary?.atRisk}
+        isLoading={isLoading}
+        onView={handleOnView}
+      />
+
+      <UpcomingDeadlinesCard
+        cols={6}
+        projects={summary?.upcomingDeadlines}
+        isLoading={isLoading}
+        onView={handleOnView}
+      />
+
+      <TaskStatusCard cols={6} tasks={summary?.tasks} isLoading={isLoading} />
+
+      <ProjectStatusCard
+        cols={6}
+        projects={summary?.projects}
+        isLoading={isLoading}
+        onSelectStatus={handleOnSelectStatus}
+      />
     </div>
   );
 };

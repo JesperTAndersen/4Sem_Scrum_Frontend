@@ -28,12 +28,6 @@ const assignRole = async (id, body) => {
   });
 };
 
-const assignStation = async (userId, stationId) => {
-  return await apiClient(`${RESOURCE}/${userId}/station/${stationId}`, {
-    method: "PATCH",
-  });
-};
-
 const changeEmail = async (id, body) => {
   return await apiClient(`${RESOURCE}/${id}/email`, {
     method: "PATCH",
@@ -60,7 +54,6 @@ export default {
   getMe,
   update,
   assignRole,
-  assignStation,
   changeEmail,
   changePassword,
   remove,

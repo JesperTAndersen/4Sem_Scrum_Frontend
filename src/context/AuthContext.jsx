@@ -1,14 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 
-const MOCK_USER = {
-  id: 1,
-  firstName: "Morten",
-  lastName: "Jensen",
-  email: "morten@estimo.dk",
-  userRole: "PROJECT_MANAGER",
-};
-
 const AuthContext = createContext(null);
 
 const isTokenExpired = (token) => {
@@ -34,16 +26,11 @@ export const AuthProvider = ({ children }) => {
     return t;
   });
 
-  const [user, setUser] = useState(MOCK_USER);
-
-  {
-    /*const [user, setUser] = useState(() => {
+  const [user, setUser] = useState(() => {
     if (!localStorage.getItem("token")) return null;
     const saved = localStorage.getItem("user");
     return saved ? JSON.parse(saved) : null;
   });
-  */
-  }
 
   const [authMessage, setAuthMessage] = useState(null);
 

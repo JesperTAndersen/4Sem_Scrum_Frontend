@@ -1,38 +1,58 @@
 import styles from "./ProjectDetailPage.module.css";
 import { useNotification } from "@/context/NotificationContext";
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 import projectService from "../../services/projectService";
 import ProjectEditForm from "../../components/ProjectEditForm/ProjectEditForm";
 import Card from "@/shared/components/ui/Card/Card";
 import LoadingSpinner from "@/shared/components/ui/LoadingSpinner/LoadingSpinner";
 import Button from "@/shared/components/ui/Button/Button";
 import ProjectDetailBar from "../../components/ProjectDetailBar/ProjectDetailBar";
+import ProjectHeader from "../../components/ProjectHeader/ProjectHeader";
 import StagesList from "@/features/stages/components/StagesList/StagesList";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import competenceService from "@/features/competences/services/competenceService";
 import taskService from "@/features/tasks/services/taskService";
-import { FiList } from "react-icons/fi";
-import { FiCalendar } from "react-icons/fi";
+import { FiList, FiCalendar, FiInfo } from "react-icons/fi";
 import ProjectGantt from "../../components/ProjectGantt/ProjectGantt";
 import TaskDetail from "@/features/tasks/components/TaskDetail/TaskDetail";
 import Modal from "@/shared/components/ui/Modal/Modal";
+import employeeService from "@/features/employees/services/employeeService";
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") ?? "overview";
+  const changeTab = (tab) => setSearchParams({ tab });
   const { notify } = useNotification();
   const [project, setProject] = useState();
   const [users, setUsers] = useState([]);
   const [competences, setCompetences] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [viewMode, setViewMode] = useState("details");
 
   const allTasks = project?.stages?.flatMap((stage) => stage.tasks ?? []) ?? [];
   const selectedTask = allTasks.find((task) => task.id === selectedTaskId);
+  const selectedStage = project?.stages?.find((stage) =>
+    stage.tasks?.some((task) => task.id === selectedTaskId),
+  );
+
+  const blockingTasks = allTasks.filter(
+    (task) =>
+      selectedTask?.predecessorIds?.includes(task.id) && task.status !== "DONE",
+  );
+
+  const blockingStages =
+    project?.stages?.filter(
+      (stage) =>
+        selectedStage?.predecessorIds?.includes(stage.id) && !stage.completed,
+    ) ?? [];
+
+  const blockedBy = [...blockingStages, ...blockingTasks].map((b) => b.name);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -69,6 +89,26 @@ const ProjectDetailPage = () => {
     };
 
     fetchCompetences();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      setIsLoading(true);
+      try {
+        const data = await employeeService.getAll();
+        setEmployees(data);
+      } catch (error) {
+        notify(
+          "error",
+          error.message ||
+            "Kunne ikke hente medarbejdere til opgave oprettelse - prøv igen.",
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEmployees();
   }, [id]);
 
   const handleUpdate = async (formData) => {
@@ -118,7 +158,7 @@ const ProjectDetailPage = () => {
   };
 
   const handleStageEdit = () => {
-    refreshProject();
+    return refreshProject();
   };
 
   const handleStageDelete = () => {
@@ -191,6 +231,31 @@ const ProjectDetailPage = () => {
     }
   };
 
+  const handleAssignEmployee = async (taskId, employeeId) => {
+    try {
+      await taskService.assignEmployee(taskId, employeeId);
+      await refreshProject();
+      notify("success", "Medarbejder tildelt til opgaven.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke tilføje medarbejderen.");
+      throw error;
+    }
+  };
+
+  const handleUnassignEmployee = async (taskId, employeeId) => {
+    try {
+      await taskService.unAssignEmployee(taskId, employeeId);
+      await refreshProject();
+      notify("success", "Medarbejder fjernet fra opgaven.");
+    } catch (error) {
+      notify(
+        "error",
+        error.message || "Kunne ikke fjerne medarbejderen fra opgaven.",
+      );
+      throw error;
+    }
+  };
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
@@ -201,7 +266,7 @@ const ProjectDetailPage = () => {
             {!isEditing ? (
               <>
                 <Card variant="card">
-                  <ProjectDetailBar project={project} users={users}>
+                  <ProjectHeader project={project}>
                     <Button
                       variant="danger"
                       name="Slet projekt"
@@ -212,29 +277,44 @@ const ProjectDetailPage = () => {
                       name="Rediger projekt"
                       onClick={() => setIsEditing(true)}
                     />
-                  </ProjectDetailBar>
+                  </ProjectHeader>
                 </Card>
 
                 <div className={styles.viewToolbar}>
                   <div className={styles.viewToggle}>
                     <Button
+                      icon={<FiInfo size={18} />}
+                      name="Overblik"
+                      variant={activeTab === "overview" ? "primary" : "ghost"}
+                      title="Vis projektets oplysninger"
+                      onClick={() => changeTab("overview")}
+                    />
+
+                    <Button
                       icon={<FiList size={18} />}
-                      name="Liste"
-                      variant={viewMode === "details" ? "primary" : "ghost"}
+                      name="Etaper & opgaver"
+                      variant={activeTab === "stages" ? "primary" : "ghost"}
                       title="Vis etaper og opgaver"
-                      onClick={() => setViewMode("details")}
+                      onClick={() => changeTab("stages")}
                     />
 
                     <Button
                       icon={<FiCalendar size={18} />}
                       name="Tidsplan"
-                      variant={viewMode === "gantt" ? "primary" : "ghost"}
+                      variant={activeTab === "schedule" ? "primary" : "ghost"}
                       title="Vis projektets tidsplan"
-                      onClick={() => setViewMode("gantt")}
+                      onClick={() => changeTab("schedule")}
                     />
                   </div>
                 </div>
-                {viewMode === "details" ? (
+
+                {activeTab === "overview" && (
+                  <Card variant="card">
+                    <ProjectDetailBar project={project} users={users} />
+                  </Card>
+                )}
+
+                {activeTab === "stages" && (
                   <Card variant="card">
                     <StagesList
                       projectId={project.id}
@@ -247,7 +327,9 @@ const ProjectDetailPage = () => {
                       onTaskView={handleOpenTask}
                     />
                   </Card>
-                ) : (
+                )}
+
+                {activeTab === "schedule" && (
                   <Card variant="card">
                     <ProjectGantt
                       project={project}
@@ -270,16 +352,21 @@ const ProjectDetailPage = () => {
 
         {selectedTask && (
           <Modal onClose={() => setSelectedTaskId(null)}>
-            <Card>
+            <Card variant="flat">
               <TaskDetail
+                onClose={() => setSelectedTaskId(null)}
                 task={selectedTask}
-                tasks={allTasks}
+                tasks={selectedStage?.tasks ?? []}
+                blockedBy={blockedBy}
                 onTaskDelete={handleDeleteTask}
                 onTaskStatusChange={handleChangeStatusTask}
                 onTaskEdit={handleEditTask}
                 competences={competences}
+                employees={employees}
                 onTaskDependencyAdd={handleTaskDependencyAdd}
                 onTaskDependencyRemove={handleTaskDependencyRemove}
+                onEmployeeAssigned={handleAssignEmployee}
+                onEmployeeUnassigned={handleUnassignEmployee}
               />
             </Card>
           </Modal>

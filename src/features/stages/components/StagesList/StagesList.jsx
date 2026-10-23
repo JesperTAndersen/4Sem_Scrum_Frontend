@@ -9,9 +9,11 @@ import { useState } from "react";
 import { useNotification } from "@/context/NotificationContext";
 import Card from "@/shared/components/ui/Card/Card";
 import StageEditForm from "../StageEditForm/StageEditForm";
+import StageDependencies from "../StageDependencies/StageDependencies";
 import ConfirmDialog from "@/shared/components/ui/ConfirmDialog/ConfirmDialog";
 import taskService from "@/features/tasks/services/taskService";
 import TaskCreateForm from "@/features/tasks/components/TaskCreateForm/TaskCreateForm";
+import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 
 const StagesList = ({
   projectId,
@@ -24,13 +26,14 @@ const StagesList = ({
   onTaskView,
 }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [editingStage, setEditingStage] = useState(null);
+  const [editingStageId, setEditingStageId] = useState(null);
   const [deletingStage, setDeletingStage] = useState(null);
   const [taskCreateStageId, setTaskCreateStageId] = useState(null);
 
   const { notify } = useNotification();
 
   const allTasks = stages.flatMap((stage) => stage.tasks ?? []);
+  const editingStage = stages.find((stage) => stage.id === editingStageId);
 
   const handleCreateStage = async (formData) => {
     try {
@@ -51,7 +54,27 @@ const StagesList = ({
       notify("error", error.message || "Kunne ikke opdatere etapen.");
       throw error;
     } finally {
-      setEditingStage(null);
+      setEditingStageId(null);
+    }
+  };
+
+  const handleStageDependencyAdd = async (stageId, predecessorId) => {
+    try {
+      await stageService.addPredecessor(stageId, predecessorId);
+      await onStageEdited();
+      notify("success", "Afhængighed tilføjet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke tilføje afhængigheden.");
+    }
+  };
+
+  const handleStageDependencyRemove = async (stageId, predecessorId) => {
+    try {
+      await stageService.removePredecessor(stageId, predecessorId);
+      await onStageEdited();
+      notify("success", "Afhængighed fjernet.");
+    } catch (error) {
+      notify("error", error.message || "Kunne ikke fjerne afhængigheden.");
     }
   };
 
@@ -83,16 +106,17 @@ const StagesList = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h3>Etaper ({stages.length})</h3>
-
+      <SectionHeader
+        title={`Etaper (${stages.length})`}
+        description="Projektets etaper og opgaver. Klik på en opgave for at se detaljer."
+      >
         <Button
           icon={<FiPlusCircle />}
           name="Opret Etape"
           variant="primary"
           onClick={() => setShowCreateForm(true)}
         />
-      </div>
+      </SectionHeader>
 
       <div className={styles.list}>
         {stages.map((stage) => (
@@ -100,7 +124,8 @@ const StagesList = ({
             key={stage.id}
             stage={stage}
             allTasks={allTasks}
-            onEdit={(stage) => setEditingStage(stage)}
+            stages={stages}
+            onEdit={(stage) => setEditingStageId(stage.id)}
             onDelete={setDeletingStage}
             onTaskCreate={setTaskCreateStageId}
             onView={onTaskView}
@@ -113,13 +138,21 @@ const StagesList = ({
         )}
 
         {editingStage && (
-          <Modal onClose={() => setEditingStage(null)}>
+          <Modal onClose={() => setEditingStageId(null)}>
             <Card>
               <StageEditForm
                 stage={editingStage}
                 onSubmit={handleUpdate}
-                handleUpdate={handleUpdate}
-                onCancel={() => setEditingStage(null)}
+                onCancel={() => setEditingStageId(null)}
+              />
+            </Card>
+
+            <Card>
+              <StageDependencies
+                stage={editingStage}
+                stages={stages}
+                onAdd={handleStageDependencyAdd}
+                onRemove={handleStageDependencyRemove}
               />
             </Card>
           </Modal>

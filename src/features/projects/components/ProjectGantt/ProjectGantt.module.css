@@ -7,7 +7,6 @@
   --gantt-in-progress-bg: var(--color-badge-warning-bg);
   --gantt-done: var(--color-success);
   --gantt-done-bg: var(--color-badge-success-bg);
-
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
@@ -18,25 +17,12 @@
   font-weight: 700;
 }
 
-.header {
+.viewToggle {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-}
-
-.title {
-  margin: 0;
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-  color: var(--color-text-primary);
-}
-
-.description {
-  margin: var(--spacing-xs) 0 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  gap: var(--spacing-xxs);
+  padding: var(--spacing-xxs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .legend {
@@ -97,6 +83,40 @@
   font-size: var(--text-sm);
   font-style: italic;
   color: var(--color-text-muted);
+}
+
+.undetermined {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.undeterminedTitle {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.undeterminedItem {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) 0;
+  font-size: var(--text-sm);
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.undeterminedItem:last-child {
+  border-bottom: none;
+}
+
+.undeterminedItem:hover {
+  background-color: var(--color-bg-section);
+}
+
+.undeterminedText {
+  color: var(--color-badge-warning-text);
 }
 
 .container :global(svg.gantt) {
