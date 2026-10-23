@@ -9,6 +9,7 @@ import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
 
 import { validateTask } from "../../utils/validateTask";
 import { useNotification } from "@/context/NotificationContext";
+import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 
 const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
   const { notify } = useNotification();
@@ -116,8 +117,10 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
         required
       />
 
+      <SectionHeader title={"Estimering sker vha. PERT"} />
+
       <Input
-        label="Beste Tidsestimering"
+        label="Bedste Tidsestimering"
         type="number"
         name="bestEstimate"
         value={formData.bestEstimate}

@@ -1,12 +1,11 @@
 import styles from "./TaskEditForm.module.css";
 import { useState } from "react";
-
 import FormLayout from "@/shared/components/layout/FormLayout/FormLayout";
 import Input from "@/shared/components/ui/Input/Input";
 import Button from "@/shared/components/ui/Button/Button";
 import Select from "@/shared/components/filter/Select/Select";
 import FormHeader from "@/shared/components/layout/FormHeader/FormHeader";
-
+import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 import { validateTask } from "../../utils/validateTask";
 
 const TaskEditForm = ({ task, onSubmit, onCancel, competences = [] }) => {
@@ -110,8 +109,10 @@ const TaskEditForm = ({ task, onSubmit, onCancel, competences = [] }) => {
         required
       />
 
+      <SectionHeader title={"Estimering sker vha. PERT"} />
+
       <Input
-        label="Beste Tidsestimering"
+        label="Bedste Tidsestimering"
         type="number"
         name="bestEstimate"
         value={formData.bestEstimate}

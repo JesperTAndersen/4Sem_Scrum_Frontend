@@ -33,6 +33,8 @@ const RessourcePlanningPage = () => {
   const [availabilityLoading, setAvailabilityLoading] = useState(true);
   const [availabilityError, setAvailabilityError] = useState(null);
 
+  console.log(conflicts);
+
   useEffect(() => {
     if (!period.startDate || !period.endDate) {
       return;
