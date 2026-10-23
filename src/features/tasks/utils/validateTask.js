@@ -4,7 +4,9 @@ export const validateTask = (formData) => {
   const errors = {
     name: validateField("task", "name", formData.name),
 
-    estimate: validateField("task", "estimate", formData.estimate),
+    bestEstimate: validateField("task", "bestEstimate", formData.bestEstimate),
+    likelyEstimate: validateField("task", "likelyEstimate", formData.likelyEstimate),
+    worstEstimate: validateField("task", "worstEstimate", formData.worstEstimate),
 
     minimumDurationInDays: validateField(
       "task",

@@ -16,14 +16,18 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
   const [formData, setFormData] = useState({
     stageId,
     name: "",
-    estimate: "",
+    bestEstimate: "",
+    likelyEstimate: "",
+    worstEstimate: "",
     minimumDurationInDays: "",
     competenceId: "",
   });
 
   const [errors, setErrors] = useState({
     name: "",
-    estimate: "",
+    bestEstimate: "",
+    likelyEstimate: "",
+    worstEstimate: "",
     minimumDurationInDays: "",
     competenceId: "",
   });
@@ -68,7 +72,9 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
         stageId: Number(formData.stageId),
         name: formData.name.trim(),
         competenceId: Number(formData.competenceId),
-        estimate: Number(formData.estimate),
+        bestEstimate: Number(formData.bestEstimate),
+        likelyEstimate: Number(formData.likelyEstimate),
+        worstEstimate: Number(formData.worstEstimate),
         minimumDurationInDays: Number(formData.minimumDurationInDays),
       };
 
@@ -111,16 +117,44 @@ const TaskCreateForm = ({ onSubmit, onCancel, stageId, competences = [] }) => {
       />
 
       <Input
-        label="Tidsestimering"
+        label="Beste Tidsestimering"
         type="number"
-        name="estimate"
-        value={formData.estimate}
+        name="bestEstimate"
+        value={formData.bestEstimate}
         onChange={handleChange}
         placeholder="8"
         min="0"
         step="0.5"
-        hasError={!!errors.estimate}
-        errorMessage={errors.estimate}
+        hasError={!!errors.bestEstimate}
+        errorMessage={errors.bestEstimate}
+        required
+      />
+
+      <Input
+        label="Sandsynligt Tidsestimering"
+        type="number"
+        name="likelyEstimate"
+        value={formData.likelyEstimate}
+        onChange={handleChange}
+        placeholder="8"
+        min="0"
+        step="0.5"
+        hasError={!!errors.likelyEstimate}
+        errorMessage={errors.likelyEstimate}
+        required
+      />
+
+      <Input
+        label="Værste Tidsestimering"
+        type="number"
+        name="worstEstimate"
+        value={formData.worstEstimate}
+        onChange={handleChange}
+        placeholder="8"
+        min="0"
+        step="0.5"
+        hasError={!!errors.worstEstimate}
+        errorMessage={errors.worstEstimate}
         required
       />
 
