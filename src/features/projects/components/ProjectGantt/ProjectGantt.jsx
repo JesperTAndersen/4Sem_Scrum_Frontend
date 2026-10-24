@@ -1,16 +1,32 @@
 import styles from "./ProjectGantt.module.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Gantt from "frappe-gantt";
+import { FiMaximize2, FiMinimize2 } from "react-icons/fi";
 
 import getTaskProgress from "../../utils/getTaskProgress";
 import Button from "@/shared/components/ui/Button/Button";
-import { formatDate } from "@/utils/dateHelpers";
+import { formatDate, toDateString } from "@/utils/dateHelpers";
 import SectionHeader from "@/shared/components/layout/SectionHeader/SectionHeader";
 
 const COLUMN_WIDTH = { Day: 44, Week: 140 };
 const PIXELS_PER_DAY = { Day: 44, Week: 20 };
 const CHAR_WIDTH = 8;
 const DAY_MS = 24 * 60 * 60 * 1000;
+const BAR_HEIGHT = 22;
+const BAR_PADDING = 12;
+const HEADER_HEIGHT = 100;
+const MIN_HEIGHT = 400;
+const SCREEN_SPACE = 140;
+const EXPANDED_SPACE = 160;
+const CONTEXT_ROWS = 2;
+
+const getChartHeight = (rowCount, isExpanded) => {
+  const contentHeight = HEADER_HEIGHT + rowCount * (BAR_HEIGHT + BAR_PADDING);
+  const space = isExpanded ? EXPANDED_SPACE : SCREEN_SPACE;
+  const screenHeight = Math.max(MIN_HEIGHT, window.innerHeight - space);
+
+  return Math.min(contentHeight, screenHeight);
+};
 
 const getStageProgress = (tasks = []) => {
   if (tasks.length === 0) {
@@ -36,7 +52,6 @@ const fitNameToBar = (name, start, end, pixelsPerDay) => {
   return `${name.slice(0, Math.max(maxChars - 1, 1))}…`;
 };
 
-// Backend returns stages and tasks in no particular order
 const byStartDate = (a, b) => {
   if (!a.startDate) return 1;
   if (!b.startDate) return -1;
@@ -49,6 +64,7 @@ const getStatusClass = (status = "") =>
 const ProjectGantt = ({ project, onTaskClick }) => {
   const ganttRef = useRef(null);
   const [viewMode, setViewMode] = useState("Day");
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const ganttTasks = useMemo(() => {
     if (!project?.stages?.length) {
@@ -116,17 +132,22 @@ const ProjectGantt = ({ project, onTaskClick }) => {
 
     container.innerHTML = "";
 
-    new Gantt(
+    const today = new Date();
+    const weekAgo = new Date(today.getTime() - 7 * DAY_MS);
+
+    const gantt = new Gantt(
       container,
       ganttTasks.map((task) => ({ ...task })),
       {
+        language: "da",
         view_mode: viewMode,
         readonly: true,
         today_button: true,
         view_mode_select: false,
         column_width: COLUMN_WIDTH[viewMode],
-        bar_height: 28,
-        padding: 18,
+        bar_height: BAR_HEIGHT,
+        padding: BAR_PADDING,
+        container_height: getChartHeight(ganttTasks.length, isExpanded),
         popup_on: "click",
         infinite_padding: false,
 
@@ -154,17 +175,24 @@ const ProjectGantt = ({ project, onTaskClick }) => {
       },
     );
 
+    const firstCurrentRow = ganttTasks.findIndex(
+      (task) => task.end >= toDateString(today),
+    );
+    gantt.$container.scrollTop =
+      Math.max(firstCurrentRow - CONTEXT_ROWS, 0) * (BAR_HEIGHT + BAR_PADDING);
+    gantt.set_scroll_position(toDateString(weekAgo));
+
     return () => {
       container.innerHTML = "";
     };
-  }, [ganttTasks, project, onTaskClick, viewMode]);
+  }, [ganttTasks, project, onTaskClick, viewMode, isExpanded]);
 
   if (ganttTasks.length === 0 && undeterminedTasks.length === 0) {
     return <div className={styles.empty}>Ingen planlagte opgaver at vise.</div>;
   }
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isExpanded ? styles.expanded : ""}`}>
       <SectionHeader
         title="Tidsplan"
         description="Projektets etaper, opgaver og afhængigheder over tid."
@@ -181,6 +209,15 @@ const ProjectGantt = ({ project, onTaskClick }) => {
             onClick={() => setViewMode("Week")}
           />
         </div>
+
+        <Button
+          icon={
+            isExpanded ? <FiMinimize2 size={18} /> : <FiMaximize2 size={18} />
+          }
+          name={isExpanded ? "Luk" : "Udvid"}
+          variant="secondary"
+          onClick={() => setIsExpanded(!isExpanded)}
+        />
 
         <ul className={styles.legend}>
           <li>

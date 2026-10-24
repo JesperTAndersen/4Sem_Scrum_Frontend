@@ -56,6 +56,11 @@
   text-align: center;
 }
 
+.table td.available {
+  font-weight: var(--weight-bold);
+  color: var(--color-success);
+}
+
 .chevron {
   color: var(--color-text-muted);
   display: flex;
