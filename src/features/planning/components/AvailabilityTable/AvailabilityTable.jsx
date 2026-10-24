@@ -1,6 +1,7 @@
 import styles from "./AvailabilityTable.module.css";
 import formatHours from "../../utils/formatHours";
 import { FiChevronRight } from "react-icons/fi";
+import CompetenceIconStack from "@/features/competences/components/CompetenceIconStack/CompetenceIconStack";
 
 const AvailabilityTable = ({ employees = [], onView }) => {
   return (
@@ -9,6 +10,7 @@ const AvailabilityTable = ({ employees = [], onView }) => {
         <thead>
           <tr>
             <th>Medarbejder</th>
+            <th>Kompetencer</th>
             <th>Kapacitet</th>
             <th>Tildelt</th>
             <th>Tilbage</th>
@@ -27,11 +29,17 @@ const AvailabilityTable = ({ employees = [], onView }) => {
                 {e.firstName} {e.lastName}
               </td>
 
+              <td>
+                <CompetenceIconStack competences={e.competences} max={4} />
+              </td>
+
               <td>{formatHours(e?.dailyCapacity)}</td>
 
               <td>{formatHours(e?.allocatedHours)}</td>
 
-              <td>{formatHours(e?.remainingHours)}</td>
+              <td className={e?.remainingHours > 0 ? styles.available : ""}>
+                {formatHours(e?.remainingHours)}
+              </td>
 
               <td>
                 <FiChevronRight className={styles.chevron} />
