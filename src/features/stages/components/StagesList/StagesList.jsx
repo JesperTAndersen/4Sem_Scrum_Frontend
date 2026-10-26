@@ -33,6 +33,13 @@ const StagesList = ({
   const { notify } = useNotification();
 
   const allTasks = stages.flatMap((stage) => stage.tasks ?? []);
+
+  const sortedStages = [...stages].sort((a, b) => {
+    if (!a.startDate) return 1;
+    if (!b.startDate) return -1;
+    return new Date(a.startDate) - new Date(b.startDate) || a.id - b.id;
+  });
+
   const editingStage = stages.find((stage) => stage.id === editingStageId);
 
   const handleCreateStage = async (formData) => {
@@ -119,7 +126,7 @@ const StagesList = ({
       </SectionHeader>
 
       <div className={styles.list}>
-        {stages.map((stage) => (
+        {sortedStages.map((stage) => (
           <StageItem
             key={stage.id}
             stage={stage}
