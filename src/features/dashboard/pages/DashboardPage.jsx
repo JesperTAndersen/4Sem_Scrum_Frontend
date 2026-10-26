@@ -74,7 +74,7 @@ const DashboardPage = () => {
           summary &&
           `af ${formatNumber(summary.totalEstimatedHours)} t estimeret · ${
             estimatedDays !== null
-              ? `≈ ${estimatedDays} arbejdsdage`
+              ? `≈ ${estimatedDays} dages arbejde for alle medarbejdere`
               : "ingen aktive medarbejdere"
           }`
         }
