@@ -4,7 +4,7 @@ import Button from "@/shared/components/ui/Button/Button";
 import Card from "@/shared/components/ui/Card/Card";
 import TaskCard from "@/features/tasks/components/TaskCard/TaskCard";
 import Badge from "@/shared/components/ui/Badge/Badge";
-import { formatCurrency } from "@/utils/formatters";
+import { formatCurrency, formatNumber } from "@/utils/formatters";
 import {
   FiChevronDown,
   FiChevronUp,
@@ -53,7 +53,7 @@ const StageItem = ({
               {stage?.startDate ? formatDate(stage.startDate) : "-"} –{" "}
               {stage?.endDate ? formatDate(stage.endDate) : "Kan ikke beregnes"}
             </span>
-            <span>{stage.totalEstimatedHours ?? 0} timer</span>
+            <span>{formatNumber(stage.totalEstimatedHours ?? 0)} timer</span>
             <span>{formatCurrency(stage?.totalCost ?? 0)}</span>
           </div>
 
